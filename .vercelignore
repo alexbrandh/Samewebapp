@@ -1,0 +1,14 @@
+.next
+node_modules
+.env.local
+.env*.local
+.cache
+# Ignorar carpeta de scripts de importación/administración
+scripts/
+# Ignorar archivos de documentación no necesarios en producción
+*.md
+!README.md
+.vscode
+.idea
+*.log
+.DS_Store
