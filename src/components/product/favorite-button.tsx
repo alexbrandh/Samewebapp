@@ -75,7 +75,7 @@ export function FavoriteButton({
       onClick={handleClick}
       disabled={actionLoading}
       className={cn(
-        "p-2 bg-background/80 backdrop-blur-sm rounded-lg transition-all",
+        "p-2 bg-background/80 backdrop-blur-sm rounded-full transition-all",
         "hover:bg-background",
         isFav 
           ? "text-primary" 

@@ -223,7 +223,7 @@ export default function FAQPage() {
             ¿No encuentras la respuesta que buscas? Escríbenos directamente.
           </p>
           <a
-            href="https://wa.me/971585621027"
+            href="https://wa.me/573000000000"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold hover:bg-primary/90 transition-colors"

@@ -113,7 +113,7 @@ const CookiePanel = (props: CookiePanelProps) => {
         disabled={locked}
         onClick={() => !locked && setPrefs((p) => ({ ...p, [field]: !p[field] }))}
         className={cn(
-          "mt-0.5 inline-flex size-5 items-center justify-center rounded border",
+          "mt-0.5 inline-flex size-5 items-center justify-center rounded-sm border",
           locked
             ? "bg-muted text-muted-foreground border-border cursor-not-allowed"
             : "bg-background border-border hover:bg-accent cursor-pointer"

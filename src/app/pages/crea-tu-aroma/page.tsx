@@ -319,7 +319,7 @@ export default function CreaTuAromaPage() {
                           whileHover={{ y: -2 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setSelectedType('essence')}
-                          className={`relative p-5 rounded-2xl border text-left transition-all duration-200 group
+                          className={`relative p-5 rounded-xl border text-left transition-all duration-200 group
                             ${selectedType === 'essence'
                               ? 'border-foreground bg-foreground/3 shadow-sm'
                               : 'border-border hover:border-foreground/30'
@@ -341,7 +341,7 @@ export default function CreaTuAromaPage() {
                           whileHover={{ y: -2 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setSelectedType('elixir')}
-                          className={`relative p-5 rounded-2xl border text-left transition-all duration-200 group
+                          className={`relative p-5 rounded-xl border text-left transition-all duration-200 group
                             ${selectedType === 'elixir'
                               ? 'border-foreground bg-foreground/3 shadow-sm'
                               : 'border-border hover:border-foreground/30'
@@ -353,7 +353,7 @@ export default function CreaTuAromaPage() {
                           </div>
                           <div className="flex items-center gap-2 mb-1">
                             <p className="font-bold text-base">Elixir</p>
-                            <span className="px-1.5 py-0.5 bg-foreground text-background text-[10px] font-bold rounded tracking-wide">
+                            <span className="px-1.5 py-0.5 bg-foreground text-background text-[10px] font-bold rounded-sm tracking-wide">
                               POPULAR
                             </span>
                           </div>
@@ -386,7 +386,7 @@ export default function CreaTuAromaPage() {
                               whileHover={{ y: -2 }}
                               whileTap={{ scale: 0.97 }}
                               onClick={() => setSelectedSize(size)}
-                              className={`flex-1 relative p-4 rounded-2xl border text-center transition-all duration-200
+                              className={`flex-1 relative p-4 rounded-xl border text-center transition-all duration-200
                                 ${isActive
                                   ? 'border-foreground bg-foreground/3 shadow-sm'
                                   : 'border-border hover:border-foreground/30'
@@ -618,7 +618,7 @@ export default function CreaTuAromaPage() {
                           <motion.div
                             key={extra.id}
                             whileHover={{ y: -1 }}
-                            className={`p-4 rounded-2xl border transition-all duration-200 ${
+                            className={`p-4 rounded-xl border transition-all duration-200 ${
                               extra.quantity > 0 ? 'border-foreground bg-foreground/2' : 'border-border'
                             }`}
                           >
@@ -672,7 +672,7 @@ export default function CreaTuAromaPage() {
                         <motion.section
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="p-4 rounded-2xl border border-dashed border-foreground/20 bg-foreground/2"
+                          className="p-4 rounded-xl border border-dashed border-foreground/20 bg-foreground/2"
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-xl bg-foreground/10 flex items-center justify-center shrink-0">
@@ -725,7 +725,7 @@ export default function CreaTuAromaPage() {
             {/* ━━ Desktop Sidebar ━━ */}
             <aside className="lg:col-span-4 hidden lg:block">
               <div className="sticky top-28">
-                <div className="rounded-2xl border bg-background overflow-hidden">
+                <div className="rounded-xl border bg-background overflow-hidden">
                   {/* Header */}
                   <div className="p-4 border-b">
                     <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Tu creación</p>
@@ -944,7 +944,7 @@ function AromaCard({
       whileHover={{ y: -3 }}
       whileTap={{ scale: 0.97 }}
       onClick={() => onSelect(product)}
-      className={`group relative bg-background rounded-2xl border overflow-hidden text-left transition-all duration-200
+      className={`group relative bg-background rounded-xl border overflow-hidden text-left transition-all duration-200
         ${isSelected
           ? 'border-foreground shadow-md ring-1 ring-foreground/10'
           : 'border-border hover:border-foreground/20 hover:shadow-sm'

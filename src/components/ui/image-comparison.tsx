@@ -48,7 +48,7 @@ function ImageComparison({
   return (
     <div
       className={cn(
-        "relative w-full h-full overflow-hidden rounded-2xl select-none",
+        "relative w-full h-full overflow-hidden rounded-xl select-none",
         aspectRatio,
         className
       )}
@@ -65,7 +65,7 @@ function ImageComparison({
         }}
       >
         <button
-          className="bg-foreground/90 rounded hover:scale-110 transition-all w-6 h-12 select-none -translate-y-1/2 absolute top-1/2 -ml-3 z-30 cursor-ew-resize flex justify-center items-center shadow-lg"
+          className="bg-foreground/90 rounded-md hover:scale-110 transition-all w-6 h-12 select-none -translate-y-1/2 absolute top-1/2 -ml-3 z-30 cursor-ew-resize flex justify-center items-center shadow-lg"
           onTouchStart={(e) => {
             setOnMouseDown(true);
             onMouseMove(e);
@@ -94,7 +94,7 @@ function ImageComparison({
           alt={beforeAlt}
           fill
           priority
-          className="object-cover rounded-2xl select-none"
+          className="object-cover rounded-xl select-none"
         />
         {beforeContent && (
           <div className="absolute inset-0 z-10">
@@ -110,7 +110,7 @@ function ImageComparison({
           alt={afterAlt}
           fill
           priority
-          className="object-cover rounded-2xl select-none"
+          className="object-cover rounded-xl select-none"
         />
         {afterContent && (
           <div className="absolute inset-0 z-10">

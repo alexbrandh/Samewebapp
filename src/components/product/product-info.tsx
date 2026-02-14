@@ -48,7 +48,7 @@ export default function ProductInfo({
       {/* Title & Price */}
       <div className="mb-6">
         {isNew && (
-          <span className="inline-block px-2 py-1 text-xs font-semibold bg-foreground text-background rounded mb-3">
+          <span className="inline-block px-2 py-1 text-xs font-semibold bg-foreground text-background rounded-sm mb-3">
             NUEVO
           </span>
         )}

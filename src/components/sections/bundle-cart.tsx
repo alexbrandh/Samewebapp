@@ -141,7 +141,7 @@ export function BundleCart({
                   <div key={`${product.id}-${product.selectedVariantId}`} className="p-4 hover:bg-muted/50 transition-colors">
                     <div className="flex gap-3">
                       {/* Product Image */}
-                      <div className="relative w-16 h-16 rounded overflow-hidden shrink-0">
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0">
                         {image && (
                           <Image
                             src={image.url}
@@ -167,7 +167,7 @@ export function BundleCart({
                         <div className="flex items-center gap-2 mt-2">
                           <button
                             onClick={() => onUpdateQuantity(product.id, product.quantity - 1)}
-                            className="p-1 rounded hover:bg-muted transition-colors"
+                            className="p-1 rounded-md hover:bg-muted transition-colors"
                             aria-label="Disminuir cantidad"
                           >
                             <Minus size={16} weight="bold" />
@@ -175,7 +175,7 @@ export function BundleCart({
                           <span className="text-sm font-medium w-8 text-center">{product.quantity}</span>
                           <button
                             onClick={() => onUpdateQuantity(product.id, product.quantity + 1)}
-                            className="p-1 rounded hover:bg-muted transition-colors"
+                            className="p-1 rounded-md hover:bg-muted transition-colors"
                             aria-label="Aumentar cantidad"
                           >
                             <Plus size={16} weight="bold" />

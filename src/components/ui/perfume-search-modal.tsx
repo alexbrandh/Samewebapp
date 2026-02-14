@@ -359,7 +359,7 @@ export function PerfumeSearchModal({ children, onSearch }: PerfumeSearchModalPro
                 </button>
               )}
               <div className="hidden md:flex items-center gap-1.5 text-muted-foreground/40 text-[11px] shrink-0 select-none">
-                <kbd className="px-1.5 py-0.5 rounded border border-border/60 bg-muted/40 font-mono text-[10px]">Esc</kbd>
+                <kbd className="px-1.5 py-0.5 rounded-sm border border-border/60 bg-muted/40 font-mono text-[10px]">Esc</kbd>
               </div>
               <button
                 onClick={() => setOpen(false)}

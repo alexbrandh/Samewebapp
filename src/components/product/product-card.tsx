@@ -201,7 +201,7 @@ export function ProductCard({
         <CardWrapper
             {...animationProps}
             onClick={() => router.push(`/products/${product.handle ?? '#'}`)}
-            className="w-full h-full flex flex-col relative group cursor-pointer rounded-lg overflow-hidden"
+            className="w-full h-full flex flex-col relative group cursor-pointer rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(255,255,255,0.06)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_4px_20px_rgba(255,255,255,0.1)] transition-shadow duration-300 border border-border/30"
         >
             {/* Product Image */}
             <div className="w-full aspect-square relative overflow-hidden bg-muted shrink-0">
@@ -222,7 +222,7 @@ export function ProductCard({
                 {/* Badge */}
                 {displayBadge && (
                     <div className="absolute top-2.5 left-2.5 lg:top-3 lg:left-3 z-10">
-                        <span className="px-1.5 py-0.5 lg:px-2 text-[9px] lg:text-[10px] font-semibold uppercase tracking-widest bg-foreground/90 text-background backdrop-blur-sm">
+                        <span className="px-1.5 py-0.5 lg:px-2 text-[9px] lg:text-[10px] font-semibold uppercase tracking-widest bg-foreground/90 text-background backdrop-blur-sm rounded-sm">
                             {displayBadge}
                         </span>
                     </div>
@@ -230,8 +230,8 @@ export function ProductCard({
 
                 {/* Inspiration Brand Label */}
                 {inspirationBrand && (
-                    <div className={`absolute left-2.5 lg:left-3 z-10 ${displayBadge ? 'top-8 lg:top-9' : 'top-2.5 lg:top-3'}`}>
-                        <span className="px-1.5 py-0.5 text-[8px] lg:text-[9px] font-medium tracking-wider uppercase bg-black/50 text-white/90 backdrop-blur-sm rounded-sm leading-tight inline-block">
+                    <div className={`absolute left-2.5 lg:left-3 z-10 max-w-[calc(100%-3.5rem)] ${displayBadge ? 'top-8 lg:top-9' : 'top-2.5 lg:top-3'}`}>
+                        <span className="px-1.5 py-0.5 text-[8px] lg:text-[9px] font-medium tracking-wider uppercase bg-black/50 text-white/90 backdrop-blur-sm rounded-sm leading-tight block truncate">
                             Inspirado en <span className="font-semibold text-white">{inspirationBrand}</span>
                         </span>
                     </div>
@@ -291,7 +291,7 @@ export function ProductCard({
                     <div className="mt-2 flex flex-wrap gap-1.5 items-center" onClick={(e) => e.stopPropagation()}>
                         {/* Concentration Toggle (Au Parfum / Elixir) — shown first */}
                         {concentrationOption && (
-                            <div className="flex bg-muted/60 p-px rounded-md border border-border/50">
+                            <div className="flex bg-muted/60 p-px rounded-full border border-border/50 overflow-hidden">
                                 {concentrationOption.values.map((val) => {
                                     const isSelected = selectedOptions[concentrationOption.name] === val;
                                     return (
@@ -301,12 +301,12 @@ export function ProductCard({
                                                 e.stopPropagation();
                                                 handleOptionChange(concentrationOption.name, val);
                                             }}
-                                            className="relative px-2.5 py-0.5 text-[10px] rounded-[5px] font-medium transition-colors duration-150"
+                                            className="relative px-2.5 py-0.5 text-[10px] rounded-full font-medium transition-colors duration-150"
                                         >
                                             {isSelected && (
                                                 <motion.span
                                                     layoutId={`conc-${uid}`}
-                                                    className="absolute inset-0 bg-background rounded-[5px] shadow-sm"
+                                                    className="absolute inset-0 bg-background rounded-full shadow-sm"
                                                     transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
                                                 />
                                             )}
@@ -321,7 +321,7 @@ export function ProductCard({
 
                         {/* Size Selector */}
                         {sizeOption && (
-                            <div className="flex bg-muted/60 p-px rounded-md border border-border/50">
+                            <div className="flex bg-muted/60 p-px rounded-full border border-border/50 overflow-hidden">
                                 {sizeOption.values.map((size) => {
                                     const isSelected = selectedOptions[sizeOption.name] === size;
                                     return (
@@ -331,12 +331,12 @@ export function ProductCard({
                                                 e.stopPropagation();
                                                 handleOptionChange(sizeOption.name, size);
                                             }}
-                                            className="relative px-2.5 py-0.5 text-[10px] rounded-[5px] font-medium transition-colors duration-150"
+                                            className="relative px-2.5 py-0.5 text-[10px] rounded-full font-medium transition-colors duration-150"
                                         >
                                             {isSelected && (
                                                 <motion.span
                                                     layoutId={`size-${uid}`}
-                                                    className="absolute inset-0 bg-background rounded-[5px] shadow-sm"
+                                                    className="absolute inset-0 bg-background rounded-full shadow-sm"
                                                     transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
                                                 />
                                             )}
@@ -353,7 +353,7 @@ export function ProductCard({
                         {otherOptions.map((option) => (
                             <div key={option.name} className="flex items-center gap-1">
                                 <span className="text-[9px] text-muted-foreground">{option.name}:</span>
-                                <div className="flex bg-muted/60 p-px rounded-md border border-border/50">
+                                <div className="flex bg-muted/60 p-px rounded-full border border-border/50 overflow-hidden">
                                     {option.values.map((value) => {
                                         const isSelected = selectedOptions[option.name] === value;
                                         return (
@@ -363,12 +363,12 @@ export function ProductCard({
                                                     e.stopPropagation();
                                                     handleOptionChange(option.name, value);
                                                 }}
-                                                className="relative px-2 py-0.5 text-[10px] rounded-[5px] font-medium transition-colors duration-150"
+                                                className="relative px-2 py-0.5 text-[10px] rounded-full font-medium transition-colors duration-150"
                                             >
                                                 {isSelected && (
                                                     <motion.span
                                                         layoutId={`opt-${option.name}-${uid}`}
-                                                        className="absolute inset-0 bg-background rounded-[5px] shadow-sm"
+                                                        className="absolute inset-0 bg-background rounded-full shadow-sm"
                                                         transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
                                                     />
                                                 )}

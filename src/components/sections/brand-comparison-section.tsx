@@ -70,7 +70,7 @@ function BrandComparisonSlider() {
         }}
       >
         <button
-          className="bg-foreground/90 rounded hover:scale-110 transition-all w-6 h-12 select-none -translate-y-1/2 absolute top-1/2 -ml-3 z-30 cursor-ew-resize flex justify-center items-center shadow-lg"
+          className="bg-foreground/90 rounded-md hover:scale-110 transition-all w-6 h-12 select-none -translate-y-1/2 absolute top-1/2 -ml-3 z-30 cursor-ew-resize flex justify-center items-center shadow-lg"
           onTouchStart={(e) => {
             setOnMouseDown(true);
             onMouseMove(e);
@@ -222,7 +222,7 @@ export function BrandComparisonSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="w-full mb-4"
         >
-          <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl border border-border aspect-4/5 md:aspect-video">
+          <div className="relative w-full overflow-hidden rounded-xl shadow-2xl border border-border aspect-4/5 md:aspect-video">
             <BrandComparisonSlider />
           </div>
         </motion.div>

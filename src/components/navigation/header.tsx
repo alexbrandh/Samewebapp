@@ -161,7 +161,7 @@ export function Header({ cartItemsCount = 0 }: HeaderProps) {
 
                           return (
                             <li key={line.id} className="flex gap-4">
-                              <div className="w-22 h-28 bg-muted rounded shrink-0 overflow-hidden">
+                              <div className="w-22 h-28 bg-muted rounded-lg shrink-0 overflow-hidden">
                                 {imageUrl ? (
                                   <Link href={`/products/${line.merchandise?.product?.handle}`} className="relative block w-full h-full">
                                     <Image
@@ -230,7 +230,7 @@ export function Header({ cartItemsCount = 0 }: HeaderProps) {
                                             updateCartItem(line.id, line.quantity, matchingVariant.node.id);
                                           }
                                         }}
-                                        className="h-7 text-xs border border-input bg-background rounded px-2 py-0 focus:ring-1 focus:ring-primary"
+                                        className="h-7 text-xs border border-input bg-background rounded-md px-2 py-0 focus:ring-1 focus:ring-primary"
                                       >
                                         {option.values.map((value: string) => (
                                           <option key={value} value={value}>
@@ -256,7 +256,7 @@ export function Header({ cartItemsCount = 0 }: HeaderProps) {
 
                                       await addToCart(variantToAdd, 1);
                                     }}
-                                    className="h-7 w-7 text-xs border border-input bg-background hover:bg-muted hover:border-primary text-muted-foreground hover:text-primary rounded flex items-center justify-center transition-colors shrink-0"
+                                    className="h-7 w-7 text-xs border border-input bg-background hover:bg-muted hover:border-primary text-muted-foreground hover:text-primary rounded-md flex items-center justify-center transition-colors shrink-0"
                                     title="Duplicar con otro tamaño/tipo"
                                     aria-label="Duplicar con otro tamaño/tipo"
                                   >
@@ -266,7 +266,7 @@ export function Header({ cartItemsCount = 0 }: HeaderProps) {
 
                                 {/* Quantity Controls - Bottom */}
                                 <div className="flex items-center justify-between mt-auto">
-                                  <div className="flex items-center border border-input rounded h-7 bg-background">
+                                  <div className="flex items-center border border-input rounded-md h-7 bg-background">
                                     <button
                                       onClick={() => {
                                         const newQty = line.quantity - 1;

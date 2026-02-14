@@ -124,7 +124,7 @@ export function MobileNavbar() {
                 <Link
                   href="/collections/all"
                   onClick={() => setShowCategories(false)}
-                  className="flex items-center justify-between p-4 rounded-2xl bg-foreground text-background mb-5 group active:scale-[0.98] transition-transform"
+                  className="flex items-center justify-between p-4 rounded-xl bg-foreground text-background mb-5 group active:scale-[0.98] transition-transform"
                 >
                   <div className="flex items-center gap-3">
                     <Drop size={20} weight="light" />
@@ -147,9 +147,9 @@ export function MobileNavbar() {
                         <Link
                           href={`/collections/${cat.handle}`}
                           onClick={() => setShowCategories(false)}
-                          className="flex flex-col items-start p-4 rounded-2xl border border-border/60 bg-background hover:bg-muted/60 active:scale-[0.97] transition-all group h-full"
+                          className="flex flex-col items-start p-4 rounded-xl border border-border/60 bg-background hover:bg-muted/60 active:scale-[0.97] transition-all group h-full"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-muted/80 flex items-center justify-center mb-3 group-hover:bg-foreground/10 transition-colors">
+                          <div className="w-9 h-9 rounded-lg bg-muted/80 flex items-center justify-center mb-3 group-hover:bg-foreground/10 transition-colors">
                             <Icon size={18} weight="light" className="text-foreground" />
                           </div>
                           <span className="text-sm font-medium text-foreground leading-tight">{cat.label}</span>
@@ -164,7 +164,7 @@ export function MobileNavbar() {
                 <Link
                   href="/pages/quiz"
                   onClick={() => setShowCategories(false)}
-                  className="flex items-center justify-between mt-5 p-4 rounded-2xl border border-dashed border-border/80 bg-muted/30 group active:scale-[0.98] transition-transform"
+                  className="flex items-center justify-between mt-5 p-4 rounded-xl border border-dashed border-border/80 bg-muted/30 group active:scale-[0.98] transition-transform"
                 >
                   <div className="flex items-center gap-3">
                     <Sparkle size={18} weight="light" className="text-muted-foreground" />
@@ -245,7 +245,7 @@ export function MobileNavbar() {
                       setShowCart(false);
                       router.push('/collections/all');
                     }}
-                    className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                    className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
                   >
                     Explorar perfumes
                   </button>
@@ -316,7 +316,7 @@ export function MobileNavbar() {
                                       updateCartItem(item.id, item.quantity, matchingVariant.node.id);
                                     }
                                   }}
-                                  className="h-7 text-xs border border-input bg-background rounded px-2 py-0 focus:ring-1 focus:ring-primary"
+                                  className="h-7 text-xs border border-input bg-background rounded-md px-2 py-0 focus:ring-1 focus:ring-primary"
                                 >
                                   {option.values.map((value: string) => (
                                     <option key={value} value={value}>
@@ -417,12 +417,12 @@ export function MobileNavbar() {
               {cart.checkoutUrl ? (
                 <a
                   href={cart.checkoutUrl}
-                  className="block w-full bg-primary text-primary-foreground text-center py-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                  className="block w-full bg-primary text-primary-foreground text-center py-4 rounded-md font-semibold hover:bg-primary/90 transition-colors"
                 >
                   PROCEDER AL PAGO
                 </a>
               ) : (
-                <button disabled className="block w-full bg-primary/50 text-primary-foreground text-center py-4 rounded-lg font-semibold cursor-not-allowed">
+                <button disabled className="block w-full bg-primary/50 text-primary-foreground text-center py-4 rounded-md font-semibold cursor-not-allowed">
                   CARGANDO...
                 </button>
               )}

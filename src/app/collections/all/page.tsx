@@ -26,12 +26,12 @@ function ProductSkeleton() {
       <div className="w-full aspect-square bg-muted" />
       <div className="px-3 py-3 space-y-2">
         <div className="flex justify-between">
-          <div className="h-3.5 bg-muted rounded w-24" />
-          <div className="h-3.5 bg-muted rounded w-16" />
+          <div className="h-3.5 bg-muted rounded-md w-24" />
+          <div className="h-3.5 bg-muted rounded-md w-16" />
         </div>
         <div className="flex gap-1.5">
-          <div className="h-5 bg-muted rounded w-16" />
-          <div className="h-5 bg-muted rounded w-12" />
+          <div className="h-5 bg-muted rounded-md w-16" />
+          <div className="h-5 bg-muted rounded-md w-12" />
         </div>
       </div>
     </div>
@@ -377,7 +377,7 @@ function AllProductsContent() {
                             if (e.target.checked) setSelectedGender([...selectedGender, option]);
                             else setSelectedGender(selectedGender.filter(g => g !== option));
                           }}
-                          className="w-4 h-4 accent-foreground rounded"
+                          className="w-4 h-4 accent-foreground rounded-sm"
                         />
                         <span className="text-sm font-medium">{option}</span>
                       </label>
@@ -412,7 +412,7 @@ function AllProductsContent() {
                             if (e.target.checked) setSelectedFragranceFamily([...selectedFragranceFamily, option.name]);
                             else setSelectedFragranceFamily(selectedFragranceFamily.filter(f => f !== option.name));
                           }}
-                          className="w-4 h-4 accent-foreground rounded"
+                          className="w-4 h-4 accent-foreground rounded-sm"
                         />
                         <span className="text-sm font-medium">{option.name}</span>
                       </label>
@@ -447,7 +447,7 @@ function AllProductsContent() {
                             if (e.target.checked) setSelectedBrand([...selectedBrand, option]);
                             else setSelectedBrand(selectedBrand.filter(b => b !== option));
                           }}
-                          className="w-4 h-4 accent-foreground rounded"
+                          className="w-4 h-4 accent-foreground rounded-sm"
                         />
                         <span className="text-sm font-medium">{option}</span>
                       </label>

@@ -176,7 +176,7 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
                       id="agree-terms"
                       checked={agreed}
                       onChange={(e) => setAgreed(e.target.checked)}
-                      className="mt-1 size-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
+                      className="mt-1 size-4 rounded-sm border-border text-primary focus:ring-primary cursor-pointer"
                     />
                     <label htmlFor="agree-terms" className="text-xs text-muted-foreground cursor-pointer">
                       Acepto los{" "}

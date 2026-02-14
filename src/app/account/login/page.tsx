@@ -227,7 +227,7 @@ function LoginFormContent() {
                       id="acceptsMarketing"
                       checked={formData.acceptsMarketing}
                       onChange={(e) => setFormData({ ...formData, acceptsMarketing: e.target.checked })}
-                      className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                      className="h-4 w-4 rounded-sm border-border text-primary focus:ring-primary"
                     />
                   </div>
                   <label htmlFor="acceptsMarketing" className="text-sm text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mt-0.5">
@@ -242,7 +242,7 @@ function LoginFormContent() {
                       id="agreedToTerms"
                       checked={agreedToTerms}
                       onChange={(e) => setAgreedToTerms(e.target.checked)}
-                      className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                      className="h-4 w-4 rounded-sm border-border text-primary focus:ring-primary"
                       required={isSignup}
                     />
                   </div>

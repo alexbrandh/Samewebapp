@@ -7,21 +7,21 @@ import { Envelope, Phone, MapPin, FacebookLogo, InstagramLogo, TiktokLogo } from
 import { FooterBackgroundGradient, TextHoverEffect } from '@/components/ui/hover-footer';
 
 const comprarLinks = [
+  { label: 'Perfumes', href: '/collections/all' },
+  { label: 'Más Vendidos', href: '/collections/bestsellers' },
   { label: 'Crea tu Aroma', href: '/pages/crea-tu-aroma' },
-  { label: 'Lo Más Vendido', href: '/collections/bestsellers' },
-  { label: 'Lo Más Nuevo', href: '/collections/new' },
-  { label: 'Los Baja Tangas', href: '/collections/baja-tangas' },
-  { label: 'Colecciones', href: '/collections/all' },
-  { label: 'Rastrea Tu Pedido', href: '/pages/track-order' },
+  { label: 'Descúbrete', href: '/pages/quiz' },
+  { label: 'Nosotros', href: '/about' },
 ];
 
 const ayudaLinks = [
   { label: 'Contacto', href: '/pages/contact' },
   { label: 'Preguntas frecuentes', href: '/pages/faq' },
+  { label: 'Rastrea tu Pedido', href: '/pages/track-order' },
   { label: 'Políticas de envío', href: '/pages/shipping-policy' },
-  { label: 'Política de privacidad', href: '/privacy' },
-  { label: 'Políticas de reembolso', href: '/pages/refund-policy' },
-  { label: 'Términos y condiciones', href: '/terms' },
+  { label: 'Política de reembolso', href: '/pages/refund-policy' },
+  { label: 'Política de privacidad', href: '/pages/privacy-policy' },
+  { label: 'Términos y condiciones', href: '/pages/terms' },
 ];
 
 const contactInfo = [
@@ -50,7 +50,7 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer className="bg-[#1a1a1a] relative h-fit rounded-3xl overflow-hidden m-4 md:m-8 text-white">
-      <div className="max-w-7xl mx-auto p-8 md:p-14 z-40 relative">
+      <div className="max-w-7xl mx-auto p-8 md:p-14 z-50 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 lg:gap-16 pb-12">
           {/* Brand section */}
           <div className="flex flex-col space-y-4">
@@ -158,7 +158,7 @@ export function Footer() {
       </div>
 
       {/* Text hover effect */}
-      <div className="lg:flex hidden h-120 -mt-52 -mb-36 relative z-50">
+      <div className="lg:flex hidden h-120 -mt-52 -mb-36 relative z-40">
         <TextHoverEffect text="SAME." />
       </div>
 

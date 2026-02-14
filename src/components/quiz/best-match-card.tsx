@@ -94,7 +94,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
     };
 
     return (
-        <div className="bg-linear-to-br from-card via-card to-primary/5 border-2 border-primary rounded-3xl p-8 md:p-12 shadow-2xl">
+        <div className="bg-linear-to-br from-card via-card to-primary/5 border-2 border-primary rounded-xl p-8 md:p-12 shadow-2xl">
             <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6">
                     <div className="flex items-center gap-3">
@@ -139,7 +139,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                         <div className="space-y-4 py-4 border-y border-border/50">
                             {/* Size Selector */}
                             {options.find(opt => opt.name === 'Size' || opt.name === 'Tamaño') && (
-                                <div className="flex bg-muted/50 p-1 rounded-xl w-max border border-border">
+                                <div className="flex bg-muted/50 p-1 rounded-lg w-max border border-border">
                                     {options.find(opt => opt.name === 'Size' || opt.name === 'Tamaño')?.values.map((size) => {
                                         const optionName = options.find(opt => opt.name === 'Size' || opt.name === 'Tamaño')?.name || 'Size';
                                         const isSelected = selectedOptions[optionName] === size;
@@ -147,7 +147,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                                             <button
                                                 key={size}
                                                 onClick={() => handleOptionChange(optionName, size)}
-                                                className={`px-4 py-2 text-sm rounded-lg transition-all font-medium ${isSelected
+                                                className={`px-4 py-2 text-sm rounded-md transition-all font-medium ${isSelected
                                                     ? 'bg-background text-foreground shadow-sm'
                                                     : 'text-muted-foreground hover:text-foreground'
                                                     }`}
@@ -164,7 +164,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                                 const concOption = options.find(opt => ['Concentration', 'Concentración', 'Type', 'Tipo'].includes(opt.name));
                                 if (!concOption) return null;
                                 return (
-                                    <div className="flex bg-muted/50 p-1 rounded-xl w-max border border-border">
+                                    <div className="flex bg-muted/50 p-1 rounded-lg w-max border border-border">
                                         {concOption.values.map((val) => {
                                             const isSelected = selectedOptions[concOption.name] === val;
                                             const lower = val.toLowerCase();
@@ -173,7 +173,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                                                 <button
                                                     key={val}
                                                     onClick={() => handleOptionChange(concOption.name, val)}
-                                                    className={`px-4 py-2 text-sm rounded-lg transition-all font-medium ${isSelected
+                                                    className={`px-4 py-2 text-sm rounded-md transition-all font-medium ${isSelected
                                                         ? 'bg-background text-foreground shadow-sm'
                                                         : 'text-muted-foreground hover:text-foreground'
                                                     }`}
@@ -216,7 +216,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                     </div>
                 </div>
 
-                <div className="relative aspect-square bg-linear-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center overflow-hidden">
+                <div className="relative aspect-square bg-linear-to-br from-primary/10 to-primary/5 rounded-xl flex items-center justify-center overflow-hidden">
                     {product.featuredImage?.url || product.images?.edges[0]?.node?.url ? (
                         <Image
                             src={product.featuredImage?.url || product.images?.edges[0]?.node?.url}

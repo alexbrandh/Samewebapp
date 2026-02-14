@@ -237,7 +237,7 @@ export default function ProfilePage() {
                 className="p-4 border border-border rounded-lg relative"
               >
                 {customer.defaultAddress?.id === address.id && (
-                  <span className="absolute top-2 right-2 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
+                  <span className="absolute top-2 right-2 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-sm">
                     Principal
                   </span>
                 )}
@@ -260,14 +260,14 @@ export default function ProfilePage() {
                 <div className="flex gap-2 pt-3 border-t border-border">
                   <button
                     onClick={() => alert('Edit address form - To be implemented')}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
                   >
                     <Pencil size={14} />
                     Editar
                   </button>
                   <button
                     onClick={() => handleDeleteAddress(address.id)}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-destructive hover:bg-destructive/10 rounded transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-destructive hover:bg-destructive/10 rounded-md transition-colors"
                   >
                     <Trash size={14} />
                     Eliminar

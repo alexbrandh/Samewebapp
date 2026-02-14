@@ -107,7 +107,7 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay }}
-            className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all group lg:min-h-[320px]"
+            className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 hover:shadow-lg transition-all group lg:min-h-[320px]"
             onClick={() => router.push(`/products/${product.handle}`)}
         >
             <div className="flex gap-4 md:gap-6 h-full">

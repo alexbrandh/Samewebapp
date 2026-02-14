@@ -300,7 +300,7 @@ export default function QuizResults({
           initial={{ y: 16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="border border-border rounded-2xl p-6 md:p-8"
+          className="border border-border rounded-xl p-6 md:p-8"
         >
           <h3 className="text-sm font-semibold tracking-wide uppercase text-muted-foreground mb-5 text-center">
             Tu perfil de fragancias

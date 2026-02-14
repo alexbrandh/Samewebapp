@@ -68,7 +68,7 @@ function QuizCard({
       whileHover={{ x: 4 }}
       whileTap={{ scale: 0.99 }}
       onClick={onSelect}
-      className="group w-full flex items-center gap-6 bg-card border border-border hover:border-foreground/20 rounded-2xl px-6 py-5 md:px-8 md:py-6 text-left transition-all duration-300"
+      className="group w-full flex items-center gap-6 bg-card border border-border hover:border-foreground/20 rounded-xl px-6 py-5 md:px-8 md:py-6 text-left transition-all duration-300"
     >
       {/* Number */}
       <span className="text-3xl md:text-4xl font-serif font-bold text-muted-foreground/30 group-hover:text-foreground/60 transition-colors shrink-0">

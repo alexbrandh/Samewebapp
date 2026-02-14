@@ -75,7 +75,7 @@ export function DiscountProgressBar({ itemCount, className = '', isFreeShipping 
             </div>
 
             {/* Info Message */}
-            <div className="text-center bg-muted/50 py-1.5 rounded text-xs">
+            <div className="text-center bg-muted/50 py-1.5 rounded-md text-xs">
                 {itemCount === 0 && (
                     <p className="text-muted-foreground">Agrega productos para desbloquear descuentos</p>
                 )}

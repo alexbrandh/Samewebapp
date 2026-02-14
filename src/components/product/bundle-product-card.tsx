@@ -138,12 +138,12 @@ export function BundleProductCard({ product, onAddToBundle, isInBundle }: Bundle
         {(categoryTag || specialTag) && (
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {displayCategoryTag && (
-              <span className="inline-block px-2 py-1 bg-background/90 backdrop-blur-sm text-foreground rounded text-xs font-medium">
+              <span className="inline-block px-2 py-1 bg-background/90 backdrop-blur-sm text-foreground rounded-sm text-xs font-medium">
                 {displayCategoryTag}
               </span>
             )}
             {displaySpecialTag && (
-              <span className="inline-block px-2 py-1 bg-primary/90 backdrop-blur-sm text-primary-foreground rounded text-xs font-medium">
+              <span className="inline-block px-2 py-1 bg-primary/90 backdrop-blur-sm text-primary-foreground rounded-sm text-xs font-medium">
                 {displaySpecialTag}
               </span>
             )}
@@ -153,7 +153,7 @@ export function BundleProductCard({ product, onAddToBundle, isInBundle }: Bundle
         {/* Discount Badge */}
         {compareAtPrice && (
           <div className="absolute top-3 right-3">
-            <span className="inline-block px-2 py-1 bg-destructive text-destructive-foreground rounded text-xs font-bold">
+            <span className="inline-block px-2 py-1 bg-destructive text-destructive-foreground rounded-sm text-xs font-bold">
               {Math.round(((parseFloat(compareAtPrice.amount) - parseFloat(price)) / parseFloat(compareAtPrice.amount)) * 100)}% OFF
             </span>
           </div>
@@ -201,7 +201,7 @@ export function BundleProductCard({ product, onAddToBundle, isInBundle }: Bundle
                         key={value}
                         onClick={() => handleOptionChange(option.name, value)}
                         disabled={!isAvailable && !isSelected}
-                        className={`px-2 py-1 text-xs border rounded transition-all
+                        className={`px-2 py-1 text-xs border rounded-md transition-all
                           ${isSelected
                             ? 'bg-foreground text-background border-foreground'
                             : 'bg-background text-foreground border-border hover:border-foreground'

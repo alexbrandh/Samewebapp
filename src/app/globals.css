@@ -103,7 +103,7 @@
   --font-sans: 'Nunito Sans', ui-sans-serif, sans-serif, system-ui;
   --font-serif: 'Outfit', ui-sans-serif, sans-serif, system-ui;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0.25rem;
+  --radius: 0.625rem;
   --shadow-x: 0;
   --shadow-y: 1px;
   --shadow-blur: 3px;
@@ -158,7 +158,7 @@
   --font-sans: 'Nunito Sans', ui-sans-serif, sans-serif, system-ui;
   --font-serif: 'Outfit', ui-sans-serif, sans-serif, system-ui;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0.25rem;
+  --radius: 0.625rem;
   --shadow-x: 0;
   --shadow-y: 1px;
   --shadow-blur: 3px;
@@ -212,7 +212,7 @@
   }
   
   .theme-card {
-    @apply bg-card text-card-foreground border border-border rounded-lg shadow-sm;
+    @apply bg-card text-card-foreground border border-border rounded-xl shadow-sm;
   }
   
   .theme-input {

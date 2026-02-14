@@ -184,7 +184,7 @@ export default function PrivacyPolicy() {
               <p className="text-sm text-muted-foreground">
                 📧 <a href="mailto:contact@sameperfumes.com" className="text-primary hover:underline">contact@sameperfumes.com</a>
                 <br />
-                📞 +971 58 562 1027
+                📞 +57 300 000 0000
               </p>
             </div>
           </div>
