@@ -4,58 +4,58 @@ import { motion } from "framer-motion";
 
 const testimonials = [
   {
-    text: "SAME.'s Tom Ford-inspired fragrance is absolutely divine! The longevity is incredible, and I constantly receive compliments. Best perfume investment I've made.",
+    text: "El mejor perfume que he tenido. Dura todo el día y recibo cumplidos donde quiera que voy. SAME. ha cambiado completamente mi experiencia con las fragancias.",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop",
     name: "Sofia Martinez",
-    role: "Fashion Blogger",
+    role: "Bloguera de Moda",
   },
   {
-    text: "I was skeptical at first, but the Maison Margiela dupe exceeded all expectations. It smells identical to the original at a fraction of the price!",
+    text: "Al principio era escéptica, pero este perfume realmente cumple con las expectativas. El aroma es sofisticado y duradero. ¡Vale cada peso!",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
     name: "Marcus Chen",
-    role: "Creative Director",
+    role: "Director Creativo",
   },
   {
-    text: "The packaging is elegant, shipping was fast, and the scent is sophisticated. SAME. has become my go-to for quality fragrances.",
+    text: "La presentación es elegante, el envío fue rápido y el aroma es sofisticado. SAME. se ha convertido en mi opción preferida para fragancias de calidad.",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop",
     name: "Isabella Romano",
-    role: "Interior Designer",
+    role: "Diseñadora de Interiores",
   },
   {
-    text: "As someone who loves Creed Aventus, finding SAME.'s version was a game-changer. Same luxury feel, amazing projection, and wallet-friendly.",
+    text: "Como aficionado a Creed Aventus, encontrar la versión de SAME. fue un juego cambiador. Mismo lujo, proyección increíble y amigable con mi billetera.",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop",
     name: "David Anderson",
-    role: "Entrepreneur",
+    role: "Emprendedor",
   },
   {
-    text: "The Chanel-inspired collection is phenomenal! I own three bottles now. The scents last all day and the quality is unmatched.",
+    text: "La colección inspirada en Chanel es fenomenal. Ahora tengo tres botellas. Los aromas duran todo el día y la calidad es inigualable.",
     image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop",
     name: "Emma Thompson",
-    role: "Marketing Executive",
+    role: "Ejecutiva de Marketing",
   },
   {
-    text: "SAME. transformed my fragrance collection. Their YSL and Dior alternatives are spot-on, and customer service is exceptional. Highly recommend!",
+    text: "SAME. transformó mi colección de fragancias. Sus alternativas a YSL y Dior son exactas, y el servicio al cliente es excepcional. ¡Muy recomendado!",
     image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop",
     name: "James Wilson",
-    role: "Real Estate Agent",
+    role: "Agente Inmobiliario",
   },
   {
-    text: "The quiz helped me discover my perfect scent! The Le Labo inspired fragrance is exactly what I was looking for. Absolutely in love!",
+    text: "La prueba me ayudó a descubrir mi aroma perfecto. La fragancia inspirada en Le Labo es exactamente lo que estaba buscando. ¡Estoy completamente enamorado!",
     image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&h=200&fit=crop",
     name: "Olivia Parker",
-    role: "Lifestyle Influencer",
+    role: "Influencer de Estilo de Vida",
   },
   {
-    text: "Outstanding quality and attention to detail. Each fragrance feels premium and luxurious. SAME. delivers on their promise of accessible luxury.",
+    text: "Calidad excepcional y atención al detalle. Cada fragancia se siente premium y lujosa. SAME. cumple su promesa de lujo accesible.",
     image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=200&h=200&fit=crop",
     name: "Ryan Foster",
-    role: "Photographer",
+    role: "Fotógrafo",
   },
   {
-    text: "I gifted SAME. perfumes to my bridesmaids and they were all obsessed! Beautiful bottles, amazing scents, and perfect for special occasions.",
+    text: "¡Regalé perfumes SAME. a mis damas de honor y todas quedaron encantadas! Botellas hermosas, aromas increíbles y perfectos para ocasiones especiales.",
     image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop",
     name: "Ava Rodriguez",
-    role: "Event Planner",
+    role: "Organizadora de Eventos",
   },
 ];
 
@@ -76,15 +76,15 @@ export function TestimonialsSection() {
         >
           <div className="flex justify-center">
             <div className="border border-border bg-card py-1 px-4 rounded-lg text-sm font-medium text-foreground">
-              Testimonials
+              Testimonios
             </div>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mt-2 text-foreground text-center">
-            What our customers say
+            Lo que dicen nuestros clientes
           </h2>
           <p className="text-center mt-2 text-muted-foreground">
-            Discover why thousands trust SAME. for their signature scents.
+            Descubre por qué miles confían en SAME. para sus fragancias.
           </p>
         </motion.div>
 

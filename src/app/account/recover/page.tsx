@@ -25,7 +25,7 @@ export default function RecoverPasswordPage() {
       await recoverPassword(email);
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || 'Error sending recovery email. Please try again.');
+      setError(err.message || 'Error al enviar el correo de recuperación. Inténtalo de nuevo.');
     } finally {
       setLoading(false);
     }
@@ -46,13 +46,13 @@ export default function RecoverPasswordPage() {
             </div>
             
             <h1 className="text-2xl font-bold text-foreground mb-4">
-              Check Your Email
+              Revisa Tu Correo
             </h1>
             
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              We've sent a password reset link to <strong className="text-foreground">{email}</strong>.
+              Hemos enviado un enlace para restablecer tu contraseña a <strong className="text-foreground">{email}</strong>.
               <br />
-              Click the link in the email to reset your password.
+              Haz clic en el enlace del correo para restablecer tu contraseña.
             </p>
             
             <div className="space-y-3">
@@ -60,14 +60,14 @@ export default function RecoverPasswordPage() {
                 onClick={() => router.push('/account/login')}
                 className="w-full"
               >
-                Back to Login
+                Volver al Inicio de Sesión
               </Button>
               
               <button
                 onClick={() => setSuccess(false)}
                 className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Didn't receive the email? Try again
+                ¿No recibiste el correo? Intentar de nuevo
               </button>
             </div>
           </motion.div>
@@ -86,14 +86,14 @@ export default function RecoverPasswordPage() {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
           >
             <ArrowLeft size={16} />
-            Back to Login
+            Volver al Inicio de Sesión
           </Link>
           
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Forgot Password?
+            ¿Olvidaste tu Contraseña?
           </h1>
           <p className="text-muted-foreground">
-            Enter your email address and we'll send you a link to reset your password.
+            Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export default function RecoverPasswordPage() {
             {/* Email Input */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                Email Address
+                Correo Electrónico
               </label>
               <div className="relative">
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -144,7 +144,7 @@ export default function RecoverPasswordPage() {
               disabled={loading || !email}
               className="w-full"
             >
-              {loading ? 'Sending...' : 'Send Reset Link'}
+              {loading ? 'Enviando...' : 'Enviar Enlace de Recuperación'}
             </Button>
           </div>
         </motion.form>
@@ -152,12 +152,12 @@ export default function RecoverPasswordPage() {
         {/* Help Text */}
         <div className="mt-6 text-center">
           <p className="text-sm text-muted-foreground">
-            Remember your password?{' '}
+            ¿Recuerdas tu contraseña?{' '}
             <Link
               href="/account/login"
               className="text-primary hover:underline font-medium"
             >
-              Sign in
+              Iniciar sesión
             </Link>
           </p>
         </div>
@@ -165,12 +165,12 @@ export default function RecoverPasswordPage() {
         {/* Info Box */}
         <div className="mt-8 bg-muted border border-border rounded-lg p-4">
           <h3 className="text-sm font-semibold text-foreground mb-2">
-            💡 Need Help?
+            💡 ¿Necesitas Ayuda?
           </h3>
           <ul className="text-xs text-muted-foreground space-y-1">
-            <li>• Check your spam folder if you don't see the email</li>
-            <li>• The reset link expires after 24 hours</li>
-            <li>• Make sure you entered the correct email address</li>
+            <li>• Revisa tu carpeta de spam si no ves el correo</li>
+            <li>• El enlace de recuperación expira después de 24 horas</li>
+            <li>• Asegúrate de haber ingresado el correo correcto</li>
           </ul>
         </div>
       </div>

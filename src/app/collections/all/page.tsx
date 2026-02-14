@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useMemo, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, useMemo, useEffect, Suspense, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MagnifyingGlass, CaretDown, X, Users, Sparkle, Tag, CurrencyDollar, CircleNotch } from 'phosphor-react';
+import { MagnifyingGlass, CaretDown, X, Users, Sparkle, Tag, CircleNotch, Faders, ArrowUp } from 'phosphor-react';
 import { useProducts } from '@/lib/hooks/useShopify';
 import { getCollections } from '@/lib/shopify';
 import { ProductCard } from '@/components/product/product-card';
-import type { ShopifyProduct } from '@/lib/types/shopify';
 import {
   filterProducts,
   sortProducts,
@@ -19,19 +19,94 @@ import {
 } from '@/lib/utils/product-filters';
 import { CategoryMarquee } from '@/components/sections/category-marquee';
 
+// Skeleton loader for product cards
+function ProductSkeleton() {
+  return (
+    <div className="w-full flex flex-col rounded-lg overflow-hidden animate-pulse">
+      <div className="w-full aspect-square bg-muted" />
+      <div className="px-3 py-3 space-y-2">
+        <div className="flex justify-between">
+          <div className="h-3.5 bg-muted rounded w-24" />
+          <div className="h-3.5 bg-muted rounded w-16" />
+        </div>
+        <div className="flex gap-1.5">
+          <div className="h-5 bg-muted rounded w-16" />
+          <div className="h-5 bg-muted rounded w-12" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Stagger animation config
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.04, delayChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }
+  }
+};
+
+// Filter dropdown component
+function FilterDropdown({
+  isOpen,
+  onClose,
+  title,
+  children,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}) {
+  if (!isOpen) return null;
+  return (
+    <>
+      <div className="fixed inset-0 bg-black/10 lg:bg-transparent z-9998" onClick={onClose} />
+      <motion.div
+        initial={{ opacity: 0, y: 8, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 8, scale: 0.96 }}
+        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed bottom-0 left-0 right-0 lg:absolute lg:bottom-auto lg:top-full lg:left-0 lg:right-auto lg:mt-2 w-full lg:w-56 bg-card border-t lg:border border-border lg:rounded-xl shadow-2xl z-9999 rounded-t-2xl lg:rounded-t-xl overflow-hidden max-h-[60vh] lg:max-h-[400px] flex flex-col"
+      >
+        <div className="p-3 border-b border-border">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold text-foreground">{title}</span>
+            <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
+              <X size={16} weight="light" />
+            </button>
+          </div>
+        </div>
+        <div className="p-2 max-h-64 overflow-y-auto">{children}</div>
+      </motion.div>
+    </>
+  );
+}
+
 function AllProductsContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const { products, loading, error, hasNextPage, loadMore } = useProducts(12);
+  const { products, loading, hasNextPage, loadMore } = useProducts(20);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterOverflow, setFilterOverflow] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   // Filter states
   const [selectedGender, setSelectedGender] = useState<string[]>([]);
   const [selectedFragranceFamily, setSelectedFragranceFamily] = useState<string[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState([0, 200]);
   const [sortBy, setSortBy] = useState('featured');
 
   // Collections state
@@ -39,19 +114,27 @@ function AllProductsContent() {
   const [collectionsLoading, setCollectionsLoading] = useState(false);
 
   // Dropdown states
-  const [showSortDropdown, setShowSortDropdown] = useState(false);
-  const [showGenderDropdown, setShowGenderDropdown] = useState(false);
-  const [showFragranceDropdown, setShowFragranceDropdown] = useState(false);
-  const [showCollectionDropdown, setShowCollectionDropdown] = useState(false);
-  const [showBrandDropdown, setShowBrandDropdown] = useState(false);
-  const [showPriceDropdown, setShowPriceDropdown] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  const activeFilterCount = selectedGender.length + selectedFragranceFamily.length + selectedBrand.length;
+
+  // Reset overflow when filters close
+  useEffect(() => {
+    if (!showFilters) setFilterOverflow(false);
+  }, [showFilters]);
+
+  // Scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 600);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Read URL search params and apply as filters
   useEffect(() => {
     const q = searchParams.get('q');
     const gender = searchParams.get('gender');
     const brands = searchParams.get('brands');
-    const notes = searchParams.get('notes');
     const families = searchParams.get('families');
 
     if (q) setSearchQuery(q);
@@ -71,7 +154,6 @@ function AllProductsContent() {
           label: edge.node.title,
           handle: edge.node.handle,
           href: `/collections/${edge.node.handle}`,
-          image: edge.node.image?.url || '/IDKO 1-100/10.png' // fallback image
         })) || [];
         setShopifyCollections(collectionsArray);
       } catch (error) {
@@ -81,499 +163,441 @@ function AllProductsContent() {
         setCollectionsLoading(false);
       }
     };
-
     fetchCollections();
   }, []);
 
-  // Function to close all dropdowns
-  const closeAllDropdowns = () => {
-    setShowSortDropdown(false);
-    setShowGenderDropdown(false);
-    setShowFragranceDropdown(false);
-    setShowCollectionDropdown(false);
-    setShowBrandDropdown(false);
-    setShowPriceDropdown(false);
+  const toggleDropdown = (key: string) => {
+    setOpenDropdown(prev => prev === key ? null : key);
   };
+  const closeDropdowns = () => setOpenDropdown(null);
 
-  // Toggle dropdown and close others
-  const toggleDropdown = (dropdown: string) => {
-    switch (dropdown) {
-      case 'sort':
-        if (showSortDropdown) {
-          setShowSortDropdown(false);
-        } else {
-          closeAllDropdowns();
-          setShowSortDropdown(true);
-        }
-        break;
-      case 'gender':
-        if (showGenderDropdown) {
-          setShowGenderDropdown(false);
-        } else {
-          closeAllDropdowns();
-          setShowGenderDropdown(true);
-        }
-        break;
-      case 'fragrance':
-        if (showFragranceDropdown) {
-          setShowFragranceDropdown(false);
-        } else {
-          closeAllDropdowns();
-          setShowFragranceDropdown(true);
-        }
-        break;
-      case 'collection':
-        if (showCollectionDropdown) {
-          setShowCollectionDropdown(false);
-        } else {
-          closeAllDropdowns();
-          setShowCollectionDropdown(true);
-        }
-        break;
-      case 'brand':
-        if (showBrandDropdown) {
-          setShowBrandDropdown(false);
-        } else {
-          closeAllDropdowns();
-          setShowBrandDropdown(true);
-        }
-        break;
-      case 'price':
-        if (showPriceDropdown) {
-          setShowPriceDropdown(false);
-        } else {
-          closeAllDropdowns();
-          setShowPriceDropdown(true);
-        }
-        break;
-    }
-  };
-
-  // Extraer opciones de filtros dinámicamente de los productos reales
+  // Extraer opciones de filtros dinámicamente
   const genderOptions = useMemo(() => getUniqueGenders(products), [products]);
   const brandOptions = useMemo(() => getUniqueInspirationBrands(products), [products]);
   const fragranceOptions = useMemo(() => {
     const families = getUniqueFragranceFamilies(products);
-    const iconMap: Record<string, string> = {
-      'Floral': '🌸',
-      'Flowery': '🌸',
-      'Fresh': '🌿',
-      'Gourmand': '🍰',
-      'Herbal': '🌱',
-      'Earthy': '🌏',
-      'Warm': '🔥',
-      'Woody': '🪵',
-      'Citrus': '🍋',
-      'Fruity': '🍓',
-      'Spicy': '🌶️',
-      'Aromatic': '🌺'
-    };
-    return families.map(name => ({
-      name,
-      icon: iconMap[name] || '🌸'
-    }));
+    return families.map(name => ({ name }));
   }, [products]);
 
   // Aplicar filtros y ordenamiento
   const filteredProducts = useMemo(() => {
-    let filtered = filterProducts(products, {
+    const filtered = filterProducts(products, {
       searchQuery,
       genders: selectedGender,
       brands: selectedBrand,
       aromaticNotes: [],
       fragranceFamilies: selectedFragranceFamily,
-      minPrice: priceRange[0],
-      maxPrice: priceRange[1]
     });
-
     return sortProducts(filtered, sortBy as SortOption);
-  }, [products, searchQuery, selectedGender, selectedBrand, selectedFragranceFamily, priceRange, sortBy]);
+  }, [products, searchQuery, selectedGender, selectedBrand, selectedFragranceFamily, sortBy]);
+
+  const clearAllFilters = () => {
+    setSearchQuery('');
+    setSelectedGender([]);
+    setSelectedBrand([]);
+    setSelectedFragranceFamily([]);
+  };
+
+  const sortLabel = {
+    featured: 'Destacados',
+    'price-low': 'Menor Precio',
+    'price-high': 'Mayor Precio',
+    newest: 'Más Nuevos',
+    bestselling: 'Más Vendidos',
+  }[sortBy] || 'Destacados';
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Category Navigation Bar */}
       <CategoryMarquee
         items={[
-          {
-            id: 'all',
-            label: 'ALL PERFUMES',
-            handle: 'all',
-            href: '/collections/all'
-          },
-          ...shopifyCollections.map(c => ({
-            id: c.id,
-            label: c.label,
-            handle: c.handle,
-            href: c.href
-          }))
+          { id: 'all', label: 'TODOS LOS PERFUMES', handle: 'all', href: '/collections/all' },
+          ...shopifyCollections.map(c => ({ id: c.id, label: c.label, handle: c.handle, href: c.href }))
         ]}
         selectedCategory={selectedCategory}
         onSelectCategory={setSelectedCategory}
         isLoading={collectionsLoading}
       />
 
-      {/* Filters and Search Bar */}
-      <div className="bg-muted/30 border-b border-border relative">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center">
-            {/* Search */}
-            <div className="relative w-full lg:w-64 shrink-0">
-              <MagnifyingGlass size={16} weight="regular" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+      {/* Hero Header */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
+          <div className="h-full w-full" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+            backgroundSize: '20px 20px',
+          }} />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-6 sm:pb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground mb-3">
+              Catálogo completo
+            </p>
+            <div className="flex items-end justify-between gap-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-[1.05]">
+                Todos los Perfumes
+              </h1>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-sm text-muted-foreground tabular-nums pb-1 shrink-0"
+              >
+                {loading && products.length === 0 ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <CircleNotch size={12} weight="bold" className="animate-spin" />
+                    Cargando
+                  </span>
+                ) : (
+                  `${filteredProducts.length} fragancia${filteredProducts.length !== 1 ? 's' : ''}`
+                )}
+              </motion.p>
+            </div>
+          </motion.div>
+
+          {/* Search + Filter Toggle */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center"
+          >
+            <div className="relative flex-1 max-w-lg">
+              <MagnifyingGlass size={18} weight="light" className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search perfumes..."
+                placeholder="Buscar por nombre, marca de inspiración..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-foreground placeholder:text-muted-foreground"
+                className="w-full pl-11 pr-4 py-3 bg-background border border-border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-foreground/10 focus:border-foreground/30 text-foreground placeholder:text-muted-foreground transition-all duration-200"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                >
+                  <X size={14} weight="bold" />
+                </button>
+              )}
             </div>
 
-            {/* Filter Buttons */}
-            <div className="w-full lg:flex-1">
-              <div className="flex gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-all duration-200 border shrink-0 ${
+                showFilters || activeFilterCount > 0
+                  ? 'bg-foreground text-background border-foreground'
+                  : 'bg-background text-foreground border-border hover:border-foreground/30'
+              }`}
+            >
+              <Faders size={16} weight="light" />
+              <span>Filtros</span>
+              {activeFilterCount > 0 && (
+                <span className="ml-0.5 w-5 h-5 rounded-full bg-background text-foreground text-[10px] font-bold flex items-center justify-center">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+          </motion.div>
+        </div>
 
-                {/* Sort By Dropdown */}
+        <div className="h-px bg-border" />
+      </section>
+
+      {/* Expandable Filters Panel */}
+      <AnimatePresence>
+        {showFilters && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            onAnimationComplete={() => { if (showFilters) setFilterOverflow(true); }}
+            className={`bg-muted/20 border-b border-border ${filterOverflow ? 'overflow-visible' : 'overflow-hidden'}`}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+              <div className="flex flex-wrap gap-2 items-center">
+                {/* Sort */}
                 <div className="relative">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => toggleDropdown('sort')}
-                    className={`gap-1.5 text-xs lg:text-sm justify-start shrink-0 min-w-fit ${showSortDropdown ? 'bg-primary/10 border-primary text-primary' : ''}`}
+                    className={`gap-1.5 text-xs sm:text-sm rounded-full transition-all duration-200 ${openDropdown === 'sort' ? 'bg-foreground text-background border-foreground' : 'border-border/60 hover:border-foreground/30'}`}
                   >
-                    <span className="truncate">
-                      Sort: {sortBy === 'featured' && 'Featured'}
-                      {sortBy === 'price-low' && 'Price Low'}
-                      {sortBy === 'price-high' && 'Price High'}
-                      {sortBy === 'newest' && 'Newest'}
-                      {sortBy === 'bestselling' && 'Best Selling'}
-                    </span>
-                    <CaretDown size={14} weight="bold" className={`transition-transform shrink-0 ${showSortDropdown ? 'rotate-180' : ''}`} />
+                    Ordenar: {sortLabel}
+                    <CaretDown size={12} weight="bold" className={`transition-transform duration-200 ${openDropdown === 'sort' ? 'rotate-180' : ''}`} />
                   </Button>
-                  {showSortDropdown && (
-                    <>
-                      {/* Backdrop - funciona en móvil y desktop */}
-                      <div className="fixed inset-0 bg-black/20 lg:bg-transparent z-[9998]" onClick={closeAllDropdowns} />
-                      <div className="fixed bottom-0 left-0 right-0 lg:absolute lg:bottom-auto lg:top-full lg:left-0 lg:right-auto lg:mt-2 w-full lg:w-56 bg-card border-t lg:border border-border lg:rounded-xl shadow-2xl z-[9999] rounded-t-2xl lg:rounded-t-xl overflow-hidden max-h-[60vh] lg:max-h-[400px] flex flex-col">
-                        <div className="p-3 bg-primary/10 border-b border-border">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-semibold text-foreground">Sort By</span>
-                            <button onClick={closeAllDropdowns} className="text-muted-foreground hover:text-foreground">
-                              <X size={16} weight="regular" />
-                            </button>
-                          </div>
-                        </div>
-                        <div className="p-2">
-                          {[
-                            { value: 'featured', label: 'Featured' },
-                            { value: 'newest', label: 'Newest' },
-                            { value: 'bestselling', label: 'Best Selling' }
-                          ].map((option) => (
-                            <button
-                              key={option.value}
-                              onClick={() => {
-                                setSortBy(option.value);
-                                setShowSortDropdown(false);
-                              }}
-                              className={`w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors ${sortBy === option.value
-                                ? 'bg-primary/10 text-primary font-semibold'
-                                : 'text-foreground hover:bg-muted'
-                                }`}
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  <FilterDropdown isOpen={openDropdown === 'sort'} onClose={closeDropdowns} title="Ordenar Por">
+                    {[
+                      { value: 'featured', label: 'Destacados' },
+                      { value: 'newest', label: 'Más Nuevos' },
+                      { value: 'bestselling', label: 'Más Vendidos' },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => { setSortBy(opt.value); closeDropdowns(); }}
+                        className={`w-full text-left px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                          sortBy === opt.value ? 'bg-foreground/10 text-foreground font-semibold' : 'text-foreground hover:bg-muted'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </FilterDropdown>
                 </div>
 
-                {/* Gender Dropdown */}
+                {/* Gender */}
                 <div className="relative">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => toggleDropdown('gender')}
-                    className={`gap-1.5 text-xs lg:text-sm transition-colors shrink-0 ${showGenderDropdown ? 'bg-primary/10 border-primary text-primary' : ''}`}
+                    className={`gap-1.5 text-xs sm:text-sm rounded-full transition-all duration-200 ${
+                      openDropdown === 'gender' || selectedGender.length > 0 ? 'bg-foreground text-background border-foreground' : 'border-border/60 hover:border-foreground/30'
+                    }`}
                   >
-                    <Users size={14} weight="regular" className="shrink-0" />
-                    <span className="hidden sm:inline">Gender</span>
-                    <CaretDown size={14} weight="bold" className={`transition-transform shrink-0 ${showGenderDropdown ? 'rotate-180' : ''}`} />
+                    <Users size={14} weight="light" />
+                    Género
+                    {selectedGender.length > 0 && (
+                      <span className="w-4 h-4 rounded-full bg-background text-foreground text-[9px] font-bold flex items-center justify-center">{selectedGender.length}</span>
+                    )}
+                    <CaretDown size={12} weight="bold" className={`transition-transform duration-200 ${openDropdown === 'gender' ? 'rotate-180' : ''}`} />
                   </Button>
-                  {showGenderDropdown && (
-                    <>
-                      <div className="fixed inset-0 z-[60]" onClick={closeAllDropdowns} />
-                      <div className="fixed bottom-32 left-0 right-0 lg:absolute lg:bottom-auto lg:top-full lg:left-auto lg:right-auto mt-0 lg:mt-2 w-full lg:w-52 bg-card border-t lg:border border-border lg:rounded-xl shadow-xl z-[70] rounded-t-2xl lg:rounded-t-xl overflow-hidden max-h-[50vh] flex flex-col">
-                        <div className="p-3 bg-primary/10 border-b border-border">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-semibold text-foreground">Gender</span>
-                            <button onClick={closeAllDropdowns} className="text-muted-foreground hover:text-foreground">
-                              <X size={16} weight="regular" />
-                            </button>
-                          </div>
-                        </div>
-                        <div className="p-2 max-h-64 overflow-y-auto">
-                          {genderOptions.map((option) => (
-                            <label key={option} className="flex items-center gap-3 p-2.5 hover:bg-muted rounded-lg cursor-pointer transition-colors group">
-                              <input
-                                type="checkbox"
-                                checked={selectedGender.includes(option)}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    setSelectedGender([...selectedGender, option]);
-                                  } else {
-                                    setSelectedGender(selectedGender.filter(g => g !== option));
-                                  }
-                                }}
-                                className="w-4 h-4 accent-primary rounded border-border focus:ring-primary"
-                              />
-                              <span className="text-sm text-foreground group-hover:text-primary font-medium">{option}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  <FilterDropdown isOpen={openDropdown === 'gender'} onClose={closeDropdowns} title="Género">
+                    {genderOptions.map((option) => (
+                      <label key={option} className="flex items-center gap-3 p-2.5 hover:bg-muted rounded-lg cursor-pointer transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={selectedGender.includes(option)}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedGender([...selectedGender, option]);
+                            else setSelectedGender(selectedGender.filter(g => g !== option));
+                          }}
+                          className="w-4 h-4 accent-foreground rounded"
+                        />
+                        <span className="text-sm font-medium">{option}</span>
+                      </label>
+                    ))}
+                  </FilterDropdown>
                 </div>
 
-                {/* Fragrance Family Dropdown */}
+                {/* Fragrance Family */}
                 <div className="relative">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => toggleDropdown('fragrance')}
-                    className={`gap-1.5 text-xs lg:text-sm transition-colors shrink-0 ${showFragranceDropdown ? 'bg-primary/10 border-primary text-primary' : ''}`}
+                    className={`gap-1.5 text-xs sm:text-sm rounded-full transition-all duration-200 ${
+                      openDropdown === 'fragrance' || selectedFragranceFamily.length > 0 ? 'bg-foreground text-background border-foreground' : 'border-border/60 hover:border-foreground/30'
+                    }`}
                   >
-                    <Sparkle size={14} weight="regular" className="shrink-0" />
-                    <span className="hidden sm:inline">Fragrance Family</span>
-                    <CaretDown size={14} weight="bold" className={`transition-transform shrink-0 ${showFragranceDropdown ? 'rotate-180' : ''}`} />
+                    <Sparkle size={14} weight="light" />
+                    Familia Olfativa
+                    {selectedFragranceFamily.length > 0 && (
+                      <span className="w-4 h-4 rounded-full bg-background text-foreground text-[9px] font-bold flex items-center justify-center">{selectedFragranceFamily.length}</span>
+                    )}
+                    <CaretDown size={12} weight="bold" className={`transition-transform duration-200 ${openDropdown === 'fragrance' ? 'rotate-180' : ''}`} />
                   </Button>
-                  {showFragranceDropdown && (
-                    <>
-                      <div className="fixed inset-0 z-[60]" onClick={closeAllDropdowns} />
-                      <div className="fixed bottom-32 left-0 right-0 lg:absolute lg:bottom-auto lg:top-full lg:left-auto lg:right-auto mt-0 lg:mt-2 w-full lg:w-56 bg-card border-t lg:border border-border lg:rounded-xl shadow-xl z-[70] rounded-t-2xl lg:rounded-t-xl overflow-hidden max-h-[50vh] flex flex-col">
-                        <div className="p-3 bg-primary/10 border-b border-border">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-semibold text-foreground">Fragrance Family</span>
-                            <button onClick={closeAllDropdowns} className="text-muted-foreground hover:text-foreground">
-                              <X size={16} weight="regular" />
-                            </button>
-                          </div>
-                        </div>
-                        <div className="p-2 max-h-64 overflow-y-auto">
-                          {fragranceOptions.map((option) => (
-                            <label key={option.name} className="flex items-center gap-3 p-2.5 hover:bg-muted rounded-lg cursor-pointer transition-colors group">
-                              <input
-                                type="checkbox"
-                                checked={selectedFragranceFamily.includes(option.name)}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    setSelectedFragranceFamily([...selectedFragranceFamily, option.name]);
-                                  } else {
-                                    setSelectedFragranceFamily(selectedFragranceFamily.filter(f => f !== option.name));
-                                  }
-                                }}
-                                className="w-4 h-4 accent-primary rounded border-border focus:ring-primary"
-                              />
-                              <span className="text-xl">{option.icon}</span>
-                              <span className="text-sm text-foreground group-hover:text-primary font-medium">{option.name}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  <FilterDropdown isOpen={openDropdown === 'fragrance'} onClose={closeDropdowns} title="Familia Olfativa">
+                    {fragranceOptions.map((option) => (
+                      <label key={option.name} className="flex items-center gap-3 p-2.5 hover:bg-muted rounded-lg cursor-pointer transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={selectedFragranceFamily.includes(option.name)}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedFragranceFamily([...selectedFragranceFamily, option.name]);
+                            else setSelectedFragranceFamily(selectedFragranceFamily.filter(f => f !== option.name));
+                          }}
+                          className="w-4 h-4 accent-foreground rounded"
+                        />
+                        <span className="text-sm font-medium">{option.name}</span>
+                      </label>
+                    ))}
+                  </FilterDropdown>
                 </div>
 
-                {/* Inspiration Brand Dropdown */}
+                {/* Inspiration Brand */}
                 <div className="relative">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => toggleDropdown('brand')}
-                    className={`gap-1.5 text-xs lg:text-sm transition-colors shrink-0 ${showBrandDropdown ? 'bg-primary/10 border-primary text-primary' : ''}`}
+                    className={`gap-1.5 text-xs sm:text-sm rounded-full transition-all duration-200 ${
+                      openDropdown === 'brand' || selectedBrand.length > 0 ? 'bg-foreground text-background border-foreground' : 'border-border/60 hover:border-foreground/30'
+                    }`}
                   >
-                    <Tag size={14} weight="regular" className="shrink-0" />
-                    <span className="hidden sm:inline">Inspiration Brand</span>
-                    <CaretDown size={14} weight="bold" className={`transition-transform shrink-0 ${showBrandDropdown ? 'rotate-180' : ''}`} />
+                    <Tag size={14} weight="light" />
+                    Marca de Inspiración
+                    {selectedBrand.length > 0 && (
+                      <span className="w-4 h-4 rounded-full bg-background text-foreground text-[9px] font-bold flex items-center justify-center">{selectedBrand.length}</span>
+                    )}
+                    <CaretDown size={12} weight="bold" className={`transition-transform duration-200 ${openDropdown === 'brand' ? 'rotate-180' : ''}`} />
                   </Button>
-                  {showBrandDropdown && (
-                    <>
-                      <div className="fixed inset-0 z-[60]" onClick={closeAllDropdowns} />
-                      <div className="fixed bottom-32 left-0 right-0 lg:absolute lg:bottom-auto lg:top-full lg:left-auto lg:right-auto mt-0 lg:mt-2 w-full lg:w-56 bg-card border-t lg:border border-border lg:rounded-xl shadow-xl z-[70] rounded-t-2xl lg:rounded-t-xl overflow-hidden max-h-[50vh] flex flex-col">
-                        <div className="p-3 bg-primary/10 border-b border-border">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-semibold text-foreground">Inspiration Brand</span>
-                            <button onClick={closeAllDropdowns} className="text-muted-foreground hover:text-foreground">
-                              <X size={16} weight="regular" />
-                            </button>
-                          </div>
-                        </div>
-                        <div className="p-2 max-h-64 overflow-y-auto">
-                          {brandOptions.map((option) => (
-                            <label key={option} className="flex items-center gap-3 p-2.5 hover:bg-muted rounded-lg cursor-pointer transition-colors group">
-                              <input
-                                type="checkbox"
-                                checked={selectedBrand.includes(option)}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    setSelectedBrand([...selectedBrand, option]);
-                                  } else {
-                                    setSelectedBrand(selectedBrand.filter(b => b !== option));
-                                  }
-                                }}
-                                className="w-4 h-4 accent-primary rounded border-border focus:ring-primary"
-                              />
-                              <span className="text-sm text-foreground group-hover:text-primary font-medium">{option}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  <FilterDropdown isOpen={openDropdown === 'brand'} onClose={closeDropdowns} title="Marca de Inspiración">
+                    {brandOptions.map((option) => (
+                      <label key={option} className="flex items-center gap-3 p-2.5 hover:bg-muted rounded-lg cursor-pointer transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={selectedBrand.includes(option)}
+                          onChange={(e) => {
+                            if (e.target.checked) setSelectedBrand([...selectedBrand, option]);
+                            else setSelectedBrand(selectedBrand.filter(b => b !== option));
+                          }}
+                          className="w-4 h-4 accent-foreground rounded"
+                        />
+                        <span className="text-sm font-medium">{option}</span>
+                      </label>
+                    ))}
+                  </FilterDropdown>
                 </div>
 
+                {/* Clear All */}
+                {activeFilterCount > 0 && (
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    onClick={clearAllFilters}
+                    className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors ml-1"
+                  >
+                    Limpiar todo
+                  </motion.button>
+                )}
               </div>
+
+              {/* Active Filter Badges */}
+              <AnimatePresence>
+                {activeFilterCount > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="flex gap-1.5 mt-3 flex-wrap overflow-hidden"
+                  >
+                    {selectedGender.map((g) => (
+                      <Badge key={g} variant="secondary" className="gap-1 rounded-full pl-2.5 pr-1.5 py-1 text-xs">
+                        {g}
+                        <button onClick={() => setSelectedGender(selectedGender.filter(x => x !== g))} className="ml-0.5 hover:text-destructive p-0.5 rounded-full hover:bg-destructive/10 transition-colors">
+                          <X size={10} weight="bold" />
+                        </button>
+                      </Badge>
+                    ))}
+                    {selectedFragranceFamily.map((f) => (
+                      <Badge key={f} variant="secondary" className="gap-1 rounded-full pl-2.5 pr-1.5 py-1 text-xs">
+                        {f}
+                        <button onClick={() => setSelectedFragranceFamily(selectedFragranceFamily.filter(x => x !== f))} className="ml-0.5 hover:text-destructive p-0.5 rounded-full hover:bg-destructive/10 transition-colors">
+                          <X size={10} weight="bold" />
+                        </button>
+                      </Badge>
+                    ))}
+                    {selectedBrand.map((b) => (
+                      <Badge key={b} variant="secondary" className="gap-1 rounded-full pl-2.5 pr-1.5 py-1 text-xs">
+                        {b}
+                        <button onClick={() => setSelectedBrand(selectedBrand.filter(x => x !== b))} className="ml-0.5 hover:text-destructive p-0.5 rounded-full hover:bg-destructive/10 transition-colors">
+                          <X size={10} weight="bold" />
+                        </button>
+                      </Badge>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-          {/* Active Filters */}
-          {(selectedGender.length > 0 || selectedFragranceFamily.length > 0 || selectedBrand.length > 0) && (
-            <div className="flex gap-2 mt-4 flex-wrap">
-              <span className="text-sm text-muted-foreground">Active filters:</span>
-              {selectedGender.map((gender) => (
-                <Badge key={gender} variant="secondary" className="gap-1">
-                  Gender: {gender}
-                  <button
-                    onClick={() => setSelectedGender(selectedGender.filter(g => g !== gender))}
-                    className="ml-1 hover:text-destructive"
-                  >
-                    ×
-                  </button>
-                </Badge>
-              ))}
-              {selectedFragranceFamily.map((fragrance) => (
-                <Badge key={fragrance} variant="secondary" className="gap-1">
-                  {fragrance}
-                  <button
-                    onClick={() => setSelectedFragranceFamily(selectedFragranceFamily.filter(f => f !== fragrance))}
-                    className="ml-1 hover:text-destructive"
-                  >
-                    ×
-                  </button>
-                </Badge>
-              ))}
-              {selectedBrand.map((brand) => (
-                <Badge key={brand} variant="secondary" className="gap-1">
-                  Inspired by: {brand}
-                  <button
-                    onClick={() => setSelectedBrand(selectedBrand.filter(b => b !== brand))}
-                    className="ml-1 hover:text-destructive"
-                  >
-                    ×
-                  </button>
-                </Badge>
-              ))}
-              <button
-                onClick={() => {
-                  setSelectedGender([]);
-                  setSelectedFragranceFamily([]);
-                  setSelectedBrand([]);
-                }}
-                className="text-sm text-primary hover:underline"
-              >
-                Clear all
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Products Section */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2 text-foreground">All Perfumes</h1>
-          <p className="text-muted-foreground">
-            {loading ? 'Loading...' : `${filteredProducts.length} products`}
-          </p>
-        </div>
-
-        {/* Products Grid */}
+      {/* Products Grid Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10" ref={gridRef}>
+        {/* Skeleton Loading */}
         {loading && products.length === 0 ? (
-          <div className="flex justify-center items-center py-20">
-            <CircleNotch size={32} weight="bold" className="animate-spin text-primary" />
-            <span className="ml-2 text-muted-foreground">Loading products...</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <ProductSkeleton key={i} />
+            ))}
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <p className="text-xl text-muted-foreground mb-4">No products found</p>
-            <p className="text-sm text-muted-foreground mb-6">Try adjusting your filters</p>
-            <Button
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedGender([]);
-                setSelectedBrand([]);
-                setSelectedFragranceFamily([]);
-                setPriceRange([0, 200]);
-              }}
-              variant="outline"
-            >
-              Clear all filters
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center py-24"
+          >
+            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-5">
+              <MagnifyingGlass size={24} weight="light" className="text-muted-foreground" />
+            </div>
+            <p className="text-lg font-semibold text-foreground mb-2">Sin resultados</p>
+            <p className="text-sm text-muted-foreground mb-6 text-center max-w-xs">
+              No encontramos fragancias con los filtros seleccionados. Intenta con otros criterios.
+            </p>
+            <Button onClick={clearAllFilters} variant="outline" className="rounded-full px-8">
+              Limpiar filtros
             </Button>
-          </div>
+          </motion.div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-6">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              key={`${searchQuery}-${selectedGender.join()}-${selectedBrand.join()}-${selectedFragranceFamily.join()}-${sortBy}`}
+              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-6"
+            >
               {filteredProducts.map((product: any) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
+                <motion.div key={product.id} variants={itemVariants}>
+                  <ProductCard product={product} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {hasNextPage && (
-              <div className="text-center mt-12">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="flex justify-center mt-14 sm:mt-20"
+              >
                 <Button
                   onClick={loadMore}
                   disabled={loading}
                   variant="outline"
                   size="lg"
-                  className="min-w-[200px]"
+                  className="rounded-full px-12 py-5 text-sm font-semibold hover:bg-foreground hover:text-background transition-all duration-300 border-foreground/20 group"
                 >
                   {loading ? (
-                    <>
-                      <CircleNotch size={16} weight="bold" className="animate-spin mr-2" />
-                      Loading...
-                    </>
+                    <span className="flex items-center gap-2">
+                      <CircleNotch size={16} weight="bold" className="animate-spin" />
+                      Cargando...
+                    </span>
                   ) : (
-                    'Load More Products'
+                    <span className="flex items-center gap-2">
+                      Ver más fragancias
+                      <CaretDown size={14} weight="bold" className="group-hover:translate-y-0.5 transition-transform" />
+                    </span>
                   )}
                 </Button>
-              </div>
-            )}
-
-            {products.length === 0 && !loading && (
-              <div className="text-center py-20">
-                <p className="text-muted-foreground text-lg mb-4">
-                  No products found
-                </p>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedGender([]);
-                    setSelectedFragranceFamily([]);
-                    setSelectedBrand([]);
-                  }}
-                >
-                  Clear filters
-                </Button>
-              </div>
+              </motion.div>
             )}
           </>
         )}
       </div>
+
+      {/* Scroll to Top */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="fixed bottom-20 right-4 sm:bottom-8 sm:right-8 z-40 w-10 h-10 rounded-full bg-foreground text-background shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+            aria-label="Volver arriba"
+          >
+            <ArrowUp size={18} weight="bold" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -581,9 +605,9 @@ function AllProductsContent() {
 // Loading fallback component
 function AllProductsLoading() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <CircleNotch size={32} weight="bold" className="animate-spin text-primary" />
-      <span className="ml-2 text-muted-foreground">Loading...</span>
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-3">
+      <CircleNotch size={28} weight="bold" className="animate-spin text-muted-foreground" />
+      <span className="text-sm text-muted-foreground">Cargando catálogo...</span>
     </div>
   );
 }

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Sparkle, Check, ShoppingCart, CircleNotch } from "phosphor-react";
+import { Sparkle, ShoppingCart, CircleNotch } from "phosphor-react";
 import { useCurrency } from "@/contexts/currency-context";
 import { useCart } from "@/lib/hooks/useShopify";
 import { motion } from "framer-motion";
@@ -49,7 +50,7 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
         const exactMatch = variants.find((v: any) =>
             v.availableForSale &&
             v.selectedOptions?.some((opt: any) => opt.value === '100ml') &&
-            v.selectedOptions?.some((opt: any) => opt.value === 'Extrait')
+            v.selectedOptions?.some((opt: any) => opt.value === 'Elixir' || opt.value === 'Extrait')
         );
         if (exactMatch) return exactMatch;
 
@@ -113,10 +114,12 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
                 {/* Image Section */}
                 <div className="w-28 h-28 md:w-40 md:h-40 bg-linear-to-br from-primary/10 to-primary/5 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
                     {product.featuredImage?.url || product.images?.edges[0]?.node?.url ? (
-                        <img
+                        <Image
                             src={product.featuredImage?.url || product.images?.edges[0]?.node?.url}
                             alt={product.title}
-                            className="w-full h-full object-cover"
+                            fill
+                            sizes="160px"
+                            className="object-cover"
                         />
                     ) : (
                         <Sparkle size={32} weight="fill" className="text-primary/30" />
@@ -136,7 +139,7 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
                                         {product.match}%
                                     </div>
                                     <span className="text-[10px] md:text-xs text-muted-foreground uppercase">
-                                        Match
+                                        Compatibilidad
                                     </span>
                                 </div>
                             </div>
@@ -147,10 +150,10 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
                             {product.tags.slice(0, 3).map((tag: string) => {
                                 let displayTag = tag;
                                 const lower = tag.toLowerCase();
-                                if (lower === 'mujeres' || lower === 'mujer') displayTag = 'Women';
-                                if (lower === 'hombres' || lower === 'hombre') displayTag = 'Men';
+                                if (lower === 'mujeres' || lower === 'mujer') displayTag = 'Mujer';
+                                if (lower === 'hombres' || lower === 'hombre') displayTag = 'Hombre';
                                 if (lower === 'unisex') displayTag = 'Unisex';
-                                if (lower === 'nuevo' || lower === 'mas vendidos') displayTag = 'New';
+                                if (lower === 'nuevo' || lower === 'mas vendidos') displayTag = 'Nuevo';
 
                                 return (
                                     <span
@@ -192,38 +195,35 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
                                 </div>
                             )}
 
-                            {/* Extract Checkbox */}
-                            {options.find(opt => /concen?tration|concentración|^type$|^tipo$|strength|intensidad/i.test(opt.name)) && (
-                                <label className="flex items-center gap-2 cursor-pointer group/checkbox w-max px-1">
-                                    <div className="relative flex items-center">
-                                        <input
-                                            type="checkbox"
-                                            className="peer sr-only"
-                                            checked={
-                                                selectedOptions['Concentration'] === 'Extrait' ||
-                                                selectedOptions['Type'] === 'Extrait' ||
-                                                selectedOptions['Concentración'] === 'Extrait' ||
-                                                Object.entries(selectedOptions).some(([key, val]) =>
-                                                    /concen?tration|concentración|^type$|^tipo$|strength|intensidad/i.test(key) && val === 'Extrait'
-                                                )
-                                            }
-                                            onChange={(e) => {
-                                                e.stopPropagation();
-                                                const optName = options.find(opt => /concen?tration|concentración|^type$|^tipo$|strength|intensidad/i.test(opt.name))?.name;
-                                                if (optName) {
-                                                    handleOptionChange(optName, e.target.checked ? 'Extrait' : 'Classic');
-                                                }
-                                            }}
-                                        />
-                                        <div className="w-4 h-4 border border-primary/50 rounded bg-background peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center shadow-sm">
-                                            <Check className="w-3 h-3 text-background opacity-0 peer-checked:opacity-100 font-bold" weight="bold" />
-                                        </div>
+                            {/* Concentration Toggle (Au Parfum / Elixir) */}
+                            {(() => {
+                                const concOption = options.find(opt => /concen?tration|concentración|^type$|^tipo$|strength|intensidad/i.test(opt.name));
+                                if (!concOption) return null;
+                                return (
+                                    <div className="flex bg-muted/50 p-0.5 rounded-lg w-max border border-border">
+                                        {concOption.values.map((val) => {
+                                            const isSelected = selectedOptions[concOption.name] === val;
+                                            const lower = val.toLowerCase();
+                                            const displayName = (lower === 'extrait' || lower === 'elixir') ? 'Elixir' : (lower === 'classic' || lower === 'au parfum') ? 'Au Parfum' : val;
+                                            return (
+                                                <button
+                                                    key={val}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleOptionChange(concOption.name, val);
+                                                    }}
+                                                    className={`px-2 py-1 text-[10px] rounded-md transition-all font-medium ${isSelected
+                                                        ? 'bg-background text-foreground shadow-sm'
+                                                        : 'text-muted-foreground hover:text-foreground'
+                                                    }`}
+                                                >
+                                                    {displayName}
+                                                </button>
+                                            );
+                                        })}
                                     </div>
-                                    <span className="text-[10px] font-medium text-muted-foreground group-hover/checkbox:text-primary transition-colors select-none">
-                                        Add Extract
-                                    </span>
-                                </label>
-                            )}
+                                );
+                            })()}
                         </div>
                     )}
 
@@ -237,7 +237,7 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
                                 onClick={() => router.push(`/products/${product.handle}`)}
                                 className="hidden sm:block px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/5 rounded-full transition-colors"
                             >
-                                Details
+                                Detalles
                             </button>
                             <button
                                 onClick={handleAddToBag}
@@ -249,7 +249,7 @@ export function QuizProductCard({ product, delay = 0 }: QuizProductCardProps) {
                                 ) : (
                                     <ShoppingCart size={16} weight="bold" />
                                 )}
-                                <span>Add</span>
+                                <span>Agregar</span>
                             </button>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { CircleNotch, GridFour } from 'phosphor-react';
+import { CircleNotch } from 'phosphor-react';
 
 interface CategoryItem {
     id: string;
@@ -39,7 +39,6 @@ export function CategoryMarquee({
     const scrollAccumulatorRef = useRef<number>(0);
 
     // Duplicar items para scroll infinito
-    // Si hay pocos elementos, duplicamos más veces
     const duplicationFactor = items.length < 5 ? 8 : 4;
     const duplicatedItems = items.length > 0 ? Array(duplicationFactor).fill(items).flat() : [];
 
@@ -62,8 +61,7 @@ export function CategoryMarquee({
             return;
         }
 
-        // Velocidad: 50 pixels por segundo (un poco más lento para lectura)
-        const pixelsPerSecond = 50;
+        const pixelsPerSecond = 40;
         const moveAmount = (pixelsPerSecond * deltaTime) / 1000;
 
         scrollAccumulatorRef.current += moveAmount;
@@ -96,7 +94,7 @@ export function CategoryMarquee({
                 clearTimeout(resumeTimeoutRef.current);
             }
         };
-    }, [scroll, items]); // Reiniciar si items cambian
+    }, [scroll, items]);
 
     // Pointer Handlers
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -151,27 +149,26 @@ export function CategoryMarquee({
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center py-4 bg-background border-b border-border">
-                <CircleNotch size={24} weight="bold" className="animate-spin text-primary" />
+            <div className="flex items-center justify-center py-3 border-b border-border/30">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                    <CircleNotch size={14} weight="bold" className="animate-spin" />
+                    <span className="text-xs">Cargando categorías...</span>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="bg-background border-b border-border relative z-10 w-full overflow-hidden">
-            <div className="flex w-full items-center relative py-2.5 lg:py-4">
+        <div className="relative z-10 w-full overflow-hidden border-b border-border/30">
+            <div className="flex w-full items-center relative">
 
-                {/* Label lateral - Improved design */}
-                <div className="w-max shrink-0 h-full flex items-center gap-2 pl-4 pr-3 lg:pl-8 lg:pr-6 relative z-20 bg-background">
-                    <GridFour size={16} weight="fill" className="text-primary" />
-                    <p className="text-xs lg:text-sm font-bold tracking-wider text-foreground uppercase">Categories</p>
-                    <div className="h-4 w-px bg-border ml-1" />
-                </div>
+                {/* Left fade */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 lg:w-14 bg-linear-to-r from-background via-background/80 to-transparent pointer-events-none z-10" />
 
                 {/* Scroll Container */}
                 <div
                     ref={scrollContainerRef}
-                    className="flex-1 overflow-x-auto md:overflow-x-hidden relative py-1 scrollbar-hide cursor-grab"
+                    className="flex-1 overflow-x-auto md:overflow-x-hidden relative scrollbar-hide cursor-grab"
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={endPointerInteraction}
@@ -209,14 +206,14 @@ export function CategoryMarquee({
                         willChange: 'scroll-position'
                     }}
                 >
-                    <div className="inline-flex items-center gap-2 lg:gap-3 pr-8 pl-1">
+                    <div className="inline-flex items-center gap-1.5 lg:gap-2 px-10 lg:px-16 py-2.5 lg:py-3">
                         {duplicatedItems.map((item, index) => (
                             <Link
                                 key={`${item.id}-${index}`}
                                 href={item.href}
-                                className={`flex items-center justify-center px-4 py-2 rounded-full shrink-0 transition-all duration-200 text-xs lg:text-sm font-semibold uppercase tracking-wide ${selectedCategory === item.handle
-                                    ? 'bg-primary text-primary-foreground shadow-md'
-                                    : 'bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/50'
+                                className={`relative flex items-center justify-center px-3.5 lg:px-4 py-1.5 rounded-full shrink-0 transition-all duration-300 text-[11px] lg:text-xs tracking-wide ${selectedCategory === item.handle
+                                    ? 'bg-foreground text-background font-semibold'
+                                    : 'text-muted-foreground hover:text-foreground font-medium hover:bg-muted/50'
                                     }`}
                                 draggable={false}
                                 onClick={(e) => {
@@ -236,8 +233,8 @@ export function CategoryMarquee({
                     </div>
                 </div>
 
-                {/* Fade Out Right */}
-                <div className="absolute right-0 top-0 bottom-0 w-10 lg:w-16 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
+                {/* Right fade */}
+                <div className="absolute right-0 top-0 bottom-0 w-8 lg:w-14 bg-linear-to-l from-background via-background/80 to-transparent pointer-events-none z-10" />
             </div>
         </div>
     );

@@ -29,14 +29,14 @@ export function BestSellersSection() {
         <div className="text-center mb-3">
           <div className="flex justify-center mb-1">
             <div className="border border-border bg-card py-1 px-4 rounded-lg text-sm font-medium text-foreground">
-              Best Sellers
+              Más Vendidos
             </div>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-foreground">
-            Most Popular Fragrances
+            Fragancias Más Populares
           </h2>
           <p className="text-center mt-4 text-muted-foreground max-w-2xl mx-auto">
-            Discover our customers' favorite perfumes. These best-selling scents have captivated thousands.
+            Descubre los perfumes favoritos de nuestros clientes. Estas fragancias han cautivado a miles.
           </p>
         </div>
 
@@ -49,7 +49,7 @@ export function BestSellersSection() {
             <ProductCard
               key={product.id}
               product={product}
-              badgeText="BEST SELLER"
+              badgeText="MÁS VENDIDO"
             />
           ))}
         </AnimatedGroup>

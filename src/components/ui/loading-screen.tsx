@@ -1,111 +1,78 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 
 interface LoadingScreenProps {
   isLoading: boolean;
 }
+
+const LOGO_LETTERS = ['S', 'A', 'M', 'E', '.'];
+
+const letterVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    filter: 'blur(8px)',
+  },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      delay: i * 0.18,
+      duration: 0.5,
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
+  }),
+};
+
+const underlineVariants = {
+  hidden: { scaleX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: {
+      delay: LOGO_LETTERS.length * 0.18 + 0.2,
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
+    },
+  },
+};
 
 export function LoadingScreen({ isLoading }: LoadingScreenProps) {
   return (
     <AnimatePresence mode="wait">
       {isLoading && (
         <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          initial={{ clipPath: 'circle(150% at 58% 50.5%)' }}
+          exit={{ clipPath: 'circle(0% at 56.3% 51.5%)' }}
+          transition={{ duration: 0.7, ease: [0.65, 0, 0.35, 1] }}
           className="fixed inset-0 z-9999 flex items-center justify-center bg-background"
         >
-          {/* Logo animado */}
-          <div className="flex flex-col items-center gap-8">
-            {/* Logo con animación de fade y escala */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ 
-                opacity: [0, 1, 1, 1],
-                scale: [0.8, 1, 1.05, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                repeatDelay: 0.5,
-                ease: 'easeInOut'
-              }}
-              className="relative"
-            >
-              <Image
-                src="/2.png"
-                alt="SAME."
-                width={180}
-                height={40}
-                className="h-10 w-auto dark:hidden"
-                priority
-              />
-              <Image
-                src="/2B.png"
-                alt="SAME."
-                width={180}
-                height={40}
-                className="h-10 w-auto hidden dark:block"
-                priority
-              />
-            </motion.div>
-
-            {/* Barra de progreso animada */}
-            <div className="w-48 h-1 bg-muted rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-primary"
-                initial={{ x: '-100%' }}
-                animate={{ x: '100%' }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut'
-                }}
-              />
+          <div className="flex flex-col items-center">
+            {/* Letras del logo aparecen una por una */}
+            <div className="flex items-baseline">
+              {LOGO_LETTERS.map((letter, i) => (
+                <motion.span
+                  key={i}
+                  custom={i}
+                  variants={letterVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="font-serif text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground select-none"
+                  style={{ display: 'inline-block' }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
             </div>
 
-            {/* Texto de carga */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut'
-              }}
-              className="text-sm text-muted-foreground font-medium tracking-wide"
-            >
-              Loading luxury fragrances...
-            </motion.p>
-          </div>
-
-          {/* Partículas decorativas opcionales */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-primary/20 rounded-full"
-                style={{
-                  left: `${20 + i * 30}%`,
-                }}
-                initial={{ 
-                  y: -20,
-                  opacity: 0 
-                }}
-                animate={{ 
-                  y: '100vh',
-                  opacity: [0, 0.5, 0]
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                  ease: 'linear'
-                }}
-              />
-            ))}
+            {/* Línea que se expande debajo del logo */}
+            <motion.div
+              variants={underlineVariants}
+              initial="hidden"
+              animate="visible"
+              className="h-px w-full bg-foreground/40 mt-3 origin-left"
+            />
           </div>
         </motion.div>
       )}

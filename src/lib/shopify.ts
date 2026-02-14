@@ -216,10 +216,12 @@ export async function getProduct(handle: string) {
 }
 
 // Helper para formatear precios
-export function formatPrice(amount: string, currencyCode: string = 'EUR'): string {
-  return new Intl.NumberFormat('es-ES', {
+export function formatPrice(amount: string, currencyCode: string = 'COP'): string {
+  return new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: currencyCode,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(parseFloat(amount));
 }
 

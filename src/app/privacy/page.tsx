@@ -1,171 +1,182 @@
+import type { Metadata } from 'next';
 import { Footer } from "@/components/sections/footer";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sameperfumes.com';
+
+export const metadata: Metadata = {
+  title: 'Política de Privacidad',
+  description: 'Política de privacidad de SAME. perfumes. Cómo protegemos tus datos personales y tu información de compra en Colombia.',
+  alternates: {
+    canonical: `${SITE_URL}/privacy`,
+  },
+};
 
 export default function PrivacyPolicy() {
   return (
     <>
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-4xl mx-auto px-6 pb-16 pt-32">
-          <h1 className="text-4xl font-bold mb-8 text-foreground">Privacy Policy</h1>
+          <h1 className="text-4xl font-bold mb-8 text-foreground">Política de Privacidad</h1>
 
           <div className="prose prose-lg max-w-none dark:prose-invert">
             <p className="text-lg mb-6 text-foreground">
-              <strong>SAME. – Privacy & Cookie Policy</strong>
+              <strong>SAME. – Política de Privacidad y Cookies</strong>
             </p>
 
             <p className="mb-6 text-muted-foreground">
-              This Privacy and Cookie Policy describes how SAME. ("we", "our", "us") collects, uses, shares, and safeguards personal information through the www.sameperfumes.com website and its related customer service channels.
+              Esta Política de Privacidad y Cookies describe cómo SAME. ("nosotros", "nuestro") recopila, usa, comparte y protege la información personal a través del sitio web www.sameperfumes.com y sus canales de atención al cliente relacionados.
             </p>
 
             <p className="mb-6 text-muted-foreground">
-              We value your privacy and are committed to protecting your personal data in accordance with the applicable data protection laws of the United Arab Emirates (UAE).
+              Valoramos tu privacidad y estamos comprometidos a proteger tus datos personales de acuerdo con las leyes de protección de datos aplicables de la República de Colombia.
             </p>
 
             <p className="mb-8 text-muted-foreground">
-              By accessing our website or communicating with us, you agree to the terms outlined in this Privacy and Cookie Policy and our Website Terms and Conditions.
+              Al acceder a nuestro sitio web o comunicarte con nosotros, aceptas los términos descritos en esta Política de Privacidad y Cookies y nuestros Términos y Condiciones del sitio web.
             </p>
 
             <p className="mb-12 text-sm text-muted-foreground">
-              Please note that this policy may be updated periodically, and the latest version will always be available on our website. You are encouraged to review this page regularly to stay informed of any updates.
+              Ten en cuenta que esta política puede actualizarse periódicamente, y la versión más reciente siempre estará disponible en nuestro sitio web. Te recomendamos revisar esta página regularmente para mantenerte informado de cualquier actualización.
             </p>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">1. Information We Collect</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">1. Información que Recopilamos</h2>
               <p className="mb-4 text-muted-foreground">
-                We and our authorized service providers may collect information provided directly by you through our website, by phone, email, or any other communication channels. We may also receive information from third parties legally authorized to share it with us. The information collected may include:
+                Nosotros y nuestros proveedores de servicios autorizados podemos recopilar información proporcionada directamente por ti a través de nuestro sitio web, por teléfono, correo electrónico o cualquier otro canal de comunicación. También podemos recibir información de terceros legalmente autorizados para compartirla con nosotros. La información recopilada puede incluir:
               </p>
 
-              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">a. Personal and Contact Information:</h3>
+              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">a. Información Personal y de Contacto:</h3>
               <p className="mb-4 text-muted-foreground">
-                Name, billing and delivery addresses, phone number, email, payment details, date of birth, gender, nationality, and information related to gift recipients.
+                Nombre, direcciones de facturación y entrega, número de teléfono, correo electrónico, datos de pago, fecha de nacimiento, género, nacionalidad e información relacionada con destinatarios de regalos.
               </p>
 
-              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">b. Website and Technical Data:</h3>
+              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">b. Datos del Sitio Web y Técnicos:</h3>
               <p className="mb-4 text-muted-foreground">
-                IP address, location, browser type, device details, the URL used to access our website, pages visited, search terms, and items clicked.
+                Dirección IP, ubicación, tipo de navegador, detalles del dispositivo, la URL utilizada para acceder a nuestro sitio web, páginas visitadas, términos de búsqueda y elementos seleccionados.
               </p>
 
-              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">c. Transactional Information:</h3>
+              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">c. Información Transaccional:</h3>
               <p className="mb-4 text-muted-foreground">
-                Orders placed, products purchased, dates and times of transactions, incomplete orders, preferences, and personalized requests.
+                Pedidos realizados, productos comprados, fechas y horas de transacciones, pedidos incompletos, preferencias y solicitudes personalizadas.
               </p>
 
-              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">d. Third-Party Information:</h3>
+              <h3 className="text-xl font-medium mb-3 mt-6 text-foreground">d. Información de Terceros:</h3>
               <p className="mb-4 text-muted-foreground">
-                Data provided by payment processors, delivery partners, loyalty programs, surveys, or promotional campaigns.
+                Datos proporcionados por procesadores de pago, socios de entrega, programas de fidelidad, encuestas o campañas promocionales.
               </p>
 
               <p className="text-sm text-muted-foreground">
-                Please note that full payment card details are used only to process your transaction and are not stored or accessible to our staff. All payments are securely handled by certified and legally authorized partners.
+                Ten en cuenta que los datos completos de la tarjeta de pago se utilizan únicamente para procesar tu transacción y no son almacenados ni accesibles para nuestro personal. Todos los pagos son manejados de forma segura por socios certificados y legalmente autorizados.
               </p>
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">2. How We Use Your Information</h2>
-              <p className="mb-4 text-muted-foreground">Your personal data may be used for the following purposes:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">2. Cómo Usamos Tu Información</h2>
+              <p className="mb-4 text-muted-foreground">Tus datos personales pueden ser utilizados para los siguientes propósitos:</p>
               <ul className="list-disc pl-6 space-y-2 mb-4 text-muted-foreground">
-                <li>To process and fulfill your orders or deliver requested services.</li>
-                <li>To verify and complete financial transactions, including fraud prevention and credit checks.</li>
-                <li>To respond to customer inquiries and provide support.</li>
-                <li>To manage your account and improve your shopping experience.</li>
-                <li>For analytical and statistical purposes to enhance website performance.</li>
-                <li>For marketing communications, including newsletters and promotions (unless you choose to opt out).</li>
-                <li>To ensure compliance with legal obligations and protect our rights and the rights of others.</li>
-                <li>To maintain website integrity and security.</li>
+                <li>Procesar y cumplir tus pedidos o entregar los servicios solicitados.</li>
+                <li>Verificar y completar transacciones financieras, incluyendo prevención de fraude y verificaciones crediticias.</li>
+                <li>Responder a consultas de clientes y brindar soporte.</li>
+                <li>Gestionar tu cuenta y mejorar tu experiencia de compra.</li>
+                <li>Con fines analíticos y estadísticos para mejorar el rendimiento del sitio web.</li>
+                <li>Para comunicaciones de marketing, incluyendo boletines y promociones (a menos que elijas no recibirlos).</li>
+                <li>Asegurar el cumplimiento de obligaciones legales y proteger nuestros derechos y los derechos de terceros.</li>
+                <li>Mantener la integridad y seguridad del sitio web.</li>
               </ul>
               <p className="text-sm text-muted-foreground">
-                We may offer a Live Chat feature for customer support. Chat transcripts may be recorded and accessed solely for service quality purposes.
+                Podemos ofrecer una función de Chat en Vivo para atención al cliente. Las transcripciones del chat pueden ser registradas y consultadas únicamente con fines de calidad del servicio.
               </p>
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">3. Information Sharing</h2>
-              <p className="mb-4 text-muted-foreground">We may share your personal data with:</p>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">3. Compartir Información</h2>
+              <p className="mb-4 text-muted-foreground">Podemos compartir tus datos personales con:</p>
               <ul className="list-disc pl-6 space-y-2 mb-4 text-muted-foreground">
-                <li>Our affiliated companies and trusted business partners.</li>
-                <li>Authorized third-party service providers handling payment processing, logistics, IT, marketing, or website maintenance.</li>
-                <li>Professional advisors such as lawyers, auditors, and insurers.</li>
-                <li>Governmental, regulatory, or law enforcement authorities when legally required.</li>
-                <li>Successors or acquirers in the event of a merger, acquisition, or restructuring.</li>
-                <li>Gift recipients or warranty providers related to your order.</li>
+                <li>Nuestras empresas afiliadas y socios comerciales de confianza.</li>
+                <li>Proveedores de servicios terceros autorizados que manejan procesamiento de pagos, logística, TI, marketing o mantenimiento del sitio web.</li>
+                <li>Asesores profesionales como abogados, auditores y aseguradoras.</li>
+                <li>Autoridades gubernamentales, reguladoras o de aplicación de la ley cuando sea legalmente requerido.</li>
+                <li>Sucesores o adquirientes en caso de fusión, adquisición o reestructuración.</li>
+                <li>Destinatarios de regalos o proveedores de garantía relacionados con tu pedido.</li>
               </ul>
               <p className="text-sm text-muted-foreground">
-                All third parties handling your information are contractually required to keep it confidential and use it only for the agreed purposes.
+                Todos los terceros que manejan tu información están contractualmente obligados a mantenerla confidencial y usarla únicamente para los fines acordados.
               </p>
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">4. Marketing Preferences and Contact</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">4. Preferencias de Marketing y Contacto</h2>
               <p className="mb-4 text-muted-foreground">
-                When registering on our website, you may choose whether to receive marketing communications from us or our selected partners.
+                Al registrarte en nuestro sitio web, puedes elegir si deseas recibir comunicaciones de marketing de nuestra parte o de nuestros socios seleccionados.
               </p>
               <p className="mb-4 text-muted-foreground">
-                You can unsubscribe at any time by clicking the "unsubscribe" link in our emails or by contacting us directly.
+                Puedes cancelar la suscripción en cualquier momento haciendo clic en el enlace "cancelar suscripción" en nuestros correos o contactándonos directamente.
               </p>
               <p className="text-muted-foreground">
-                For any privacy-related inquiries or to update your communication preferences, please contact us at:
+                Para cualquier consulta relacionada con la privacidad o para actualizar tus preferencias de comunicación, contáctanos en:
                 <br />
                 📧 <a href="mailto:contact@sameperfumes.com" className="text-primary hover:underline">contact@sameperfumes.com</a>
               </p>
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">5. Data Security</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">5. Seguridad de Datos</h2>
               <p className="mb-4 text-muted-foreground">
-                Your personal information is stored on secure servers, and all payment transactions are encrypted using Secure Socket Layer (SSL) technology.
+                Tu información personal se almacena en servidores seguros, y todas las transacciones de pago están cifradas utilizando tecnología Secure Socket Layer (SSL).
               </p>
               <p className="mb-4 text-muted-foreground">
-                You are responsible for keeping your account credentials (username and password) confidential.
+                Eres responsable de mantener tus credenciales de cuenta (usuario y contraseña) confidenciales.
               </p>
               <p className="mb-4 text-muted-foreground">
-                We have implemented robust security measures including encryption, monitoring, and authentication to safeguard our systems.
+                Hemos implementado medidas de seguridad robustas incluyendo cifrado, monitoreo y autenticación para proteger nuestros sistemas.
               </p>
               <p className="text-sm text-muted-foreground">
-                However, please note that no internet transmission is completely secure, and the exchange of data is carried out at your own risk.
+                Sin embargo, ten en cuenta que ninguna transmisión por internet es completamente segura, y el intercambio de datos se realiza bajo tu propio riesgo.
               </p>
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">6. International Data Transfers</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">6. Transferencias Internacionales de Datos</h2>
               <p className="mb-4 text-muted-foreground">
-                Your personal data may be transferred and stored outside the United Arab Emirates.
+                Tus datos personales pueden ser transferidos y almacenados fuera de Colombia.
               </p>
               <p className="mb-4 text-muted-foreground">
-                By using our website, you consent to such transfers, acknowledging that privacy laws in other jurisdictions may differ.
+                Al usar nuestro sitio web, consientes dichas transferencias, reconociendo que las leyes de privacidad en otras jurisdicciones pueden diferir.
               </p>
               <p className="text-muted-foreground">
-                We ensure that any third parties handling your data maintain strict confidentiality and comply with recognized data protection standards.
+                Nos aseguramos de que cualquier tercero que maneje tus datos mantenga estricta confidencialidad y cumpla con estándares reconocidos de protección de datos.
               </p>
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">7. Policy Updates</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">7. Actualizaciones de la Política</h2>
               <p className="mb-4 text-muted-foreground">
-                We may revise this Privacy & Cookie Policy from time to time to reflect regulatory or operational changes.
+                Podemos revisar esta Política de Privacidad y Cookies de vez en cuando para reflejar cambios regulatorios u operativos.
               </p>
               <p className="text-muted-foreground">
-                Updates take effect once published on www.sameperfumes.com, and your continued use of the website signifies your acceptance of the revised policy.
+                Las actualizaciones entran en vigor una vez publicadas en www.sameperfumes.com, y tu uso continuado del sitio web significa tu aceptación de la política revisada.
               </p>
             </section>
 
             <section className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4 text-foreground">8. Third-Party Advertising</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">8. Publicidad de Terceros</h2>
               <p className="mb-4 text-muted-foreground">
-                Certain advertisements on our website may be served by third-party networks using cookies or similar technologies to personalize ads based on your interests.
+                Ciertos anuncios en nuestro sitio web pueden ser proporcionados por redes de terceros que usan cookies o tecnologías similares para personalizar anuncios basados en tus intereses.
               </p>
               <p className="mb-4 text-muted-foreground">
-                We do not control the data collection practices of these third parties, and their privacy practices are not covered by this policy.
+                No controlamos las prácticas de recopilación de datos de estos terceros, y sus prácticas de privacidad no están cubiertas por esta política.
               </p>
               <p className="text-muted-foreground">
-                We recommend reviewing their privacy statements for additional details.
+                Recomendamos revisar sus declaraciones de privacidad para detalles adicionales.
               </p>
             </section>
 
             <section className="mb-12 bg-muted p-6 rounded-lg text-foreground">
-              <h2 className="text-xl font-semibold mb-4">Important Notes</h2>
+              <h2 className="text-xl font-semibold mb-4">Notas Importantes</h2>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li>All credit/debit card details and personally identifiable information will not be stored, sold, shared, rented, or leased to any third party.</li>
-                <li>Customers are encouraged to review this page periodically for updates.</li>
-                <li>Any modifications to this policy will be effective on the date of publication on our website.</li>
+                <li>Todos los datos de tarjetas de crédito/débito e información de identificación personal no serán almacenados, vendidos, compartidos, alquilados ni cedidos a ningún tercero.</li>
+                <li>Se recomienda a los clientes revisar esta página periódicamente para conocer actualizaciones.</li>
+                <li>Cualquier modificación a esta política será efectiva en la fecha de publicación en nuestro sitio web.</li>
               </ul>
             </section>
 

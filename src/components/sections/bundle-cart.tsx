@@ -50,18 +50,18 @@ export function BundleCart({
   }, []);
 
   const getNextDiscountMessage = () => {
-    if (totalItems === 0) return 'Add 2 products to start saving';
+    if (totalItems === 0) return 'Agrega 2 productos para empezar a ahorrar';
 
-    // Check for Free Shipping via Price Threshold (200 AED)
-    if (total >= 200) {
-      if (totalItems < 6) return `Free Shipping unlocked! Add ${6 - totalItems} more for 20% discount`;
-      return 'You\'ve unlocked the maximum discount!';
+    // Check for Free Shipping via Price Threshold (200,000 COP)
+    if (total >= 200000) {
+      if (totalItems < 6) return `¡Envío gratis desbloqueado! Agrega ${6 - totalItems} más para 20% de descuento`;
+      return '¡Has desbloqueado el descuento máximo!';
     }
 
-    if (totalItems < 2) return 'Add 1 more for 10% discount';
-    if (totalItems < 4) return `Add ${4 - totalItems} more for 15% discount`;
-    if (totalItems < 6) return `Add ${6 - totalItems} more for 20% discount`;
-    return 'You\'ve unlocked the maximum benefits!';
+    if (totalItems < 2) return 'Agrega 1 más para 10% de descuento';
+    if (totalItems < 4) return `Agrega ${4 - totalItems} más para 15% de descuento`;
+    if (totalItems < 6) return `Agrega ${6 - totalItems} más para 20% de descuento`;
+    return '¡Has desbloqueado los beneficios máximos!';
   };
 
   const handleCheckout = async () => {
@@ -82,9 +82,9 @@ export function BundleCart({
         <div className="flex items-center gap-2">
           <ShoppingCart size={24} weight="bold" />
           <div>
-            <h3 className="font-bold text-lg">Order Summary</h3>
+            <h3 className="font-bold text-lg">Resumen del Pedido</h3>
             <p className="text-xs opacity-90">
-              {totalItems} {totalItems === 1 ? 'item' : 'items'}
+              {totalItems} {totalItems === 1 ? 'artículo' : 'artículos'}
             </p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export function BundleCart({
           {discountPercent >= 10 && (
             <div className="mt-2 text-center animate-pulse">
               <span className="inline-block px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded-full text-xs font-bold border border-green-200 dark:border-green-800">
-                🎉 YOU SAVE {discount}%
+                🎉 AHORRAS {discount}%
               </span>
             </div>
           )}
@@ -122,8 +122,8 @@ export function BundleCart({
           {selectedProducts.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               <ShoppingCart size={48} className="mx-auto mb-3 opacity-30" weight="light" />
-              <p className="text-sm">Your bundle is empty</p>
-              <p className="text-xs mt-1">Add products to get started</p>
+              <p className="text-sm">Tu pack está vacío</p>
+              <p className="text-xs mt-1">Agrega productos para comenzar</p>
             </div>
           ) : (
             <div className="divide-y relative">
@@ -134,7 +134,7 @@ export function BundleCart({
                   (e: any) => e.node.id === product.selectedVariantId
                 )?.node;
                 const price = parseFloat(selectedVariant?.price?.amount || product.priceRange.minVariantPrice.amount);
-                // Get variant title (e.g., "100ml / Extrait")
+                // Get variant title (e.g., "100ml / Elixir")
                 const variantTitle = selectedVariant?.title !== 'Default Title' ? selectedVariant?.title : null;
 
                 return (
@@ -189,7 +189,7 @@ export function BundleCart({
                         className="text-destructive hover:text-destructive/80 transition-colors self-start"
                         aria-label="Eliminar producto"
                       >
-                        <Trash size={18} weight="regular" />
+                        <Trash size={18} weight="light" />
                       </button>
                     </div>
                   </div>
@@ -207,14 +207,14 @@ export function BundleCart({
           <div className="p-4 border-t bg-background shrink-0">
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Initial Price</span>
+                <span className="text-muted-foreground">Precio Inicial</span>
                 <span className="font-medium">
                   {formatPrice(subtotal.toFixed(2))}
                 </span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-green-600 dark:text-green-400 font-bold bg-green-50 dark:bg-green-900/20 p-2 rounded-md">
-                  <span>Savings ({discountPercent}%)</span>
+                  <span>Ahorro ({discountPercent}%)</span>
                   <span>
                     -{formatPrice(discount.toFixed(2))}
                   </span>
@@ -222,8 +222,8 @@ export function BundleCart({
               )}
               {(totalItems >= 6 || total >= 200) && (
                 <div className="flex justify-between text-blue-600 dark:text-blue-400">
-                  <span>Shipping</span>
-                  <span className="font-medium">FREE</span>
+                  <span>Envío</span>
+                  <span className="font-medium">GRATIS</span>
                 </div>
               )}
               <div className="flex justify-between text-lg font-bold pt-2 border-t">
@@ -243,10 +243,10 @@ export function BundleCart({
               {isLoading ? (
                 <>
                   <span className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
-                  Processing...
+                  Procesando...
                 </>
               ) : (
-                'Proceed to Checkout'
+                'Proceder al Pago'
               )}
             </button>
           </div>
@@ -267,7 +267,7 @@ function RecommendedSection() {
   return (
     <div className="p-4 bg-muted/20 border-t">
       <h4 className="text-xs font-bold uppercase text-muted-foreground mb-3 tracking-wider">
-        Recommended for You
+        Recomendados para Ti
       </h4>
       <div className="grid grid-cols-2 gap-2">
         {bestSellers.map((product: any) => (
@@ -284,7 +284,7 @@ function RecommendedSection() {
             </div>
             <div className="text-xs">
               <p className="font-medium line-clamp-1">{product.title}</p>
-              <a href={`/products/${product.handle}`} className="text-primary hover:underline mt-1 block">View</a>
+              <a href={`/products/${product.handle}`} className="text-primary hover:underline mt-1 block">Ver</a>
             </div>
           </div>
         ))}

@@ -49,7 +49,7 @@ export default function ContactPage() {
             className="text-4xl md:text-5xl font-bold mb-4"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Contact Us
+            Contáctanos
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ export default function ContactPage() {
             transition={{ delay: 0.1 }}
             className="text-lg text-primary-foreground/90"
           >
-            Get in touch with our team
+            Ponte en contacto con nuestro equipo
           </motion.p>
         </div>
       </div>
@@ -71,16 +71,16 @@ export default function ContactPage() {
             transition={{ delay: 0.2 }}
           >
             <h2 className="text-2xl font-bold mb-6 text-foreground" style={{ fontFamily: 'var(--font-serif)' }}>
-              Get In Touch
+              Ponte en Contacto
             </h2>
             <p className="text-muted-foreground mb-8">
-              Have a question or need assistance? We're here to help! Fill out the form or reach us through the contact information below.
+              ¿Tienes una pregunta o necesitas ayuda? ¡Estamos aquí para ayudarte! Completa el formulario o contáctanos a través de la información de contacto a continuación.
             </p>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <div className="bg-primary/10 p-3 rounded-lg">
-                  <EnvelopeSimple size={24} weight="regular" className="text-primary" />
+                  <EnvelopeSimple size={24} weight="light" className="text-primary" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Email</h3>
@@ -92,10 +92,10 @@ export default function ContactPage() {
 
               <div className="flex items-start gap-4">
                 <div className="bg-primary/10 p-3 rounded-lg">
-                  <Phone size={24} weight="regular" className="text-primary" />
+                  <Phone size={24} weight="light" className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Phone</h3>
+                  <h3 className="font-semibold text-foreground mb-1">Teléfono</h3>
                   <a href="tel:+971585621027" className="text-muted-foreground hover:text-primary transition-colors">
                     +971 58 562 1027
                   </a>
@@ -114,7 +114,7 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                  Name
+                  Nombre
                 </label>
                 <Input
                   id="name"
@@ -124,7 +124,7 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   className="w-full"
-                  placeholder="Your name"
+                  placeholder="Tu nombre"
                 />
               </div>
 
@@ -146,7 +146,7 @@ export default function ContactPage() {
 
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
-                  Subject
+                  Asunto
                 </label>
                 <Input
                   id="subject"
@@ -156,13 +156,13 @@ export default function ContactPage() {
                   value={formData.subject}
                   onChange={handleChange}
                   className="w-full"
-                  placeholder="How can we help?"
+                  placeholder="¿Cómo podemos ayudarte?"
                 />
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                  Message
+                  Mensaje
                 </label>
                 <textarea
                   id="message"
@@ -172,14 +172,14 @@ export default function ContactPage() {
                   onChange={handleChange}
                   rows={5}
                   className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Tell us more about your inquiry..."
+                  placeholder="Cuéntanos más sobre tu consulta..."
                 />
               </div>
 
               {submitted && (
                 <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4">
                   <p className="text-green-800 dark:text-green-200 text-sm">
-                    Thank you for contacting us! We'll get back to you soon.
+                    ¡Gracias por contactarnos! Te responderemos pronto.
                   </p>
                 </div>
               )}
@@ -189,7 +189,7 @@ export default function ContactPage() {
                 disabled={isSubmitting}
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
               </Button>
             </form>
           </motion.div>

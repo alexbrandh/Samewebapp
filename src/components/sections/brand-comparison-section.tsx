@@ -7,29 +7,29 @@ import { Badge } from '@/components/ui/badge';
 import { Check, X, Heart, Leaf, Star, DotsSixVertical } from 'phosphor-react';
 
 const comparisons = [
-  { feature: 'Patented Pheromones', same: true, others: false },
-  { feature: 'Satisfaction Guarantee', same: true, others: false },
-  { feature: '18-Hour Long Lasting', same: true, others: false },
-  { feature: 'No Harmful Chemicals', same: true, others: false },
-  { feature: 'Vegan & Cruelty-Free', same: true, others: false },
-  { feature: 'Master-Crafted Aromas', same: true, others: false },
+  { feature: 'Feromonas Patentadas', same: true, others: false },
+  { feature: 'Garantía de Satisfacción', same: true, others: false },
+  { feature: 'Duración de 18 Horas', same: true, others: false },
+  { feature: 'Sin Químicos Dañinos', same: true, others: false },
+  { feature: 'Vegano & Libre de Crueldad', same: true, others: false },
+  { feature: 'Aromas Artesanales', same: true, others: false },
 ];
 
 const features = [
   {
     icon: Heart,
-    title: 'Ethical & Vegan Beauty',
-    description: 'Discover a new consciousness with our vegan and cruelty-free line. Quality and ethics merge to offer you responsible products, without compromising your values.',
+    title: 'Belleza Ética & Vegana',
+    description: 'Descubre una nueva consciencia con nuestra línea vegana y libre de crueldad. Calidad y ética se fusionan para ofrecerte productos responsables, sin comprometer tus valores.',
   },
   {
     icon: Leaf,
-    title: 'Purity Without Harmful Chemicals',
-    description: 'Experience our paraben and phthalate-free line, where purity meets quality to pamper your skin with the richness of nature.',
+    title: 'Pureza Sin Químicos Dañinos',
+    description: 'Experimenta nuestra línea libre de parabenos y ftalatos, donde la pureza se une a la calidad para consentir tu piel con la riqueza de la naturaleza.',
   },
   {
     icon: Star,
-    title: 'Master-Crafted Aromas',
-    description: 'Experience sophistication with our master-crafted aromas, where expertise and passion merge to bring unique olfactory experiences to life.',
+    title: 'Aromas Artesanales',
+    description: 'Experimenta la sofisticación con nuestros aromas artesanales, donde la experiencia y la pasión se fusionan para dar vida a experiencias olfativas únicas.',
   },
 ];
 
@@ -118,7 +118,7 @@ function BrandComparisonSlider() {
                 />
               </div>
               <p className="text-xs sm:text-sm text-muted-foreground">
-                Luxury Fragrances, Now Accessible
+                Fragancias de Lujo, Ahora Accesibles
               </p>
             </div>
             <div className="space-y-1.5 sm:space-y-3">
@@ -139,7 +139,7 @@ function BrandComparisonSlider() {
             </div>
             <div className="flex justify-center pt-2 sm:pt-4">
               <Badge className="bg-primary text-primary-foreground">
-                Premium Quality
+                Calidad Premium
               </Badge>
             </div>
           </div>
@@ -155,7 +155,7 @@ function BrandComparisonSlider() {
                 OTHERS
               </h3>
               <p className="text-xs sm:text-sm text-muted-foreground/70">
-                Conventional Brands
+                Marcas Convencionales
               </p>
             </div>
             <div className="space-y-1.5 sm:space-y-3">
@@ -176,7 +176,7 @@ function BrandComparisonSlider() {
             </div>
             <div className="flex justify-center pt-2 sm:pt-4">
               <Badge variant="outline" className="bg-background/50 text-muted-foreground">
-                Standard
+                Estándar
               </Badge>
             </div>
           </div>
@@ -206,10 +206,10 @@ export function BrandComparisonSection() {
           </div>
           <div className="flex gap-1 flex-col text-center">
             <h2 className="text-3xl md:text-5xl tracking-tighter font-bold text-foreground">
-              Luxury Fragrances, Now Accessible
+              Fragancias de Lujo, Ahora Accesibles
             </h2>
             <p className="text-lg max-w-2xl mx-auto leading-relaxed tracking-tight text-muted-foreground text-justify">
-              Discover how SAME. redefines luxury in fragrances, inspired by the world's most iconic perfumes. With the exclusive addition of pheromones and at an affordable price, SAME. offers you a unique experience.
+              Descubre cómo SAME. redefine el lujo en fragancias, inspiradas en los perfumes más icónicos del mundo. Con la adición exclusiva de feromonas y a un precio accesible, SAME. te ofrece una experiencia única.
             </p>
           </div>
         </motion.div>
@@ -236,7 +236,7 @@ export function BrandComparisonSection() {
             viewport={{ once: true, margin: "-100px" }}
             className="text-2xl md:text-3xl font-bold text-foreground text-center"
           >
-            Your Intangible Signature
+            Tu Firma Intangible
           </motion.h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {features.map((feature, index) => {
@@ -255,7 +255,7 @@ export function BrandComparisonSection() {
                   className="flex flex-col items-center text-center space-y-4 p-6 rounded-lg bg-card border border-border shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Icon size={32} weight="regular" className="text-primary" />
+                    <Icon size={32} weight="light" className="text-primary" />
                   </div>
                   <h4 className="text-lg font-semibold text-foreground">
                     {feature.title}

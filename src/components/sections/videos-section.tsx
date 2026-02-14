@@ -11,7 +11,7 @@ export function VideosSection() {
     return (
         <section className="py-10 lg:py-16 bg-muted/20">
             <div className="container mx-auto px-4 text-center">
-                <h2 className="text-3xl font-bold mb-8">DISCOVER OUR ESSENCE</h2>
+                <h2 className="text-3xl font-bold mb-8">DESCUBRE NUESTRA ESENCIA</h2>
                 <div className="videos-grid">
                     {videos.map((src, i) => (
                         <div key={i} className="video-card">

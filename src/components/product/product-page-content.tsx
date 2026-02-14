@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ChevronDown, Star, Clock, Sparkles, Feather, Check } from 'lucide-react';
+import { CaretLeft, CaretRight, CaretDown, Star, Clock, Check } from 'phosphor-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/lib/hooks/useShopify';
 import { FavoriteButton } from '@/components/product/favorite-button';
@@ -17,35 +17,35 @@ interface ProductPageContentProps {
 const reviews = [
   {
     id: 1,
-    name: 'Sarah M.',
+    name: 'Valentina R.',
     rating: 5,
-    date: 'October 15, 2024',
-    title: 'Absolutely love this fragrance!',
-    content: 'This perfume has become my daily go-to. The scent is sophisticated without being overpowering, and it lasts all day. I get compliments every time I wear it!'
+    date: '15 de enero, 2026',
+    title: '¡Me encanta esta fragancia!',
+    content: 'Este perfume se ha convertido en mi favorito del día a día. El aroma es sofisticado sin ser abrumador, y dura todo el día. ¡Recibo cumplidos cada vez que lo uso!'
   },
   {
     id: 2,
-    name: 'Emily R.',
+    name: 'Camila S.',
     rating: 5,
-    date: 'October 10, 2024',
-    title: 'Perfect for every occasion',
-    content: 'I was looking for a signature scent and this is it! It works beautifully for both day and evening wear. The packaging is gorgeous too.'
+    date: '10 de enero, 2026',
+    title: 'Perfecto para toda ocasión',
+    content: 'Estaba buscando un aroma único y ¡este es! Funciona perfectamente tanto de día como de noche. El empaque también es hermoso.'
   },
   {
     id: 3,
-    name: 'Jessica L.',
+    name: 'Andrés M.',
     rating: 5,
-    date: 'October 5, 2024',
-    title: 'Long-lasting and elegant',
-    content: 'Finally found a perfume that actually lasts! The floral notes are perfectly balanced with the woody base. Worth every penny.'
+    date: '5 de enero, 2026',
+    title: 'Duradero y elegante',
+    content: '¡Por fin encontré un perfume que realmente dura! Las notas están perfectamente equilibradas con la base amaderada. Vale cada peso.'
   },
   {
     id: 4,
-    name: 'Maria G.',
-    rating: 5,
-    date: 'September 28, 2024',
-    title: 'My new favorite!',
-    content: 'The fragrance is sophisticated and unique. I love how it evolves throughout the day. Definitely recommend!'
+    name: 'Sofía L.',
+    rating: 4,
+    date: '28 de diciembre, 2025',
+    title: '¡Mi nuevo favorito!',
+    content: 'La fragancia es sofisticada y única. Me encanta cómo evoluciona a lo largo del día. ¡Definitivamente lo recomiendo!'
   }
 ];
 
@@ -120,8 +120,8 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
 
 
 
-  // Free shipping threshold (AED)
-  const freeShippingThreshold = 200;
+  // Umbral de envío gratis (COP)
+  const freeShippingThreshold = 200000;
 
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return;
@@ -203,14 +203,13 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-3 h-3 md:w-3.5 md:h-3.5 ${i < Math.floor(averageRating)
-                            ? 'fill-primary text-primary'
-                            : 'text-muted-foreground/30'
-                            }`}
+                          size={14}
+                          weight={i < Math.floor(averageRating) ? 'fill' : 'light'}
+                          className={i < Math.floor(averageRating) ? 'text-primary' : 'text-muted-foreground/30'}
                         />
                       ))}
                       <span className="text-xs text-muted-foreground ml-1">
-                        {reviews.length} Reviews
+                        {reviews.length} Reseñas
                       </span>
                     </div>
                   </div>
@@ -220,11 +219,11 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                   disabled={isAdding || !selectedVariant?.availableForSale}
                   className="w-full md:w-auto h-11 md:h-12 px-6 md:px-8 text-sm md:text-base font-medium bg-foreground hover:bg-foreground/90 text-background whitespace-nowrap"
                 >
-                  {isAdding ? 'Adding...' : 'ADD TO BAG'}
+                  {isAdding ? 'Agregando...' : 'AGREGAR AL CARRITO'}
                 </Button>
               </div>
               <p className="text-xs text-primary mt-2 text-center md:text-right">
-                Add {formatPrice(freeShippingThreshold.toString())} and receive free shipping!
+                ¡Agrega {formatPrice(freeShippingThreshold.toString())} y recibe envío gratis!
               </p>
             </div>
           </motion.div>
@@ -258,16 +257,16 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                     <button
                       onClick={prevImage}
                       className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-background/95 hover:bg-background flex items-center justify-center transition-colors shadow-lg"
-                      aria-label="Previous image"
+                      aria-label="Imagen anterior"
                     >
-                      <ChevronLeft className="w-6 h-6" />
+                      <CaretLeft size={24} weight="light" />
                     </button>
                     <button
                       onClick={nextImage}
                       className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-background/95 hover:bg-background flex items-center justify-center transition-colors shadow-lg"
-                      aria-label="Next image"
+                      aria-label="Imagen siguiente"
                     >
-                      <ChevronRight className="w-6 h-6" />
+                      <CaretRight size={24} weight="light" />
                     </button>
 
                     {/* Dots */}
@@ -280,7 +279,7 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                             ? 'bg-foreground w-8'
                             : 'bg-foreground/30 w-1.5 hover:bg-foreground/50'
                             }`}
-                          aria-label={`View image ${index + 1}`}
+                          aria-label={`Ver imagen ${index + 1}`}
                         />
                       ))}
                     </div>
@@ -302,7 +301,7 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                   {product.title}
                   {inspirationBrand && (
                     <span className="block lg:inline-block lg:ml-3 text-lg lg:text-2xl font-medium text-muted-foreground/80 mt-1 lg:mt-0 align-baseline">
-                      Inspired by {inspirationBrand}
+                      Inspirado en {inspirationBrand}
                     </span>
                   )}
                 </h1>
@@ -311,14 +310,13 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${i < Math.floor(averageRating)
-                          ? 'fill-primary text-primary'
-                          : 'text-muted-foreground/30'
-                          }`}
+                        size={16}
+                        weight={i < Math.floor(averageRating) ? 'fill' : 'light'}
+                        className={i < Math.floor(averageRating) ? 'text-primary' : 'text-muted-foreground/30'}
                       />
                     ))}
                   </div>
-                  <span>{averageRating.toFixed(1)} ({reviews.length} reviews)</span>
+                  <span>{averageRating.toFixed(1)} ({reviews.length} reseñas)</span>
                 </div>
               </div>
 
@@ -374,22 +372,22 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                                 ? 'bg-primary border-primary'
                                 : 'border-muted-foreground/30 bg-background'
                                 }`}>
-                                <Check className={`w-3.5 h-3.5 text-primary-foreground transition-opacity ${selectedOptions[option.name] === 'Extrait' ? 'opacity-100' : 'opacity-0'
-                                  }`} strokeWidth={3} />
+                                <Check size={14} weight="bold" className={`text-primary-foreground transition-opacity ${selectedOptions[option.name] === 'Extrait' ? 'opacity-100' : 'opacity-0'
+                                  }`} />
                               </div>
                             </div>
                             <div className="flex flex-col">
                               <span className="font-bold text-sm text-foreground group-hover/checkbox:text-primary transition-colors mb-1">
-                                Add Extra Extract • Premium Upgrade
+                                Agregar Extracto Extra • Mejora Premium
                               </span>
                               <div className="flex flex-col gap-0.5 mb-2">
-                                <span className="text-[11px] text-muted-foreground leading-tight">• Higher concentration of pure essence</span>
-                                <span className="text-[11px] text-muted-foreground leading-tight">• Deeper fixation</span>
-                                <span className="text-[11px] text-muted-foreground leading-tight">• Extended longevity</span>
+                                <span className="text-[11px] text-muted-foreground leading-tight">• Mayor concentración de esencia pura</span>
+                                <span className="text-[11px] text-muted-foreground leading-tight">• Mayor fijación</span>
+                                <span className="text-[11px] text-muted-foreground leading-tight">• Mayor duración</span>
                               </div>
                               <div className="flex items-center gap-1.5 text-xs text-[#8B7355] font-medium">
-                                <Clock className="w-3.5 h-3.5" />
-                                <span>Longevity: {selectedOptions[option.name] === 'Extrait' ? '12-18 hours' : '8-12 hours'}</span>
+                                <Clock size={14} weight="light" />
+                                <span>Duración: {selectedOptions[option.name] === 'Extrait' ? '12-18 horas' : '8-12 horas'}</span>
                               </div>
                             </div>
                           </label>
@@ -453,8 +451,8 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
               {/* Longevity */}
               {longevity && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Clock className="w-4 h-4 text-primary" />
-                  <span className="text-muted-foreground">Longevity:</span>
+                  <Clock size={16} weight="light" className="text-primary" />
+                  <span className="text-muted-foreground">Duración:</span>
                   <span className="font-medium">{longevity}</span>
                 </div>
               )}
@@ -462,7 +460,7 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
               {/* Key Ingredients Badges */}
               {keyIngredientsArray.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-medium mb-3">Key Ingredients</h3>
+                  <h3 className="text-sm font-medium mb-3">Ingredientes Clave</h3>
                   <div className="flex flex-wrap gap-2">
                     {keyIngredientsArray.map((ingredient: string, index: number) => (
                       <span
@@ -479,7 +477,7 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
               {/* Aromatic Notes Badges */}
               {aromaticNotesArray.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-medium mb-3">Aromatic Notes</h3>
+                  <h3 className="text-sm font-medium mb-3">Notas Aromáticas</h3>
                   <div className="flex flex-wrap gap-2">
                     {aromaticNotesArray.map((note: string, index: number) => (
                       <span
@@ -507,7 +505,7 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                   disabled={isAdding || !selectedVariant?.availableForSale}
                   className="flex-1 h-14 text-base font-medium bg-foreground hover:bg-foreground/90 text-background"
                 >
-                  {isAdding ? 'Adding to cart...' : 'Add to cart'}
+                  {isAdding ? 'Agregando...' : 'Agregar al carrito'}
                 </Button>
                 <div className="flex items-center">
                   <FavoriteButton
@@ -521,7 +519,7 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
 
               {/* Free Shipping Banner */}
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 text-center text-sm text-foreground">
-                🚚 Orders over {formatPrice(freeShippingThreshold.toString())} qualify for <span className="font-semibold">free shipping</span>
+                🚚 Pedidos de más de {formatPrice(freeShippingThreshold.toString())} califican para <span className="font-semibold">envío gratis</span>
               </div>
 
               {/* Accordions for How to Use and Ingredients */}
@@ -532,9 +530,11 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                       onClick={() => toggleAccordion('how-to-use')}
                       className="w-full px-4 py-3 flex items-center justify-between bg-muted/30 hover:bg-muted/50 transition-colors"
                     >
-                      <span className="font-medium text-sm">How to Use</span>
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform ${openAccordion === 'how-to-use' ? 'rotate-180' : ''
+                      <span className="font-medium text-sm">Cómo Usar</span>
+                      <CaretDown
+                        size={16}
+                        weight="light"
+                        className={`transition-transform ${openAccordion === 'how-to-use' ? 'rotate-180' : ''
                           }`}
                       />
                     </button>
@@ -552,9 +552,11 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                       onClick={() => toggleAccordion('ingredients')}
                       className="w-full px-4 py-3 flex items-center justify-between bg-muted/30 hover:bg-muted/50 transition-colors"
                     >
-                      <span className="font-medium text-sm">Full Ingredient List (INCI)</span>
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform ${openAccordion === 'ingredients' ? 'rotate-180' : ''
+                      <span className="font-medium text-sm">Lista Completa de Ingredientes (INCI)</span>
+                      <CaretDown
+                        size={16}
+                        weight="light"
+                        className={`transition-transform ${openAccordion === 'ingredients' ? 'rotate-180' : ''
                           }`}
                       />
                     </button>
@@ -576,25 +578,24 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
         <div className="py-20">
           <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-12">
-              <h2 className="text-2xl lg:text-3xl font-light mb-4">Customer Reviews</h2>
+              <h2 className="text-2xl lg:text-3xl font-light mb-4">Reseñas de Clientes</h2>
               <div className="flex items-center gap-3">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${i < Math.floor(averageRating)
-                        ? 'fill-primary text-primary'
-                        : 'text-muted-foreground/30'
-                        }`}
+                      size={20}
+                      weight={i < Math.floor(averageRating) ? 'fill' : 'light'}
+                      className={i < Math.floor(averageRating) ? 'text-primary' : 'text-muted-foreground/30'}
                     />
                   ))}
                 </div>
                 <span className="text-lg">
-                  {averageRating.toFixed(1)} out of 5
+                  {averageRating.toFixed(1)} de 5
                 </span>
               </div>
               <p className="text-sm text-muted-foreground mt-2">
-                Based on {reviews.length} reviews
+                Basado en {reviews.length} reseñas
               </p>
             </div>
 
@@ -608,10 +609,9 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`w-4 h-4 ${i < review.rating
-                                ? 'fill-primary text-primary'
-                                : 'text-muted-foreground/30'
-                                }`}
+                              size={16}
+                              weight={i < review.rating ? 'fill' : 'light'}
+                              className={i < review.rating ? 'text-primary' : 'text-muted-foreground/30'}
                             />
                           ))}
                         </div>
@@ -637,8 +637,8 @@ export default function ProductPageContent({ product }: ProductPageContentProps)
               onClick={() => router.push('/')}
               className="flex items-center text-sm hover:text-primary transition-colors"
             >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Back to Home
+              <CaretLeft size={16} weight="light" className="mr-1" />
+              Volver al Inicio
             </button>
           </div>
         </div>

@@ -39,7 +39,7 @@ export default function OrderDetailPage() {
     return (
       <div className="text-center py-12">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-muted-foreground">Loading order details...</p>
+        <p className="text-muted-foreground">Cargando detalles del pedido...</p>
       </div>
     );
   }
@@ -48,15 +48,15 @@ export default function OrderDetailPage() {
     return (
       <div className="bg-card border border-border rounded-lg p-12 text-center">
         <Package size={64} className="text-muted-foreground mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-foreground mb-2">Order Not Found</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Pedido No Encontrado</h2>
         <p className="text-muted-foreground mb-6">
-          We couldn't find the order you're looking for.
+          No pudimos encontrar el pedido que buscas.
         </p>
         <Link
           href="/account/orders"
           className="inline-block px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
         >
-          Back to Orders
+          Volver a Pedidos
         </Link>
       </div>
     );
@@ -70,7 +70,7 @@ export default function OrderDetailPage() {
         className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft size={20} />
-        <span>Back to Orders</span>
+        <span>Volver a Pedidos</span>
       </button>
 
       {/* Header */}
@@ -78,10 +78,10 @@ export default function OrderDetailPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
           <div>
             <h1 className="text-3xl font-bold text-foreground mb-2">
-              Order #{order.orderNumber}
+              Pedido #{order.orderNumber}
             </h1>
             <p className="text-muted-foreground">
-              Placed on {new Date(order.processedAt).toLocaleDateString('en-US', {
+              Realizado el {new Date(order.processedAt).toLocaleDateString('es-CO', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
@@ -114,7 +114,7 @@ export default function OrderDetailPage() {
         <div className="lg:col-span-2 space-y-6">
           {/* Items */}
           <div className="bg-card border border-border rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-foreground mb-4">Order Items</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-4">Artículos del Pedido</h2>
             <div className="space-y-4">
               {order.lineItems.map((item, index) => (
                 <div key={index} className="flex gap-4 pb-4 border-b border-border last:border-0">
@@ -146,7 +146,7 @@ export default function OrderDetailPage() {
                       <p className="text-sm text-muted-foreground">{item.variant.title}</p>
                     )}
                     <p className="text-sm text-muted-foreground mt-1">
-                      Quantity: {item.quantity}
+                      Cantidad: {item.quantity}
                     </p>
                   </div>
 
@@ -171,7 +171,7 @@ export default function OrderDetailPage() {
         <div className="space-y-6">
           {/* Order Summary */}
           <div className="bg-card border border-border rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-foreground mb-4">Order Summary</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-4">Resumen del Pedido</h2>
             <div className="space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
@@ -180,13 +180,13 @@ export default function OrderDetailPage() {
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Shipping</span>
+                <span className="text-muted-foreground">Envío</span>
                 <span className="text-foreground">
                   {formatPrice(order.totalShippingPrice.amount, order.totalShippingPrice.currencyCode)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Tax</span>
+                <span className="text-muted-foreground">Impuestos</span>
                 <span className="text-foreground">
                   {formatPrice(order.totalTax.amount, order.totalTax.currencyCode)}
                 </span>
@@ -205,7 +205,7 @@ export default function OrderDetailPage() {
             <div className="bg-card border border-border rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4">
                 <MapPin size={20} className="text-primary" weight="fill" />
-                <h2 className="text-lg font-semibold text-foreground">Shipping Address</h2>
+                <h2 className="text-lg font-semibold text-foreground">Dirección de Envío</h2>
               </div>
               <div className="text-sm text-foreground space-y-1">
                 {order.shippingAddress.firstName && (
@@ -229,10 +229,10 @@ export default function OrderDetailPage() {
           <div className="bg-card border border-border rounded-lg p-6">
             <div className="flex items-center gap-2 mb-4">
               <CreditCard size={20} className="text-primary" weight="fill" />
-              <h2 className="text-lg font-semibold text-foreground">Payment</h2>
+              <h2 className="text-lg font-semibold text-foreground">Pago</h2>
             </div>
             <p className="text-sm text-foreground">
-              Status: <span className="font-medium capitalize">{order.financialStatus.toLowerCase()}</span>
+              Estado: <span className="font-medium capitalize">{order.financialStatus.toLowerCase()}</span>
             </p>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { CaretLeft, CaretRight, Pause, Play } from "phosphor-react";
 import { Button } from "@/components/ui/button";
 
 type PropType = {
@@ -288,7 +288,7 @@ export const PrevButton: React.FC<PropTypeButton> = (props) => {
       type="button"
       {...restProps}
     >
-      <ChevronLeft />
+      <CaretLeft size={20} weight="light" />
       {children}
     </button>
   );
@@ -303,7 +303,7 @@ export const NextButton: React.FC<PropTypeButton> = (props) => {
       type="button"
       {...restProps}
     >
-      <ChevronRight />
+      <CaretRight size={20} weight="light" />
       {children}
     </button>
   );

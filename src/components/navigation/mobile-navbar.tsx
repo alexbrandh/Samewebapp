@@ -1,143 +1,81 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { House, GridFour, Package, ShoppingCart, X, MagnifyingGlass, CaretRight } from 'phosphor-react';
+import { House, ListBullets, Drop, Tote, Sparkle, X, CaretRight, Heart, MusicNotes, SunHorizon, Coffee, Briefcase, Lightning, ArrowRight } from 'phosphor-react';
+import { ExpandableTabs } from '@/components/ui/expandable-tabs';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { useCart } from '@/lib/hooks/useShopify';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PerfumeSearchModal } from '@/components/ui/perfume-search-modal';
-import { getCollections } from '@/lib/shopify';
 import { useCurrency } from '@/contexts/currency-context';
 import { DiscountProgressBar } from '@/components/ui/discount-progress-bar';
-import { CurrencySwitcher } from '@/components/ui/currency-switcher';
 
-interface Collection {
+import type { IconProps } from 'phosphor-react';
+
+interface CategoryDef {
   id: string;
-  title: string;
+  label: string;
+  tagline: string;
   handle: string;
+  icon: React.ComponentType<IconProps>;
 }
+
+const CATEGORIES: CategoryDef[] = [
+  { id: 'seduccion', label: 'Seducción', tagline: 'Magnetismo y cercanía', handle: 'seduccion', icon: Heart },
+  { id: 'rumba', label: 'Rumba / Noche', tagline: 'Presencia que se siente', handle: 'rumba-noche', icon: MusicNotes },
+  { id: 'playa', label: 'Playa / Sol', tagline: 'Frescura y libertad', handle: 'playa-sol', icon: SunHorizon },
+  { id: 'diario', label: 'Diario / Casual', tagline: 'Tu esencia de cada día', handle: 'diario-casual', icon: Coffee },
+  { id: 'negocios', label: 'Negocios / Oficina', tagline: 'Elegancia y poder', handle: 'negocios-oficina', icon: Briefcase },
+  { id: 'deporte', label: 'Deporte / Fresco', tagline: 'Energía y vitalidad', handle: 'deporte-fresco', icon: Lightning },
+];
 
 export function MobileNavbar() {
   const [showCategories, setShowCategories] = useState(false);
   const [showCart, setShowCart] = useState(false);
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { cart, removeCartItem, updateCartItem } = useCart();
   const { formatPrice } = useCurrency();
 
-  // Fetch collections from Shopify
-  useEffect(() => {
-    const fetchCollections = async () => {
-      try {
-        setLoading(true);
-        const data = await getCollections();
-        // Extract nodes from Shopify edges structure
-        const collectionsArray = data?.edges?.map((edge: any) => edge.node) || [];
-        setCollections(collectionsArray);
-      } catch (error) {
-        console.error('Error fetching collections:', error);
-        setCollections([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (showCategories && collections.length === 0) {
-      fetchCollections();
-    }
-  }, [showCategories]);
-
   const itemCount = cart?.totalQuantity || 0;
-  const freeShippingThreshold = 200;
+  const freeShippingThreshold = 200000;
   const currentTotal = parseFloat(cart?.cost?.subtotalAmount?.amount || '0');
   const amountRemaining = Math.max(0, freeShippingThreshold - currentTotal);
   const progressPercentage = Math.min(100, (currentTotal / freeShippingThreshold) * 100);
 
   const isActive = (path: string) => pathname === path;
 
-  // Handle perfume search
-  const handlePerfumeSearch = (filters: any, query: string) => {
-    const params = new URLSearchParams();
-
-    if (query) params.set('q', query);
-    if (filters.genders.length > 0) params.set('gender', filters.genders.join(','));
-    if (filters.brands.length > 0) params.set('brands', filters.brands.join(','));
-    if (filters.notes.length > 0) params.set('notes', filters.notes.join(','));
-    if (filters.families.length > 0) params.set('families', filters.families.join(','));
-
-    router.push(`/collections/all?${params.toString()}`);
-  };
-
   return (
     <>
-      {/* Search Button Sticky - encima del navbar móvil */}
-      <div className="fixed bottom-16 left-0 right-0 z-40 lg:hidden px-4 pb-3">
-        <div className="flex items-center gap-2">
-          {/* Search Button - shorter */}
-          <PerfumeSearchModal onSearch={handlePerfumeSearch}>
-            <button className="flex-1 bg-card border border-border rounded-full shadow-lg py-3 px-4 flex items-center justify-center gap-2 hover:bg-muted transition-colors">
-              <MagnifyingGlass size={20} weight="regular" className="text-muted-foreground" />
-              <span className="text-sm text-muted-foreground font-medium">Search perfumes...</span>
-            </button>
-          </PerfumeSearchModal>
 
-          {/* Currency Switcher */}
-          <div className="bg-card border border-border rounded-full shadow-lg h-[46px] flex items-center">
-            <CurrencySwitcher />
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Bottom Navbar - solo visible en móvil */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 lg:hidden">
-        <div className="grid grid-cols-4 h-16">
-          {/* Home */}
-          <Link
-            href="/"
-            className={`flex flex-col items-center justify-center gap-1 transition-colors ${isActive('/') ? 'text-primary' : 'text-muted-foreground'
-              }`}
-          >
-            <House size={20} weight="regular" />
-            <span className="text-xs font-medium">Home</span>
-          </Link>
-
-          {/* Categorías */}
-          <button
-            onClick={() => setShowCategories(true)}
-            className="flex flex-col items-center justify-center gap-1 text-muted-foreground transition-colors active:text-primary"
-          >
-            <GridFour size={20} weight="regular" />
-            <span className="text-xs font-medium">Categories</span>
-          </button>
-
-          {/* Perfumes */}
-          <Link
-            href="/collections/all"
-            className={`flex flex-col items-center justify-center gap-1 transition-colors ${isActive('/collections/all') ? 'text-primary' : 'text-muted-foreground'
-              }`}
-          >
-            <Package size={20} weight="regular" />
-            <span className="text-xs font-medium">Perfumes</span>
-          </Link>
-
-          {/* Carrito */}
-          <button
-            onClick={() => setShowCart(true)}
-            className="flex flex-col items-center justify-center gap-1 text-muted-foreground transition-colors active:text-primary relative"
-          >
-            <ShoppingCart size={20} weight="regular" />
-            <span className="text-xs font-medium">Cart</span>
-            {itemCount > 0 && (
-              <span className="absolute top-1 right-1/4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                {itemCount}
-              </span>
-            )}
-          </button>
-        </div>
+      {/* Mobile Bottom Navbar - ExpandableTabs */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex justify-center px-4 pb-4 pt-2 pointer-events-none">
+        <ExpandableTabs
+          tabs={[
+            { title: "Inicio", icon: House },
+            { title: "Categorías", icon: ListBullets },
+            { type: "separator" as const },
+            { title: "Crea tu Aroma", icon: Sparkle },
+            { type: "separator" as const },
+            { title: "Perfumes", icon: Drop },
+            { title: "Carrito", icon: Tote, badge: itemCount },
+          ]}
+          onChange={(index) => {
+            if (index === null) return;
+            switch (index) {
+              case 0: router.push('/'); break;
+              case 1: setShowCategories(true); break;
+              // index 2 = separator
+              case 3: router.push('/pages/crea-tu-aroma'); break;
+              // index 4 = separator
+              case 5: router.push('/collections/all'); break;
+              case 6: setShowCart(true); break;
+            }
+          }}
+          className="pointer-events-auto shadow-lg border-border/50 bg-background/95 backdrop-blur-md"
+        />
       </nav>
 
       {/* Categories Modal - Slide from Bottom */}
@@ -159,52 +97,84 @@ export function MobileNavbar() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-card rounded-t-3xl z-101 lg:hidden max-h-[80vh] overflow-hidden"
+              className="fixed bottom-0 left-0 right-0 bg-card rounded-t-3xl z-101 lg:hidden max-h-[85vh] overflow-hidden"
             >
+              {/* Drag Handle */}
+              <div className="flex justify-center pt-3 pb-1">
+                <div className="w-10 h-1 rounded-full bg-border" />
+              </div>
+
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-border">
-                <h2 className="text-lg font-semibold text-foreground">Categories</h2>
-                <span className="sr-only">Browse categories</span>
+              <div className="flex items-center justify-between px-5 pb-4 pt-1">
+                <div>
+                  <h2 className="text-lg font-serif font-semibold text-foreground">Categorías</h2>
+                  <p className="text-xs text-muted-foreground mt-0.5">Explora por ocasión</p>
+                </div>
                 <button
                   onClick={() => setShowCategories(false)}
                   className="p-2 hover:bg-muted rounded-full transition-colors"
                 >
-                  <X size={20} weight="regular" className="text-muted-foreground" />
+                  <X size={18} weight="light" className="text-muted-foreground" />
                 </button>
               </div>
 
-              {/* Categories List */}
-              <div className="p-4 overflow-y-auto max-h-[calc(80vh-72px)]">
-                {loading ? (
-                  <div className="flex justify-center items-center py-12">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              {/* Content */}
+              <div className="px-5 pb-8 overflow-y-auto max-h-[calc(85vh-80px)]">
+                {/* All Perfumes - Featured Link */}
+                <Link
+                  href="/collections/all"
+                  onClick={() => setShowCategories(false)}
+                  className="flex items-center justify-between p-4 rounded-2xl bg-foreground text-background mb-5 group active:scale-[0.98] transition-transform"
+                >
+                  <div className="flex items-center gap-3">
+                    <Drop size={20} weight="light" />
+                    <span className="text-sm font-semibold tracking-wide">Todos los perfumes</span>
                   </div>
-                ) : (
-                  <div className="space-y-2">
-                    {/* All Perfumes Link */}
-                    <Link
-                      href="/collections/all"
-                      onClick={() => setShowCategories(false)}
-                      className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors group"
-                    >
-                      <span className="text-sm font-medium text-foreground">All Perfumes</span>
-                      <CaretRight size={16} weight="bold" className="text-muted-foreground group-hover:text-primary transition-colors" />
-                    </Link>
+                  <ArrowRight size={18} weight="light" className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                </Link>
 
-                    {/* Collections from Shopify */}
-                    {collections.map((collection) => (
-                      <Link
-                        key={collection.id}
-                        href={`/collections/${collection.handle}`}
-                        onClick={() => setShowCategories(false)}
-                        className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors group"
+                {/* Occasion Categories Grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  {CATEGORIES.map((cat, idx) => {
+                    const Icon = cat.icon;
+                    return (
+                      <motion.div
+                        key={cat.id}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.05, duration: 0.3 }}
                       >
-                        <span className="text-sm font-medium text-foreground">{collection.title}</span>
-                        <CaretRight size={16} weight="bold" className="text-muted-foreground group-hover:text-primary transition-colors" />
-                      </Link>
-                    ))}
+                        <Link
+                          href={`/collections/${cat.handle}`}
+                          onClick={() => setShowCategories(false)}
+                          className="flex flex-col items-start p-4 rounded-2xl border border-border/60 bg-background hover:bg-muted/60 active:scale-[0.97] transition-all group h-full"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-muted/80 flex items-center justify-center mb-3 group-hover:bg-foreground/10 transition-colors">
+                            <Icon size={18} weight="light" className="text-foreground" />
+                          </div>
+                          <span className="text-sm font-medium text-foreground leading-tight">{cat.label}</span>
+                          <span className="text-[11px] text-muted-foreground mt-1 leading-snug">{cat.tagline}</span>
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* Quiz CTA */}
+                <Link
+                  href="/pages/quiz"
+                  onClick={() => setShowCategories(false)}
+                  className="flex items-center justify-between mt-5 p-4 rounded-2xl border border-dashed border-border/80 bg-muted/30 group active:scale-[0.98] transition-transform"
+                >
+                  <div className="flex items-center gap-3">
+                    <Sparkle size={18} weight="light" className="text-muted-foreground" />
+                    <div>
+                      <span className="text-sm font-medium text-foreground">No sabes cuál elegir?</span>
+                      <p className="text-[11px] text-muted-foreground">Haz nuestro quiz</p>
+                    </div>
                   </div>
-                )}
+                  <CaretRight size={16} weight="bold" className="text-muted-foreground group-hover:text-foreground transition-colors" />
+                </Link>
               </div>
             </motion.div>
           </>
@@ -219,28 +189,28 @@ export function MobileNavbar() {
             <div className="sticky top-0 bg-card z-10 px-6 py-4 border-b border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold text-foreground">Your Cart</h2>
+                  <h2 className="text-xl font-semibold text-foreground">Tu carrito</h2>
                   <span className="sr-only">Review your selected items</span>
                   <p className="text-sm text-muted-foreground mt-0.5">
-                    {itemCount} {itemCount === 1 ? 'item' : 'items'}
+                    {itemCount} {itemCount === 1 ? 'artículo' : 'artículos'}
                   </p>
                 </div>
                 <button
                   onClick={() => setShowCart(false)}
                   className="p-2 hover:bg-muted rounded-full transition-colors"
                 >
-                  <X size={20} weight="regular" />
+                  <X size={20} weight="light" />
                 </button>
               </div>
 
-              {/* Free Shipping Progress */}
+              {/* Envío gratis en 4+ artículos */}
               {currentTotal < freeShippingThreshold && (
                 <div className="mt-4">
                   <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
                     <span className="font-medium">
                       {amountRemaining > 0
-                        ? `Add ${formatPrice(amountRemaining.toString())} for free shipping`
-                        : 'Free shipping unlocked!'}
+                        ? `Agrega ${formatPrice(amountRemaining.toString())} para envío gratis`
+                        : '¡Envío gratis desbloqueado!'}
                     </span>
                     <span className="font-semibold">{formatPrice(currentTotal.toString())}</span>
                   </div>
@@ -268,8 +238,8 @@ export function MobileNavbar() {
             <div className="px-6 py-4">
               {!cart || cart.lines.edges.length === 0 ? (
                 <div className="text-center py-12">
-                  <ShoppingCart size={64} weight="regular" className="text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground mb-6">Your cart is empty</p>
+                  <Tote size={64} weight="light" className="text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground mb-6">Tu carrito está vacío</p>
                   <button
                     onClick={() => {
                       setShowCart(false);
@@ -277,7 +247,7 @@ export function MobileNavbar() {
                     }}
                     className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
                   >
-                    Explore Perfumes
+                    Explorar perfumes
                   </button>
                 </div>
               ) : (
@@ -290,9 +260,11 @@ export function MobileNavbar() {
 
                     return (
                       <div key={item.id} className="flex gap-3 bg-muted/50 p-3 rounded-lg">
-                        <img
+                        <Image
                           src={image}
                           alt={product.title}
+                          width={80}
+                          height={96}
                           className="w-20 h-24 object-cover rounded-lg shrink-0"
                         />
                         <div className="flex-1 min-w-0 flex flex-col">
@@ -304,7 +276,7 @@ export function MobileNavbar() {
                               onClick={() => removeCartItem(item.id)}
                               className="text-muted-foreground hover:text-destructive transition-colors shrink-0"
                             >
-                              <X size={16} weight="regular" />
+                              <X size={16} weight="light" />
                             </button>
                           </div>
 
@@ -414,13 +386,13 @@ export function MobileNavbar() {
                     {discountPercent > 0 && (
                       <>
                         <div className="flex items-baseline justify-between text-muted-foreground">
-                          <span className="text-sm">Original Price</span>
+                          <span className="text-sm">Precio Original</span>
                           <span className="text-sm line-through">
                             {formatPrice(originalTotal.toFixed(2))}
                           </span>
                         </div>
                         <div className="flex items-baseline justify-between text-primary font-medium">
-                          <span className="text-sm">Discount ({(discountPercent * 100).toFixed(0)}%)</span>
+                          <span className="text-sm">Descuento ({(discountPercent * 100).toFixed(0)}%)</span>
                           <span className="text-sm">
                             -{formatPrice(discountAmount.toFixed(2))}
                           </span>
@@ -428,9 +400,9 @@ export function MobileNavbar() {
                       </>
                     )}
                     <div className="flex items-baseline justify-between text-muted-foreground">
-                      <span className="text-sm">Shipping</span>
+                      <span className="text-sm">Envío</span>
                       <span className="text-sm font-medium text-primary">
-                        {currentTotal >= freeShippingThreshold || itemCount >= 6 ? 'Free' : 'Calculated at checkout'}
+                        {currentTotal >= freeShippingThreshold || itemCount >= 6 ? 'Gratis' : 'Calculado al pagar'}
                       </span>
                     </div>
                     <div className="flex items-baseline justify-between pt-2 border-t border-border">
@@ -447,11 +419,11 @@ export function MobileNavbar() {
                   href={cart.checkoutUrl}
                   className="block w-full bg-primary text-primary-foreground text-center py-4 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
                 >
-                  PROCEED TO CHECKOUT
+                  PROCEDER AL PAGO
                 </a>
               ) : (
                 <button disabled className="block w-full bg-primary/50 text-primary-foreground text-center py-4 rounded-lg font-semibold cursor-not-allowed">
-                  LOADING CHECKOUT...
+                  CARGANDO...
                 </button>
               )}
             </div>

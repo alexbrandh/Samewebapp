@@ -7,142 +7,142 @@ export default function PrivacyPolicyPage() {
     <PageContainer className="overflow-x-hidden">
       <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
         <h1 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">
-          Privacy Policy
+          Política de Privacidad
         </h1>
 
         <div className="prose prose-gray max-w-none space-y-8 text-foreground/90">
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              1. Information We Collect
+              1. Información que Recopilamos
             </h2>
             <p className="mb-4 leading-relaxed">
-              We collect information that you provide directly to us, including when you:
+              Recopilamos información que nos proporcionas directamente, incluyendo cuando:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Create an account or make a purchase</li>
-              <li>Subscribe to our newsletter</li>
-              <li>Contact our customer service team</li>
-              <li>Participate in surveys or promotions</li>
+              <li>Creas una cuenta o realizas una compra</li>
+              <li>Te suscribes a nuestro boletín</li>
+              <li>Contactas a nuestro equipo de atención al cliente</li>
+              <li>Participas en encuestas o promociones</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              2. How We Use Your Information
+              2. Cómo Usamos Tu Información
             </h2>
             <p className="mb-4 leading-relaxed">
-              We use the information we collect to:
+              Usamos la información que recopilamos para:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Process and fulfill your orders</li>
-              <li>Send you important updates about your purchases</li>
-              <li>Respond to your comments and questions</li>
-              <li>Send you marketing communications (with your consent)</li>
-              <li>Improve our website and services</li>
-              <li>Detect and prevent fraud</li>
+              <li>Procesar y cumplir tus pedidos</li>
+              <li>Enviarte actualizaciones importantes sobre tus compras</li>
+              <li>Responder a tus comentarios y preguntas</li>
+              <li>Enviarte comunicaciones de marketing (con tu consentimiento)</li>
+              <li>Mejorar nuestro sitio web y servicios</li>
+              <li>Detectar y prevenir fraudes</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              3. Cookies and Tracking Technologies
+              3. Cookies y Tecnologías de Seguimiento
             </h2>
             <p className="mb-4 leading-relaxed">
-              We use cookies and similar tracking technologies to enhance your browsing experience.
-              These technologies help us:
+              Usamos cookies y tecnologías de seguimiento similares para mejorar tu experiencia de navegación.
+              Estas tecnologías nos ayudan a:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Remember your preferences and settings</li>
-              <li>Understand how you use our website</li>
-              <li>Improve our services and user experience</li>
-              <li>Provide personalized content and advertisements</li>
+              <li>Recordar tus preferencias y configuraciones</li>
+              <li>Entender cómo usas nuestro sitio web</li>
+              <li>Mejorar nuestros servicios y experiencia de usuario</li>
+              <li>Proporcionar contenido y anuncios personalizados</li>
             </ul>
             <p className="mt-4 leading-relaxed">
-              You can manage your cookie preferences at any time through your browser settings or
-              our cookie consent banner.
+              Puedes gestionar tus preferencias de cookies en cualquier momento a través de la configuración de tu navegador o
+              nuestro banner de consentimiento de cookies.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              4. Data Sharing and Disclosure
+              4. Compartir y Divulgar Datos
             </h2>
             <p className="mb-4 leading-relaxed">
-              We do not sell your personal information. We may share your information with:
+              No vendemos tu información personal. Podemos compartir tu información con:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Service providers who assist us in operating our business</li>
-              <li>Payment processors to complete transactions</li>
-              <li>Shipping companies to deliver your orders</li>
-              <li>Law enforcement when required by law</li>
+              <li>Proveedores de servicios que nos asisten en operar nuestro negocio</li>
+              <li>Procesadores de pago para completar transacciones</li>
+              <li>Empresas de envío para entregar tus pedidos</li>
+              <li>Autoridades legales cuando lo requiera la ley</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              5. Data Security
+              5. Seguridad de Datos
             </h2>
             <p className="leading-relaxed">
-              We implement appropriate technical and organizational measures to protect your
-              personal information against unauthorized access, alteration, disclosure, or
-              destruction. However, no method of transmission over the internet is 100% secure.
+              Implementamos medidas técnicas y organizativas apropiadas para proteger tu
+              información personal contra acceso no autorizado, alteración, divulgación o
+              destrucción. Sin embargo, ningún método de transmisión por internet es 100% seguro.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              6. Your Rights
+              6. Tus Derechos
             </h2>
             <p className="mb-4 leading-relaxed">
-              You have the right to:
+              Tienes derecho a:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Access your personal information</li>
-              <li>Correct inaccurate data</li>
-              <li>Request deletion of your data</li>
-              <li>Object to processing of your data</li>
-              <li>Withdraw consent at any time</li>
-              <li>Unsubscribe from marketing communications</li>
+              <li>Acceder a tu información personal</li>
+              <li>Corregir datos inexactos</li>
+              <li>Solicitar la eliminación de tus datos</li>
+              <li>Oponerte al procesamiento de tus datos</li>
+              <li>Retirar tu consentimiento en cualquier momento</li>
+              <li>Cancelar la suscripción a comunicaciones de marketing</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              7. Children&apos;s Privacy
+              7. Privacidad de Menores
             </h2>
             <p className="leading-relaxed">
-              Our services are not intended for children under 18 years of age. We do not
-              knowingly collect personal information from children.
+              Nuestros servicios no están dirigidos a menores de 18 años. No recopilamos
+              deliberadamente información personal de menores.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              8. Changes to This Policy
+              8. Cambios a Esta Política
             </h2>
             <p className="leading-relaxed">
-              We may update this privacy policy from time to time. We will notify you of any
-              changes by posting the new policy on this page and updating the &quot;Last Updated&quot; date.
+              Podemos actualizar esta política de privacidad de vez en cuando. Te notificaremos de cualquier
+              cambio publicando la nueva política en esta página y actualizando la fecha de &quot;Última Actualización&quot;.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              9. Contact Us
+              9. Contáctanos
             </h2>
             <p className="leading-relaxed">
-              If you have any questions about this privacy policy or our data practices, please
-              contact us at:
+              Si tienes alguna pregunta sobre esta política de privacidad o nuestras prácticas de datos,
+              contáctanos en:
             </p>
             <p className="mt-4 leading-relaxed">
               Email: contact@sameperfumes.com<br />
-              Address: [Your Company Address]
+              Dirección: Colombia
             </p>
           </section>
 
           <div className="mt-12 pt-8 border-t border-border">
             <p className="text-sm text-muted-foreground">
-              Last Updated: {new Date().toLocaleDateString('en-US', {
+              Última Actualización: {new Date().toLocaleDateString('es-CO', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'

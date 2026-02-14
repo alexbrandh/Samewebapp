@@ -46,7 +46,7 @@ export function BundleProductCard({ product, onAddToBundle, isInBundle }: Bundle
     const exactMatch = variants.find((v: any) =>
       v.availableForSale &&
       v.selectedOptions?.some((opt: any) => opt.value === '100ml') &&
-      v.selectedOptions?.some((opt: any) => opt.value === 'Extrait')
+      v.selectedOptions?.some((opt: any) => opt.value === 'Elixir' || opt.value === 'Extrait')
     );
     if (exactMatch) return exactMatch;
 
@@ -172,7 +172,7 @@ export function BundleProductCard({ product, onAddToBundle, isInBundle }: Bundle
         {/* Inspired By Tag (from metafield) */}
         {inspirationBrand && (
           <div className="mb-3 text-xs text-muted-foreground flex items-start gap-1">
-            <Tag size={14} className="mt-0.5 shrink-0" weight="regular" />
+            <Tag size={14} className="mt-0.5 shrink-0" weight="light" />
             <p className="line-clamp-2 uppercase tracking-wide">
               Inspired by {inspirationBrand}
             </p>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check } from 'phosphor-react';
 
 export function NewsletterSection() {
   const [email, setEmail] = useState('');
@@ -57,7 +57,7 @@ export function NewsletterSection() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-4"
           >
-            Get the Good Weather news first.
+            Recibe las novedades primero.
           </motion.h2>
 
           {/* Subtítulo */}
@@ -68,7 +68,7 @@ export function NewsletterSection() {
             viewport={{ once: true }}
             className="text-lg md:text-xl text-muted-foreground mb-8 font-light leading-relaxed"
           >
-            Stay on top of product launches, limited drops, and other essential forecasts.
+            Mantente al día con lanzamientos, ediciones limitadas y otras novedades esenciales.
           </motion.p>
 
           {/* Formulario de newsletter */}
@@ -83,7 +83,7 @@ export function NewsletterSection() {
                 <div className="flex-1">
                   <Input
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="Ingresa tu email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-3 rounded-full border border-border focus:border-foreground focus:ring-0 text-center sm:text-left bg-background text-foreground"
@@ -99,8 +99,8 @@ export function NewsletterSection() {
                     <div className="w-5 h-5 border-2 border-background border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
-                      Subscribe
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      Suscribirse
+                      <ArrowRight size={16} weight="light" className="ml-2" />
                     </>
                   )}
                 </Button>
@@ -111,8 +111,8 @@ export function NewsletterSection() {
                 animate={{ scale: 1, opacity: 1 }}
                 className="flex items-center justify-center space-x-2 text-green-600 dark:text-green-400"
               >
-                <Check className="w-6 h-6" />
-                <span className="text-lg font-medium">Thanks for subscribing!</span>
+                <Check size={24} weight="light" />
+                <span className="text-lg font-medium">¡Gracias por suscribirte!</span>
               </motion.div>
             )}
           </motion.div>
@@ -125,8 +125,7 @@ export function NewsletterSection() {
             viewport={{ once: true }}
             className="text-sm text-muted-foreground mt-6 max-w-lg mx-auto"
           >
-            By subscribing, you agree to receive marketing emails from Good Weather Skin.
-            You can unsubscribe at any time.
+            Al suscribirte, aceptas recibir correos de marketing de SAME. Puedes cancelar tu suscripción en cualquier momento.
           </motion.p>
         </div>
       </div>

@@ -479,12 +479,12 @@ export async function signupCustomer(credentials: SignupCredentials) {
         // Check for common signup errors and provide user-friendly messages
         if (firstErrorMessage.toLowerCase().includes('has already been taken') ||
           firstErrorMessage.toLowerCase().includes('already exists')) {
-          throw new Error('An account with this email already exists. Please sign in instead or use a different email.');
+          throw new Error('Ya existe una cuenta con este correo electrónico. Por favor inicia sesión o usa un correo diferente.');
         }
 
         if (firstErrorMessage.toLowerCase().includes('password') &&
           firstErrorMessage.toLowerCase().includes('too short')) {
-          throw new Error('Password is too short. Please use at least 5 characters.');
+          throw new Error('La contraseña es muy corta. Por favor usa al menos 5 caracteres.');
         }
 
         console.error('Signup errors:', result.customerUserErrors);

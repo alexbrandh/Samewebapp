@@ -105,9 +105,9 @@ export default function BundlePage() {
   // Products logic
   const womenProducts = filterByTag(['women', 'woman', 'mujer', 'mujeres', 'female']);
   const TABS = [
-    { id: 'all', label: 'All' },
-    { id: 'men', label: 'MEN' },
-    { id: 'mujer', label: 'WOMEN' },
+    { id: 'all', label: 'Todos' },
+    { id: 'men', label: 'HOMBRE' },
+    { id: 'mujer', label: 'MUJER' },
     { id: 'unisex', label: 'UNISEX' },
   ];
   const menProducts = filterByTag(['men', 'man', 'hombre', 'hombres', 'male']);
@@ -142,7 +142,7 @@ export default function BundlePage() {
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      alert('Error verifying products. Please try again.');
+      alert('Error al verificar los productos. Inténtalo de nuevo.');
     } finally {
       setIsCheckingOut(false);
     }
@@ -155,9 +155,9 @@ export default function BundlePage() {
         {/* Header Section */}
         <div className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
           <div className="container mx-auto px-4 py-12 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Bundle & Save.</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Arma tu Pack y Ahorra.</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose 2+ perfumes to save more. Using common (scent) sense has its benefits.
+              Elige 2+ perfumes para ahorrar más. Usar el sentido común (olfativo) tiene sus beneficios.
             </p>
           </div>
         </div>
@@ -189,7 +189,7 @@ export default function BundlePage() {
             <div className="lg:col-span-8">
               {loading ? (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground">Loading products...</p>
+                  <p className="text-muted-foreground">Cargando productos...</p>
                 </div>
               ) : (
                 <div className="space-y-12">
@@ -198,7 +198,7 @@ export default function BundlePage() {
                     <section>
                       <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                         <span className="inline-block px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-200 rounded-full text-sm font-medium">
-                          Women
+                          Mujer
                         </span>
                       </h2>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
@@ -220,7 +220,7 @@ export default function BundlePage() {
                     <section>
                       <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                         <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">
-                          Men
+                          Hombre
                         </span>
                       </h2>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
@@ -278,7 +278,7 @@ export default function BundlePage() {
                           </div>
                         ) : (
                           <div className="text-center py-12">
-                            <p className="text-muted-foreground">No products available at the moment.</p>
+                            <p className="text-muted-foreground">No hay productos disponibles en este momento.</p>
                           </div>
                         )}
                       </section>

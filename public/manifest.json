@@ -1,7 +1,11 @@
 {
-  "name": "SAME. — Luxury Fragrances",
+  "name": "SAME. — Perfumes de Lujo Accesible",
   "short_name": "SAME.",
-  "description": "Luxury fragrances that feel high-end without the exclusive price. Same doesn't shout who you are. It accompanies you while you show it.",
+  "description": "Fragancias de lujo que se sienten premium sin el precio exclusivo. Perfumes inspirados con envío a toda Colombia.",
+  "lang": "es-CO",
+  "dir": "ltr",
+  "scope": "/",
+  "id": "/",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F8F6F1",

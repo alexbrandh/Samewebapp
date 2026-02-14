@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Sparkle, ShoppingCart, CircleNotch } from "phosphor-react";
 import { useCart } from "@/lib/hooks/useShopify";
@@ -49,7 +50,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
         const exactMatch = variants.find((v: any) =>
             v.availableForSale &&
             v.selectedOptions?.some((opt: any) => opt.value === '100ml') &&
-            v.selectedOptions?.some((opt: any) => opt.value === 'Extrait')
+            v.selectedOptions?.some((opt: any) => opt.value === 'Elixir' || opt.value === 'Extrait')
         );
         if (exactMatch) return exactMatch;
 
@@ -101,7 +102,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                             {product.match}%
                         </div>
                         <div className="text-sm text-muted-foreground uppercase">
-                            Match
+                            Compatibilidad
                         </div>
                     </div>
 
@@ -119,7 +120,7 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                     {/* Tags */}
                     <div>
                         <h3 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
-                            Tags
+                            Etiquetas
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {product.tags.slice(0, 5).map((tag: string) => (
@@ -158,36 +159,32 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                                 </div>
                             )}
 
-                            {/* Extract Checkbox */}
-                            {options.find(opt => opt.name === 'Concentration' || opt.name === 'Concentración' || opt.name === 'Type' || opt.name === 'Tipo') && (
-                                <label className="flex items-center gap-3 cursor-pointer group/checkbox w-max p-2 hover:bg-muted/30 rounded-lg transition-colors">
-                                    <div className="relative flex items-center">
-                                        <input
-                                            type="checkbox"
-                                            className="peer sr-only"
-                                            checked={
-                                                selectedOptions['Concentration'] === 'Extrait' ||
-                                                selectedOptions['Type'] === 'Extrait' ||
-                                                selectedOptions['Concentración'] === 'Extrait'
-                                            }
-                                            onChange={(e) => {
-                                                const optName = options.find(opt => ['Concentration', 'Concentración', 'Type', 'Tipo'].includes(opt.name))?.name;
-                                                if (optName) {
-                                                    handleOptionChange(optName, e.target.checked ? 'Extrait' : 'Classic');
-                                                }
-                                            }}
-                                        />
-                                        <div className="w-5 h-5 border-2 border-muted-foreground/30 rounded bg-background peer-checked:bg-primary peer-checked:border-primary transition-colors">
-                                            <svg className="w-3.5 h-3.5 text-primary-foreground absolute top-0.5 left-0.5 opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
+                            {/* Concentration Toggle (Au Parfum / Elixir) */}
+                            {(() => {
+                                const concOption = options.find(opt => ['Concentration', 'Concentración', 'Type', 'Tipo'].includes(opt.name));
+                                if (!concOption) return null;
+                                return (
+                                    <div className="flex bg-muted/50 p-1 rounded-xl w-max border border-border">
+                                        {concOption.values.map((val) => {
+                                            const isSelected = selectedOptions[concOption.name] === val;
+                                            const lower = val.toLowerCase();
+                                            const displayName = (lower === 'extrait' || lower === 'elixir') ? 'Elixir' : (lower === 'classic' || lower === 'au parfum') ? 'Au Parfum' : val;
+                                            return (
+                                                <button
+                                                    key={val}
+                                                    onClick={() => handleOptionChange(concOption.name, val)}
+                                                    className={`px-4 py-2 text-sm rounded-lg transition-all font-medium ${isSelected
+                                                        ? 'bg-background text-foreground shadow-sm'
+                                                        : 'text-muted-foreground hover:text-foreground'
+                                                    }`}
+                                                >
+                                                    {displayName}
+                                                </button>
+                                            );
+                                        })}
                                     </div>
-                                    <span className="text-sm font-medium text-muted-foreground group-hover/checkbox:text-foreground transition-colors select-none">
-                                        Add Extract (Longer Duration)
-                                    </span>
-                                </label>
-                            )}
+                                );
+                            })()}
                         </div>
                     )}
 
@@ -208,28 +205,30 @@ export function BestMatchCard({ product }: BestMatchCardProps) {
                             ) : (
                                 <ShoppingCart size={20} weight="bold" />
                             )}
-                            <span>{addingToCart ? 'Adding...' : 'Add to Cart'}</span>
+                            <span>{addingToCart ? 'Agregando...' : 'Agregar al Carrito'}</span>
                         </button>
                         <button
                             onClick={() => router.push(`/products/${product.handle}`)}
                             className="px-6 py-4 border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary/5 transition-all"
                         >
-                            View Details
+                            Ver Detalles
                         </button>
                     </div>
                 </div>
 
                 <div className="relative aspect-square bg-linear-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center overflow-hidden">
                     {product.featuredImage?.url || product.images?.edges[0]?.node?.url ? (
-                        <img
+                        <Image
                             src={product.featuredImage?.url || product.images?.edges[0]?.node?.url}
                             alt={product.title}
-                            className="w-full h-full object-cover"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="object-cover"
                         />
                     ) : (
                         <div className="text-center text-muted-foreground">
                             <Sparkle size={64} weight="fill" className="mx-auto mb-4 text-primary/30" />
-                            <p className="text-sm">No Image Available</p>
+                            <p className="text-sm">Sin Imagen Disponible</p>
                         </div>
                     )}
                 </div>

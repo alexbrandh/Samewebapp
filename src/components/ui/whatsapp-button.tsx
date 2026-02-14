@@ -13,7 +13,7 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-[130px] left-4 lg:bottom-6 lg:left-6 z-40 flex items-center justify-center w-12 h-12 lg:w-16 lg:h-16 bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
-      aria-label="Contact us on WhatsApp"
+      aria-label="Contáctanos por WhatsApp"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{
@@ -30,7 +30,7 @@ export function WhatsAppButton() {
 
       {/* Tooltip - Solo visible en desktop */}
       <span className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-foreground text-background text-sm font-medium rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-        Chat with us
+        Chatea con nosotros
       </span>
 
       {/* Ripple effect */}

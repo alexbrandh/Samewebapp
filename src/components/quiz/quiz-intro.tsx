@@ -1,115 +1,81 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkle, MagnifyingGlass, Heart } from "phosphor-react";
+import { ArrowLeft, ArrowRight } from "phosphor-react";
+import type { QuizDefinition } from "@/lib/data/quiz-data";
 
 interface QuizIntroProps {
+  quiz: QuizDefinition;
   onStart: () => void;
+  onBack: () => void;
 }
 
-export default function QuizIntro({ onStart }: QuizIntroProps) {
+export default function QuizIntro({ quiz, onStart, onBack }: QuizIntroProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-[calc(100vh-80px)] flex items-center justify-center p-4 pt-24"
+      className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 pt-28 pb-20"
     >
-      <div className="max-w-2xl w-full text-center space-y-8">
+      <div className="max-w-lg w-full text-center space-y-10">
+        {/* Back */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.05 }}
+          className="flex justify-start"
         >
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <motion.div
-                animate={{
-                  rotate: [0, 5, -5, 0],
-                  scale: [1, 1.1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatDelay: 1,
-                }}
-              >
-                <Sparkle size={64} weight="fill" className="text-primary" />
-              </motion.div>
-            </div>
-          </div>
+          <button
+            onClick={onBack}
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft size={14} weight="light" />
+            <span>Volver</span>
+          </button>
+        </motion.div>
 
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-            Find Your
-            <span className="text-primary block">Perfect Scent</span>
+        {/* Content */}
+        <motion.div
+          initial={{ y: 12, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          className="space-y-5"
+        >
+          <h1 className="text-3xl md:text-5xl font-serif font-bold tracking-tight leading-tight">
+            {quiz.intro.heading}
           </h1>
 
-          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto">
-            Answer a few simple questions and discover the perfect fragrance
-            that matches your personality and style
+          <p className="text-base text-muted-foreground leading-relaxed max-w-sm mx-auto">
+            {quiz.intro.subheading}
+          </p>
+
+          <p className="text-sm text-muted-foreground/70 max-w-sm mx-auto">
+            {quiz.intro.description}
           </p>
         </motion.div>
 
+        {/* CTA */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={{ y: 16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 my-12"
-        >
-          <div className="bg-card border border-border rounded-2xl p-6 space-y-3">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <MagnifyingGlass size={24} weight="bold" className="text-primary" />
-            </div>
-            <h3 className="font-semibold text-lg">Discover</h3>
-            <p className="text-sm text-muted-foreground">
-              Explore unique fragrances based on your preferences
-            </p>
-          </div>
-
-          <div className="bg-card border border-border rounded-2xl p-6 space-y-3">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <Heart size={24} weight="fill" className="text-primary" />
-            </div>
-            <h3 className="font-semibold text-lg">Personalize</h3>
-            <p className="text-sm text-muted-foreground">
-              Personalized answers just for you
-            </p>
-          </div>
-
-          <div className="bg-card border border-border rounded-2xl p-6 space-y-3">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <Sparkle size={24} weight="fill" className="text-primary" />
-            </div>
-            <h3 className="font-semibold text-lg">Find</h3>
-            <p className="text-sm text-muted-foreground">
-              Your perfect perfume is just a few clicks away
-            </p>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.35, duration: 0.4 }}
+          className="flex flex-col items-center gap-4"
         >
           <button
             onClick={onStart}
-            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-primary-foreground bg-primary rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-xl"
+            className="group inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold tracking-wide uppercase text-primary-foreground bg-foreground rounded-full transition-all duration-300 hover:opacity-90"
           >
-            <span className="relative z-10">Start Quiz</span>
-            <motion.span
-              className="relative z-10"
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              →
-            </motion.span>
-            <div className="absolute inset-0 bg-linear-to-r from-primary to-primary/80 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span>Comenzar</span>
+            <ArrowRight
+              size={16}
+              weight="light"
+              className="group-hover:translate-x-0.5 transition-transform"
+            />
           </button>
 
-          <p className="text-sm text-muted-foreground mt-4">
-            Only takes 2 minutes ⏱️
+          <p className="text-xs text-muted-foreground/50 tracking-wide">
+            {quiz.questionCount} preguntas · ~2 min
           </p>
         </motion.div>
       </div>

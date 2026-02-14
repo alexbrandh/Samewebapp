@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCart } from '@/lib/hooks/useShopify';
 import { useCurrency } from '@/contexts/currency-context';
-import { Loader2, Check } from 'lucide-react';
+import { CircleNotch, Check } from 'phosphor-react';
 
 interface ProductInfoProps {
   title: string;
@@ -49,7 +49,7 @@ export default function ProductInfo({
       <div className="mb-6">
         {isNew && (
           <span className="inline-block px-2 py-1 text-xs font-semibold bg-foreground text-background rounded mb-3">
-            NEW
+            NUEVO
           </span>
         )}
         <h1 className="text-4xl lg:text-5xl font-semibold text-foreground mb-4">
@@ -77,16 +77,16 @@ export default function ProductInfo({
         >
           {loading ? (
             <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Adding...
+              <CircleNotch size={16} weight="light" className="mr-2 animate-spin" />
+              Agregando...
             </>
           ) : added ? (
             <>
-              <Check className="w-4 h-4 mr-2" />
-              Added to Bag!
+              <Check size={16} weight="light" className="mr-2" />
+              ¡Agregado!
             </>
           ) : (
-            'Add to Bag'
+            'Agregar al Carrito'
           )}
         </Button>
       </div>
@@ -94,7 +94,7 @@ export default function ProductInfo({
       {/* Free Shipping Message */}
       <div className="mb-8 p-4 bg-muted rounded-lg border border-border">
         <p className="text-sm text-muted-foreground">
-          <span className="font-semibold">Exciting!</span> Add $60.00 and receive free shipping!
+          <span className="font-semibold">¡Genial!</span> ¡Agrega y recibe envío gratis!
         </p>
       </div>
 
@@ -102,28 +102,28 @@ export default function ProductInfo({
       <Tabs defaultValue="ingredients" className="w-full mb-8">
         <TabsList className="w-full grid grid-cols-3 h-auto p-1 bg-muted">
           <TabsTrigger value="ingredients" className="text-sm py-2.5">
-            Ingredients
+            Ingredientes
           </TabsTrigger>
           <TabsTrigger value="directions" className="text-sm py-2.5">
-            Directions
+            Instrucciones
           </TabsTrigger>
           <TabsTrigger value="shipping" className="text-sm py-2.5">
-            Shipping
+            Envío
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="ingredients" className="mt-4 space-y-4">
           <div>
-            <h3 className="font-semibold text-foreground mb-2">Key Ingredients</h3>
+            <h3 className="font-semibold text-foreground mb-2">Ingredientes Clave</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
-                <strong>Premium Fragrance Oils</strong> - Carefully selected for long-lasting scent
+                <strong>Aceites de Fragancia Premium</strong> - Cuidadosamente seleccionados para un aroma duradero
               </li>
               <li>
-                <strong>Natural Extracts</strong> - Derived from botanical sources
+                <strong>Extractos Naturales</strong> - Derivados de fuentes botánicas
               </li>
               <li>
-                <strong>Skin-Safe Formula</strong> - Dermatologically tested
+                <strong>Fórmula Segura para la Piel</strong> - Dermatológicamente testeada
               </li>
             </ul>
           </div>
@@ -131,26 +131,26 @@ export default function ProductInfo({
 
         <TabsContent value="directions" className="mt-4">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Apply to pulse points (wrists, neck, behind ears) for optimal scent diffusion.
-            For best results, apply to clean, moisturized skin. Avoid rubbing wrists together
-            as this can break down the fragrance molecules.
+            Aplica en puntos de pulso (muñecas, cuello, detrás de las orejas) para una difusión óptima del aroma.
+            Para mejores resultados, aplica sobre piel limpia e hidratada. Evita frotar las muñecas
+            ya que esto puede descomponer las moléculas de la fragancia.
           </p>
         </TabsContent>
 
         <TabsContent value="shipping" className="mt-4">
           <div className="text-sm text-muted-foreground space-y-2">
             <p>
-              We currently ship within the United States. Please allow 1 day for processing.
+              Actualmente realizamos envíos dentro de Colombia. Por favor permite 1 día para procesamiento.
             </p>
             <p>
-              <strong>Shipping Options:</strong>
+              <strong>Opciones de Envío:</strong>
             </p>
             <ul className="list-disc list-inside space-y-1 ml-2">
-              <li>Standard (4-7 business days)</li>
-              <li>Expedited (3 business days)</li>
+              <li>Estándar (4-7 días hábiles)</li>
+              <li>Express (3 días hábiles)</li>
             </ul>
             <p className="font-semibold">
-              Orders over $60 qualify for free standard shipping!
+              ¡Pedidos con 4+ artículos califican para envío gratis estándar!
             </p>
           </div>
         </TabsContent>
@@ -159,15 +159,15 @@ export default function ProductInfo({
       {/* Feature Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <div className="p-6 bg-card border border-border rounded-lg">
-          <h3 className="font-semibold text-card-foreground mb-2">Long-Lasting Scent</h3>
+          <h3 className="font-semibold text-card-foreground mb-2">Aroma Duradero</h3>
           <p className="text-sm text-muted-foreground">
-            Premium formulation ensures your fragrance lasts all day
+            Formulación premium que asegura que tu fragancia dure todo el día
           </p>
         </div>
         <div className="p-6 bg-card border border-border rounded-lg">
-          <h3 className="font-semibold text-card-foreground mb-2">Clean Ingredients</h3>
+          <h3 className="font-semibold text-card-foreground mb-2">Ingredientes Limpios</h3>
           <p className="text-sm text-muted-foreground">
-            Made with skin-safe, high-quality ingredients
+            Elaborado con ingredientes seguros para la piel y de alta calidad
           </p>
         </div>
       </div>
@@ -178,7 +178,7 @@ export default function ProductInfo({
           href="/"
           className="text-sm text-muted-foreground hover:text-foreground underline"
         >
-          ← Back to Shop
+          ← Volver a la Tienda
         </Link>
       </div>
     </div>

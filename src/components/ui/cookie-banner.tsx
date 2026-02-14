@@ -24,10 +24,10 @@ interface CookiePanelProps {
 
 const CookiePanel = (props: CookiePanelProps) => {
   const {
-    title = "This site uses cookies",
-    message = "We use cookies to enhance your experience.",
-    acceptText = "Accept all",
-    customizeText = "Customize",
+    title = "Este sitio usa cookies",
+    message = "Usamos cookies para mejorar tu experiencia.",
+    acceptText = "Aceptar todas",
+    customizeText = "Personalizar",
     icon = "cookie",
     className,
     privacyHref = "/pages/privacy-policy",
@@ -126,7 +126,7 @@ const CookiePanel = (props: CookiePanelProps) => {
 
       <div className="flex-1">
         <div className="text-xs font-medium">
-          {title} {locked && <span className="text-[10px] text-muted-foreground">(required)</span>}
+          {title} {locked && <span className="text-[10px] text-muted-foreground">(requerida)</span>}
         </div>
 
         <p className="text-[10px] text-muted-foreground mt-0.5">{desc}</p>
@@ -138,7 +138,7 @@ const CookiePanel = (props: CookiePanelProps) => {
     <div
       role="dialog"
       aria-live="polite"
-      aria-label="Cookie consent"
+      aria-label="Consentimiento de cookies"
       className={cn(
         "fixed right-4 bottom-4 md:right-6 md:bottom-6",
         "z-50 w-[360px] max-w-[90vw]"
@@ -157,7 +157,7 @@ const CookiePanel = (props: CookiePanelProps) => {
       >
         <div className="flex items-center gap-3">
           <span className="inline-flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20">
-            <IconEl className="size-5" weight="regular" aria-hidden="true" />
+            <IconEl className="size-5" weight="light" aria-hidden="true" />
           </span>
 
           <h2 className="text-sm font-semibold leading-5">{title}</h2>
@@ -166,19 +166,19 @@ const CookiePanel = (props: CookiePanelProps) => {
         </div>
 
         <p className="text-xs leading-5 text-muted-foreground">
-          {message} See our{" "}
+          {message} Consulta nuestra{" "}
           <a
             href={privacyHref}
             className="underline underline-offset-4 hover:text-foreground cursor-pointer"
           >
-            Privacy Policy
+            Política de Privacidad
           </a>{" "}
-          and{" "}
+          y{" "}
           <a
             href={termsHref}
             className="underline underline-offset-4 hover:text-foreground cursor-pointer"
           >
-            Terms & Conditions
+            Términos y Condiciones
           </a>
           .
         </p>
@@ -228,27 +228,27 @@ const CookiePanel = (props: CookiePanelProps) => {
           {showPrefs && (
             <div className="mt-2 flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
               <PrefRow
-                title="Strictly necessary"
-                desc="Required for site functionality."
+                title="Estrictamente necesarias"
+                desc="Requeridas para el funcionamiento del sitio."
                 field="necessary"
                 locked
               />
 
               <PrefRow
-                title="Functional"
-                desc="Remembers your preferences."
+                title="Funcionales"
+                desc="Recuerdan tus preferencias."
                 field="functional"
               />
 
               <PrefRow
-                title="Analytics"
-                desc="Helps us improve the site."
+                title="Analíticas"
+                desc="Nos ayudan a mejorar el sitio."
                 field="analytics"
               />
 
               <PrefRow
                 title="Marketing"
-                desc="Personalized ads."
+                desc="Anuncios personalizados."
                 field="marketing"
               />
 
@@ -258,7 +258,7 @@ const CookiePanel = (props: CookiePanelProps) => {
                   onClick={() => setShowPrefs(false)}
                   className="px-2.5 py-1 rounded-md border border-border bg-muted text-muted-foreground text-xs hover:bg-muted/80 cursor-pointer"
                 >
-                  Cancel
+                  Cancelar
                 </button>
 
                 <button
@@ -266,7 +266,7 @@ const CookiePanel = (props: CookiePanelProps) => {
                   onClick={savePreferences}
                   className="px-2.5 py-1 rounded-md bg-primary text-primary-foreground text-xs hover:bg-primary/90 cursor-pointer"
                 >
-                  Save preferences
+                  Guardar preferencias
                 </button>
               </div>
             </div>

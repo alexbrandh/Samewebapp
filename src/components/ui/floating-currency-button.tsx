@@ -30,7 +30,7 @@ export function FloatingCurrencyButton() {
         }
     };
 
-    const selectCurrency = (newCurrency: 'USD' | 'AED') => {
+    const selectCurrency = (newCurrency: 'COP') => {
         setCurrency(newCurrency);
         setIsOpen(false);
     };
@@ -48,18 +48,11 @@ export function FloatingCurrencyButton() {
                         className="absolute bottom-full mb-2 left-0 bg-card border border-border rounded-lg shadow-xl overflow-hidden"
                     >
                         <button
-                            onClick={() => selectCurrency('USD')}
-                            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium w-full hover:bg-muted transition-colors ${currency === 'USD' ? 'bg-primary/10 text-primary' : 'text-foreground'
+                            onClick={() => selectCurrency('COP')}
+                            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium w-full hover:bg-muted transition-colors ${currency === 'COP' ? 'bg-primary/10 text-primary' : 'text-foreground'
                                 }`}
                         >
-                            🇺🇸 USD
-                        </button>
-                        <button
-                            onClick={() => selectCurrency('AED')}
-                            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium w-full hover:bg-muted transition-colors ${currency === 'AED' ? 'bg-primary/10 text-primary' : 'text-foreground'
-                                }`}
-                        >
-                            🇦🇪 AED
+                            �� COP
                         </button>
                     </motion.div>
                 )}

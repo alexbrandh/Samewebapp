@@ -11,7 +11,7 @@ import { Envelope, Lock, User, Phone } from 'phosphor-react';
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}>
       <LoginFormContent />
     </Suspense>
   );
@@ -56,7 +56,7 @@ function LoginFormContent() {
     try {
       if (isSignup) {
         if (!agreedToTerms) {
-          setError('You must agree to the Terms of Use and Privacy Policy to create an account.');
+          setError('Debes aceptar los Términos de Uso y la Política de Privacidad para crear una cuenta.');
           return;
         }
         const result = await signup({
@@ -69,7 +69,7 @@ function LoginFormContent() {
         });
 
         if (result.needsActivation) {
-          setSuccess(`Account created successfully! We've sent a verification email to ${formData.email}. Please check your inbox (and spam folder) and click the link to activate your account before signing in.`);
+          setSuccess(`¡Cuenta creada exitosamente! Hemos enviado un correo de verificación a ${formData.email}. Revisa tu bandeja de entrada (y spam) y haz clic en el enlace para activar tu cuenta antes de iniciar sesión.`);
           setIsSignup(false); // Switch to login view
           window.scrollTo(0, 0);
           return; // Stop here, don't redirect
@@ -90,20 +90,20 @@ function LoginFormContent() {
         err.message?.includes('Unidentified customer') ||
         err.message?.includes('invalid')
       )) {
-        setSuccess(`Account created successfully! We've sent a verification email to ${formData.email}. Please check your inbox (and spam folder) and click the link to activate your account before signing in.`);
+        setSuccess(`¡Cuenta creada exitosamente! Hemos enviado un correo de verificación a ${formData.email}. Revisa tu bandeja de entrada (y spam) y haz clic en el enlace para activar tu cuenta antes de iniciar sesión.`);
         setIsSignup(false);
         // Scroll to top
         window.scrollTo(0, 0);
         return;
       }
 
-      let errorMessage = err.message || 'Authentication failed. Please try again.';
+      let errorMessage = err.message || 'Error de autenticación. Inténtalo de nuevo.';
 
       // Improve error messages for common cases
       if (errorMessage.includes('Unidentified customer')) {
-        errorMessage = 'The email or password you entered is incorrect. If you recently created an account, please check your email to verify it first.';
+        errorMessage = 'El correo o la contraseña que ingresaste son incorrectos. Si creaste una cuenta recientemente, revisa tu correo para verificarla primero.';
       } else if (errorMessage.toLowerCase().includes('invalid email or password')) {
-        errorMessage = 'The email or password you entered is incorrect. Please try again.';
+        errorMessage = 'El correo o la contraseña que ingresaste son incorrectos. Inténtalo de nuevo.';
       }
 
       setError(errorMessage);
@@ -119,19 +119,19 @@ function LoginFormContent() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-2">
-              {isSignup ? 'Create Account' : 'Welcome Back'}
+              {isSignup ? 'Crear Cuenta' : 'Bienvenido de Nuevo'}
             </h1>
             <p className="text-muted-foreground">
               {isSignup
-                ? 'Sign up to access your account'
-                : 'Sign in to access your account'}
+                ? 'Regístrate para acceder a tu cuenta'
+                : 'Inicia sesión para acceder a tu cuenta'}
             </p>
           </div>
 
           {/* Error message */}
           {error && (
             <div className="mb-6 p-4 bg-destructive/10 border border-destructive/30 rounded-lg flex items-start gap-3">
-              <span className="text-lg flex-shrink-0 mt-0.5">⚠️</span>
+              <span className="text-lg shrink-0 mt-0.5">⚠️</span>
               <p className="text-sm text-destructive">{error}</p>
             </div>
           )}
@@ -139,9 +139,9 @@ function LoginFormContent() {
           {/* Success message */}
           {success && (
             <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-start gap-3">
-              <span className="text-lg flex-shrink-0 mt-0.5">✉️</span>
+              <span className="text-lg shrink-0 mt-0.5">✉️</span>
               <div>
-                <p className="text-sm font-medium text-green-700 dark:text-green-400 mb-1">Almost there!</p>
+                <p className="text-sm font-medium text-green-700 dark:text-green-400 mb-1">¡Casi listo!</p>
                 <p className="text-sm text-green-600 dark:text-green-400">{success}</p>
               </div>
             </div>
@@ -154,7 +154,7 @@ function LoginFormContent() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-2">
-                    First Name
+                    Nombre
                   </label>
                   <div className="relative">
                     <User
@@ -175,7 +175,7 @@ function LoginFormContent() {
 
                 <div>
                   <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-2">
-                    Last Name
+                    Apellido
                   </label>
                   <div className="relative">
                     <User
@@ -199,7 +199,7 @@ function LoginFormContent() {
             {isSignup && (
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                  Phone (optional, must start with +)
+                  Teléfono (opcional, debe empezar con +)
                 </label>
                 <div className="relative">
                   <Phone
@@ -231,7 +231,7 @@ function LoginFormContent() {
                     />
                   </div>
                   <label htmlFor="acceptsMarketing" className="text-sm text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mt-0.5">
-                    Sign up for our newsletter and get 10% off your first order.
+                    Suscríbete a nuestro boletín y obtén 10% de descuento en tu primera compra.
                   </label>
                 </div>
 
@@ -247,7 +247,7 @@ function LoginFormContent() {
                     />
                   </div>
                   <label htmlFor="agreedToTerms" className="text-sm text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mt-0.5">
-                    I agree to the <Link href="/terms" className="underline hover:text-primary">Terms of Use</Link> and <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>.
+                    Acepto los <Link href="/terms" className="underline hover:text-primary">Términos de Uso</Link> y la <Link href="/privacy" className="underline hover:text-primary">Política de Privacidad</Link>.
                   </label>
                 </div>
               </div>
@@ -278,7 +278,7 @@ function LoginFormContent() {
             {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
-                Password
+                Contraseña
               </label>
               <div className="relative">
                 <Lock
@@ -307,10 +307,10 @@ function LoginFormContent() {
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Processing...
+                  Procesando...
                 </span>
               ) : (
-                <span>{isSignup ? 'Create Account' : 'Sign In'}</span>
+                <span>{isSignup ? 'Crear Cuenta' : 'Iniciar Sesión'}</span>
               )}
             </Button>
           </form>
@@ -322,7 +322,7 @@ function LoginFormContent() {
                 href="/account/recover"
                 className="text-sm text-primary hover:underline"
               >
-                Forgot your password?
+                ¿Olvidaste tu contraseña?
               </Link>
             </div>
           )}
@@ -339,15 +339,15 @@ function LoginFormContent() {
               className="text-primary hover:underline"
             >
               {isSignup
-                ? 'Already have an account? Sign in'
-                : "Don't have an account? Sign up"}
+                ? '¿Ya tienes una cuenta? Inicia sesión'
+                : '¿No tienes una cuenta? Regístrate'}
             </button>
           </div>
 
           {/* Back to Home */}
           <div className="mt-6 pt-6 border-t border-border text-center">
             <Link href="/" className="text-sm text-muted-foreground hover:text-primary">
-              ← Back to home
+              ← Volver al inicio
             </Link>
           </div>
         </div>

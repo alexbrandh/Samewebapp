@@ -8,84 +8,122 @@ import { CaretDown } from 'phosphor-react';
 interface FAQItem {
   question: string;
   answer: string;
-  category: string;
 }
 
-const faqData: FAQItem[] = [
+interface FAQCategory {
+  name: string;
+  items: FAQItem[];
+}
+
+const faqCategories: FAQCategory[] = [
   {
-    category: 'Orders & Shipping',
-    question: 'How long does shipping take?',
-    answer: 'Standard shipping typically takes 3-5 business days within the United States. Express shipping options are available at checkout for faster delivery.'
+    name: 'Métodos de Pago',
+    items: [
+      {
+        question: '¿Cómo puedo realizar el pago?',
+        answer: 'Aceptamos pagos con tarjeta de crédito y débito (Visa, MasterCard, American Express), Nequi, Daviplata, PSE y transferencia bancaria. Todos los pagos se procesan de forma segura.',
+      },
+      {
+        question: '¿Cómo puedo realizar mi compra?',
+        answer: 'Selecciona el perfume que deseas, elige la cantidad y agrégalo al carrito. Luego ve al carrito, completa tus datos de envío y elige tu método de pago. ¡Es rápido y sencillo!',
+      },
+      {
+        question: 'Hice una compra, ¿y ahora qué sigue?',
+        answer: 'Recibirás un correo de confirmación con los detalles de tu pedido. Luego te enviaremos la guía de rastreo una vez que tu pedido sea despachado, para que puedas seguirlo en tiempo real.',
+      },
+      {
+        question: '¿Por qué son tan económicas comparadas con las marcas de lujo?',
+        answer: 'Porque eliminamos los altos costos de marketing y distribución, para ofrecer fragancias de alta calidad a un precio justo, sin comprometer la experiencia ni el lujo.',
+      },
+    ],
   },
   {
-    category: 'Orders & Shipping',
-    question: 'Do you offer international shipping?',
-    answer: 'Yes! We ship to most countries worldwide. International shipping times vary by destination, typically 7-14 business days.'
+    name: 'Producto',
+    items: [
+      {
+        question: '¿Cómo logran el 99% de igualdad?',
+        answer: 'Utilizamos las mismas materias primas y procesos técnicos de elaboración que las grandes casas de perfumería. Nuestros perfumistas expertos analizan las composiciones originales para replicar la experiencia olfativa con la mayor fidelidad posible.',
+      },
+      {
+        question: '¿Las fragancias tienen buena duración?',
+        answer: 'Sí. Nuestras fragancias están formuladas con alta concentración de esencia, lo que garantiza una duración de 8 a 12 horas en su versión Classic y de 12 a 18 horas en la versión Extract.',
+      },
+      {
+        question: '¿Sus perfumes huelen igual a los originales?',
+        answer: 'Nuestras fragancias están inspiradas en los originales y logran una similitud del 99%. La diferencia puede ser mínima debido a los lotes de materias primas, pero la experiencia olfativa es prácticamente idéntica.',
+      },
+      {
+        question: '¿Sus perfumes son EDT, EDP o Parfum?',
+        answer: 'Nuestras fragancias Classic son Eau de Parfum (EDP) con una concentración de esencia entre 15% y 20%. La línea Extract tiene una concentración superior, similar a un Parfum.',
+      },
+      {
+        question: '¿Por qué no puedo oler mi perfume después de un tiempo?',
+        answer: 'Esto se llama "fatiga olfativa" y es completamente normal. Tu nariz se acostumbra al aroma que llevas puesto, pero las personas a tu alrededor sí lo perciben. No te preocupes, ¡tu perfume sigue ahí!',
+      },
+    ],
   },
   {
-    category: 'Orders & Shipping',
-    question: 'How can I track my order?',
-    answer: 'Once your order ships, you will receive a tracking number via email. You can use this number to track your package on our website or the carrier website.'
+    name: 'Envíos',
+    items: [
+      {
+        question: '¿Cuánto tarda el envío?',
+        answer: 'Los envíos dentro de Colombia tardan de 3 a 5 días hábiles. Trabajamos con la empresa logística Coordinadora para garantizar que tu pedido llegue de forma segura y a tiempo.',
+      },
+      {
+        question: '¿Hacen envíos a todo el país?',
+        answer: 'Sí, realizamos envíos a todo el territorio colombiano a través de nuestra alianza con Coordinadora. Sin importar dónde estés, te llevamos tu fragancia.',
+      },
+      {
+        question: '¿Cómo puedo rastrear mi pedido?',
+        answer: 'Una vez despachado tu pedido, recibirás un correo con el número de guía. Puedes rastrearlo directamente en nuestra página o en el sitio web de Coordinadora.',
+      },
+      {
+        question: '¿Cuánto cuesta el envío?',
+        answer: 'El costo del envío varía según la ciudad de destino. Podrás ver el valor exacto al momento de completar tu compra antes de confirmar el pago.',
+      },
+    ],
   },
   {
-    category: 'Products',
-    question: 'Are your perfumes authentic?',
-    answer: 'Absolutely! All our fragrances are 100% authentic and sourced directly from authorized distributors.'
+    name: 'Devoluciones',
+    items: [
+      {
+        question: '¿Puedo devolver un producto?',
+        answer: 'Por razones de higiene, no aceptamos devoluciones de perfumes abiertos. Si recibes un producto defectuoso, dañado o incorrecto, contáctanos dentro de las 48 horas siguientes a la entrega.',
+      },
+      {
+        question: '¿Qué hago si mi pedido llegó dañado?',
+        answer: 'Contáctanos inmediatamente por WhatsApp o correo electrónico con fotos del producto y el empaque. Evaluaremos tu caso y te ofreceremos una solución lo antes posible.',
+      },
+      {
+        question: '¿Cuál es la política de reembolso?',
+        answer: 'Si tu producto aplica para devolución, procesaremos el reembolso en un plazo de 5 a 10 días hábiles al mismo método de pago utilizado en la compra.',
+      },
+    ],
   },
-  {
-    category: 'Products',
-    question: 'What size bottles do you offer?',
-    answer: 'We offer various sizes including 30ml, 50ml, and 100ml bottles. Availability varies by fragrance.'
-  },
-  {
-    category: 'Products',
-    question: 'How should I store my perfume?',
-    answer: 'Store your perfume in a cool, dry place away from direct sunlight and heat. Keep the bottle tightly closed when not in use to preserve the scent.'
-  },
-  {
-    category: 'Returns & Exchanges',
-    question: 'What is your return policy?',
-    answer: 'We accept returns within 30 days of purchase for unopened items. Opened fragrances can be exchanged if you are not satisfied with the scent.'
-  },
-  {
-    category: 'Returns & Exchanges',
-    question: 'How do I initiate a return?',
-    answer: 'Contact our customer service team at contact@sameperfumes.com with your order number. We will provide you with a return shipping label and instructions.'
-  },
-  {
-    category: 'Account & Payment',
-    question: 'Do I need an account to place an order?',
-    answer: 'No, you can checkout as a guest. However, creating an account allows you to track orders easily and save your preferences.'
-  },
-  {
-    category: 'Account & Payment',
-    question: 'What payment methods do you accept?',
-    answer: 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, and Google Pay.'
-  }
 ];
 
 export default function FAQPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [openIndex, setOpenIndex] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>(faqCategories[0].name);
 
-  const categories = ['All', ...Array.from(new Set(faqData.map(item => item.category)))];
-  
-  const filteredFAQs = selectedCategory === 'All' 
-    ? faqData 
-    : faqData.filter(item => item.category === selectedCategory);
+  const currentCategory = faqCategories.find(cat => cat.name === selectedCategory) || faqCategories[0];
+
+  const toggleQuestion = (key: string) => {
+    setOpenIndex(openIndex === key ? null : key);
+  };
 
   return (
     <PageContainer>
       {/* Header */}
       <div className="bg-primary text-primary-foreground py-16 px-6">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto max-w-5xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold mb-4"
             style={{ fontFamily: 'var(--font-serif)' }}
           >
-            Frequently Asked Questions
+            Preguntas Frecuentes
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -93,77 +131,82 @@ export default function FAQPage() {
             transition={{ delay: 0.1 }}
             className="text-lg text-primary-foreground/90"
           >
-            Find answers to common questions
+            Encuentra respuestas a las preguntas más comunes
           </motion.p>
         </div>
       </div>
 
-      <div className="container mx-auto max-w-4xl px-6 py-16">
-        {/* Category Filter */}
-        <div className="flex flex-wrap gap-2 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                selectedCategory === category
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* FAQ List */}
-        <div className="space-y-4">
-          {filteredFAQs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              className="border border-border rounded-lg overflow-hidden bg-card shadow-sm"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-accent transition-colors"
-              >
-                <div className="flex-1">
-                  <span className="text-xs font-medium text-primary mb-1 block">
-                    {faq.category}
-                  </span>
-                  <span className="text-lg font-semibold text-foreground">
-                    {faq.question}
-                  </span>
-                </div>
-                <CaretDown
-                  size={20}
-                  weight="bold"
-                  className={`text-muted-foreground transition-transform shrink-0 ml-4 ${
-                    openIndex === index ? 'rotate-180' : ''
+      <div className="container mx-auto max-w-5xl px-6 py-16">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Category Sidebar */}
+          <div className="md:w-56 shrink-0">
+            <div className="flex md:flex-col gap-2">
+              {faqCategories.map((category) => (
+                <button
+                  key={category.name}
+                  onClick={() => {
+                    setSelectedCategory(category.name);
+                    setOpenIndex(null);
+                  }}
+                  className={`px-5 py-3 rounded-lg text-sm font-semibold transition-all text-left ${
+                    selectedCategory === category.name
+                      ? 'bg-[#555] text-white shadow-md'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
                   }`}
-                />
-              </button>
-              
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* FAQ List */}
+          <div className="flex-1 space-y-3">
+            {currentCategory.items.map((faq, index) => {
+              const key = `${selectedCategory}-${index}`;
+              return (
+                <motion.div
+                  key={key}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="border border-border rounded-lg overflow-hidden bg-card"
+                >
+                  <button
+                    onClick={() => toggleQuestion(key)}
+                    className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-accent/50 transition-colors"
                   >
-                    <div className="px-6 pb-4 pt-2 text-muted-foreground border-t border-border">
-                      {faq.answer}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+                    <span className="text-base font-semibold text-foreground pr-4">
+                      {faq.question}
+                    </span>
+                    <CaretDown
+                      size={18}
+                      weight="bold"
+                      className={`text-muted-foreground transition-transform shrink-0 ${
+                        openIndex === key ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {openIndex === key && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-5 pt-1 text-muted-foreground leading-relaxed border-t border-border">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Contact CTA */}
@@ -174,16 +217,18 @@ export default function FAQPage() {
           className="mt-16 text-center bg-muted rounded-lg p-8"
         >
           <h3 className="text-2xl font-bold mb-4 text-foreground" style={{ fontFamily: 'var(--font-serif)' }}>
-            Still have questions?
+            ¿Aún tienes preguntas?
           </h3>
           <p className="text-muted-foreground mb-6">
-            Can't find the answer you're looking for? Please contact our customer service team.
+            ¿No encuentras la respuesta que buscas? Escríbenos directamente.
           </p>
           <a
-            href="/pages/contact"
+            href="https://wa.me/971585621027"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold hover:bg-primary/90 transition-colors"
           >
-            Contact Us
+            Escríbenos por WhatsApp
           </a>
         </motion.div>
       </div>

@@ -62,3 +62,5 @@ build_log*.txt
 # Empty placeholder dirs
 /scripts/
 /public/Favicon/
+
+.vercel

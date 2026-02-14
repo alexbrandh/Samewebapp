@@ -1,8 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 
-type Currency = 'USD' | 'AED';
+type Currency = 'COP';
 
 interface CurrencyContextType {
     currency: Currency;
@@ -14,39 +14,28 @@ interface CurrencyContextType {
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
-// Fixed exchange rate: 1 USD = 3.67 AED
-const EXCHANGE_RATE = 3.67;
-
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
-    const [currency, setCurrencyState] = useState<Currency>('USD');
-    const [mounted, setMounted] = useState(false);
+    const currency: Currency = 'COP';
 
-    useEffect(() => {
-        const savedCurrency = localStorage.getItem('currency') as Currency;
-        if (savedCurrency && (savedCurrency === 'USD' || savedCurrency === 'AED')) {
-            setCurrencyState(savedCurrency);
-        }
-        setMounted(true);
-    }, []);
-
-    const setCurrency = (newCurrency: Currency) => {
-        setCurrencyState(newCurrency);
-        localStorage.setItem('currency', newCurrency);
+    const setCurrency = (_newCurrency: Currency) => {
+        // Solo COP disponible
     };
 
     const convertPrice = (amount: number | string): string => {
         const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-        if (isNaN(numAmount)) return '0.00';
-
-        if (currency === 'USD') {
-            return (numAmount / EXCHANGE_RATE).toFixed(2);
-        } else {
-            return numAmount.toFixed(2);
-        }
+        if (isNaN(numAmount)) return '0';
+        return Math.round(numAmount).toString();
     };
+
     const formatPrice = (amount: number | string): string => {
-        const price = convertPrice(amount);
-        return currency === 'USD' ? `$${price} USD` : `AED ${price}`;
+        const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+        if (isNaN(numAmount)) return '$0 COP';
+        return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(numAmount);
     };
 
     return (
@@ -56,7 +45,7 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
                 setCurrency,
                 convertPrice,
                 formatPrice,
-                exchangeRate: EXCHANGE_RATE,
+                exchangeRate: 1,
             }}
         >
             {children}

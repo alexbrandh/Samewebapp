@@ -71,7 +71,7 @@ export default function OrdersPage() {
     return (
       <div className="text-center py-12">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-muted-foreground">Loading your orders...</p>
+        <p className="text-muted-foreground">Cargando tus pedidos...</p>
       </div>
     );
   }
@@ -80,15 +80,15 @@ export default function OrdersPage() {
     return (
       <div className="bg-card border border-border rounded-lg p-12 text-center">
         <Package size={64} className="text-muted-foreground mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-foreground mb-2">No Orders Yet</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Sin Pedidos Aún</h2>
         <p className="text-muted-foreground mb-6">
-          You haven't placed any orders yet. Start shopping to see your orders here!
+          Aún no has realizado ningún pedido. ¡Empieza a comprar para ver tus pedidos aquí!
         </p>
         <Link
           href="/collections/all"
           className="inline-block px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
         >
-          Browse Products
+          Explorar Productos
         </Link>
       </div>
     );
@@ -98,9 +98,9 @@ export default function OrdersPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold text-foreground mb-2">My Orders</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Mis Pedidos</h2>
         <p className="text-muted-foreground">
-          View and track all your orders
+          Ver y rastrear todos tus pedidos
         </p>
       </div>
 
@@ -118,12 +118,12 @@ export default function OrdersPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <Package size={24} className="text-primary" weight="fill" />
                   <h3 className="text-lg font-semibold text-foreground">
-                    Order #{order.orderNumber}
+                    Pedido #{order.orderNumber}
                   </h3>
                 </div>
                 
                 <p className="text-sm text-muted-foreground mb-3">
-                  Placed on {new Date(order.processedAt).toLocaleDateString('en-US', {
+                  Realizado el {new Date(order.processedAt).toLocaleDateString('es-CO', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
@@ -142,7 +142,7 @@ export default function OrdersPage() {
 
                 {/* Items count */}
                 <p className="text-sm text-muted-foreground mt-3">
-                  {order.lineItems?.length || 0} item(s)
+                  {order.lineItems?.length || 0} artículo(s)
                 </p>
               </div>
 
@@ -169,7 +169,7 @@ export default function OrdersPage() {
             disabled={isLoading}
             className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
-            {isLoading ? 'Loading...' : 'Load More'}
+            {isLoading ? 'Cargando...' : 'Cargar Más'}
           </button>
         </div>
       )}

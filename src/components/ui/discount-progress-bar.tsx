@@ -31,7 +31,7 @@ export function DiscountProgressBar({ itemCount, className = '', isFreeShipping 
                         ))}
                     </div>
                     <p className="text-[9px] font-medium text-foreground text-center leading-tight">
-                        2 items<br />10% OFF
+                        2 art.<br />10% OFF
                     </p>
                 </div>
 
@@ -50,7 +50,7 @@ export function DiscountProgressBar({ itemCount, className = '', isFreeShipping 
                         ))}
                     </div>
                     <p className="text-[9px] font-medium text-foreground text-center leading-tight">
-                        4 items<br />15% OFF
+                        4 art.<br />15% OFF
                     </p>
                 </div>
 
@@ -69,7 +69,7 @@ export function DiscountProgressBar({ itemCount, className = '', isFreeShipping 
                         ))}
                     </div>
                     <p className={`text-[9px] font-medium text-center leading-tight transition-colors ${itemCount >= 6 ? 'text-primary font-bold' : 'text-foreground'}`}>
-                        6 items<br />20% OFF
+                        6 art.<br />20% OFF
                     </p>
                 </div>
             </div>
@@ -77,38 +77,38 @@ export function DiscountProgressBar({ itemCount, className = '', isFreeShipping 
             {/* Info Message */}
             <div className="text-center bg-muted/50 py-1.5 rounded text-xs">
                 {itemCount === 0 && (
-                    <p className="text-muted-foreground">Add products to unlock discounts</p>
+                    <p className="text-muted-foreground">Agrega productos para desbloquear descuentos</p>
                 )}
                 {itemCount > 0 && itemCount < 2 && (
                     <p className="text-foreground">
                         {isFreeShipping ? (
-                            <>Free Shipping unlocked! Add <strong>1</strong> more for <strong>10% discount</strong></>
+                            <>¡Envío gratis desbloqueado! Agrega <strong>1</strong> más para <strong>10% de descuento</strong></>
                         ) : (
-                            <>Add <strong>1</strong> more for <strong>10% discount</strong></>
+                            <>Agrega <strong>1</strong> más para <strong>10% de descuento</strong></>
                         )}
                     </p>
                 )}
                 {itemCount >= 2 && itemCount < 4 && (
                     <p className="text-foreground">
                         {isFreeShipping ? (
-                            <>10% unlocked! Free Shipping unlocked! Add <strong>{4 - itemCount}</strong> for <strong>15% OFF</strong></>
+                            <>¡10% desbloqueado! ¡Envío gratis! Agrega <strong>{4 - itemCount}</strong> para <strong>15% OFF</strong></>
                         ) : (
-                            <>10% unlocked! Add <strong>{4 - itemCount}</strong> for <strong>15% OFF</strong></>
+                            <>¡10% desbloqueado! Agrega <strong>{4 - itemCount}</strong> para <strong>15% OFF</strong></>
                         )}
                     </p>
                 )}
                 {itemCount >= 4 && itemCount < 6 && (
                     <p className="text-foreground">
                         {isFreeShipping ? (
-                            <>15% unlocked! Free Shipping unlocked! Add <strong>{6 - itemCount}</strong> for <strong>20% OFF</strong></>
+                            <>¡15% desbloqueado! ¡Envío gratis! Agrega <strong>{6 - itemCount}</strong> para <strong>20% OFF</strong></>
                         ) : (
-                            <>15% unlocked! Add <strong>{6 - itemCount}</strong> for <strong>20% OFF</strong></>
+                            <>¡15% desbloqueado! Agrega <strong>{6 - itemCount}</strong> para <strong>20% OFF</strong></>
                         )}
                     </p>
                 )}
                 {itemCount >= 6 && (
                     <p className="text-foreground font-medium">
-                        {isFreeShipping ? '🎉 You have 20% OFF + FREE shipping' : '🎉 You have 20% OFF'}
+                        {isFreeShipping ? '🎉 ¡Tienes 20% OFF + envío GRATIS!' : '🎉 ¡Tienes 20% OFF!'}
                     </p>
                 )}
             </div>

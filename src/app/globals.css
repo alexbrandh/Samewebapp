@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'MADE TOMMY';
+  src: url('/MADE TOMMY Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -40,6 +48,9 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
+
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -225,28 +236,34 @@
   
   /* Padding for pages with header + promo banner */
   .pt-header {
-    padding-top: 7.25rem; /* 116px: 64px header + 52px banner */
-  }
-  
-  @media (min-width: 768px) {
-    .pt-header {
-      padding-top: 7.75rem; /* 124px on desktop: 64px header + 60px banner */
-    }
+    padding-top: 5.25rem; /* 84px: 56px header + 28px banner */
   }
   
   /* Hero slider height - full viewport minus header and banner */
   .h-hero-slide-with-banner {
-    height: calc(100vh - 116px); /* Mobile: 100vh - (52px banner + 64px header) */
-  }
-  
-  @media (min-width: 768px) {
-    .h-hero-slide-with-banner {
-      height: calc(100vh - 124px); /* Desktop: 100vh - (60px banner + 64px header) */
-    }
+    height: calc(100vh - 84px); /* 100vh - (28px banner + 56px header) */
   }
   
   /* Hero slider height when banner is closed */
   .h-hero-slide-no-banner {
-    height: calc(100vh - 64px); /* 100vh - header only (64px) */
+    height: calc(100vh - 56px); /* 100vh - header only (56px) */
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
   }
 }

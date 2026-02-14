@@ -1,93 +1,81 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getProduct } from '@/lib/shopify';
-import type { ShopifyProduct } from '@/lib/types/shopify';
 import ProductPageContent from '@/components/product/product-page-content';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sameperfumes.com';
+
+export async function generateMetadata({ params }: { params: Promise<{ handle: string }> }): Promise<Metadata> {
+  const { handle } = await params;
+  const product = await getProduct(handle);
+
+  if (!product) {
+    return {
+      title: 'Producto no encontrado',
+      description: 'Este producto no está disponible en SAME.',
+    };
+  }
+
+  const imageUrl = product.featuredImage?.url || product.images?.edges?.[0]?.node?.url;
+  const price = product.variants?.edges?.[0]?.node?.price?.amount;
+  const description = product.description?.replace(/<[^>]*>/g, '').substring(0, 160) || `Compra ${product.title} de SAME. — Perfume de lujo accesible con envío a toda Colombia.`;
+
+  return {
+    title: `${product.title} — Perfume de Lujo`,
+    description,
+    alternates: {
+      canonical: `${SITE_URL}/products/${handle}`,
+    },
+    openGraph: {
+      title: `${product.title} | SAME. Perfumes`,
+      description,
+      type: 'website',
+      siteName: 'SAME.',
+      locale: 'es_CO',
+      ...(imageUrl && { images: [{ url: imageUrl, width: 1200, height: 630, alt: product.title }] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.title} — SAME.`,
+      description,
+      ...(imageUrl && { images: [imageUrl] }),
+    },
+  };
+}
 
 export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
-  let product: ShopifyProduct | any = await getProduct(handle);
+  const product = await getProduct(handle);
 
-  // Fallback a datos mock cuando el producto por handle no existe en Shopify
-  if (!product) {
-    const mockProducts = [
-      {
-        handle: 'pasha-flare',
-        title: 'Perfume Elegance Premium',
-        description: 'A sophisticated fragrance with floral and citrus notes. This elegant perfume combines the freshness of bergamot with the warmth of jasmine, creating a perfect balance for any occasion.',
-        images: {
-          edges: [
-            { node: { url: '/IDKO 1-100/4.png', altText: 'Perfume Elegance Premium' } },
-            { node: { url: '/IDKO 1-100/5.png', altText: 'Perfume Elegance Premium Bottle' } },
-            { node: { url: '/IDKO 1-100/6.png', altText: 'Perfume Elegance Premium Detail' } },
-          ],
-        },
-        featuredImage: { url: '/IDKO 1-100/4.png' },
-        variants: {
-          edges: [
-            { node: { id: 'variant-1', price: { amount: '89.99', currencyCode: 'EUR' }, availableForSale: true } },
-          ],
-        },
-        tags: ['new', 'premium'],
-      },
-      {
-        handle: 'eau-de-parfum-classic',
-        title: 'Eau de Parfum Classic',
-        description: 'Classic fragrance with touches of vanilla and sandalwood. A timeless scent that combines sweet vanilla notes with the woody warmth of sandalwood, perfect for those who appreciate traditional elegance.',
-        images: {
-          edges: [
-            { node: { url: '/IDKO 1-100/17.png', altText: 'Eau de Parfum Classic' } },
-            { node: { url: '/IDKO 1-100/18.png', altText: 'Eau de Parfum Classic Bottle' } },
-          ],
-        },
-        featuredImage: { url: '/IDKO 1-100/17.png' },
-        variants: {
-          edges: [
-            { node: { id: 'variant-2', price: { amount: '65.00', currencyCode: 'EUR' }, availableForSale: true } },
-          ],
-        },
-        tags: ['bestseller'],
-      },
-      {
-        handle: 'cologne-fresh-breeze',
-        title: 'Cologne Fresh Breeze',
-        description: 'Refreshing cologne perfect for everyday wear. This invigorating scent features crisp aquatic notes and fresh citrus, ideal for those who prefer a clean, energizing fragrance.',
-        images: {
-          edges: [
-            { node: { url: '/IDKO 1-100/33.png', altText: 'Cologne Fresh Breeze' } },
-            { node: { url: '/IDKO 1-100/34.png', altText: 'Cologne Fresh Breeze Bottle' } },
-          ],
-        },
-        featuredImage: { url: '/IDKO 1-100/33.png' },
-        variants: {
-          edges: [
-            { node: { id: 'variant-3', price: { amount: '45.50', currencyCode: 'EUR' }, availableForSale: true } },
-          ],
-        },
-        tags: ['fresh', 'daily'],
-      },
-      {
-        handle: 'luxury-oud-collection',
-        title: 'Luxury Oud Collection',
-        description: 'Exclusive fragrance with oud and oriental spices. An opulent blend of rare oud wood and exotic spices, creating a rich and captivating scent for special occasions.',
-        images: {
-          edges: [
-            { node: { url: '/IDKO 1-100/48.png', altText: 'Luxury Oud Collection' } },
-            { node: { url: '/IDKO 1-100/49.png', altText: 'Luxury Oud Collection Bottle' } },
-          ],
-        },
-        featuredImage: { url: '/IDKO 1-100/48.png' },
-        variants: {
-          edges: [
-            { node: { id: 'variant-4', price: { amount: '125.00', currencyCode: 'EUR' }, availableForSale: true } },
-          ],
-        },
-        tags: ['luxury', 'oud'],
-      },
-    ];
-    const fallback = mockProducts.find((p) => p.handle === handle);
-    if (!fallback) return notFound();
-    product = fallback;
-  }
+  if (!product) return notFound();
 
-  return <ProductPageContent product={product} />;
+  // JSON-LD structured data for Google Shopping / rich results
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: product.description?.replace(/<[^>]*>/g, '').substring(0, 500),
+    image: product.featuredImage?.url || product.images?.edges?.[0]?.node?.url,
+    brand: { '@type': 'Brand', name: 'SAME.' },
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: product.priceRange?.minVariantPrice?.currencyCode || 'COP',
+      lowPrice: product.priceRange?.minVariantPrice?.amount,
+      highPrice: product.priceRange?.maxVariantPrice?.amount,
+      availability: product.availableForSale !== false
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      seller: { '@type': 'Organization', name: 'SAME.' },
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ProductPageContent product={product} />
+    </>
+  );
 }

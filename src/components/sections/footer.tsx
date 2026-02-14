@@ -1,181 +1,170 @@
 'use client';
 
+import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { InstagramLogo } from 'phosphor-react';
+import { Envelope, Phone, MapPin, FacebookLogo, InstagramLogo, TiktokLogo } from 'phosphor-react';
+import { FooterBackgroundGradient, TextHoverEffect } from '@/components/ui/hover-footer';
 
-const footerLinks = {
-  shop: [
-    { name: 'All Perfumes', href: '/collections/all' },
-    { name: 'Women', href: '/collections/women' },
-    { name: 'Men', href: '/collections/men' },
-    { name: 'Unisex', href: '/collections/unisex' },
-    { name: 'Best Sellers', href: '/collections/bestsellers' },
-  ],
-  about: [
-    { name: 'About Us', href: '/about' },
-    { name: 'Refer a Friend', href: '/pages/refer-a-friend' },
-  ],
-  help: [
-    { name: 'Contact Us', href: '/pages/contact' },
-    { name: 'FAQ', href: '/pages/faq' },
-  ],
-  legal: [
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Service', href: '/terms' },
-  ],
-};
+const comprarLinks = [
+  { label: 'Crea tu Aroma', href: '/pages/crea-tu-aroma' },
+  { label: 'Lo Más Vendido', href: '/collections/bestsellers' },
+  { label: 'Lo Más Nuevo', href: '/collections/new' },
+  { label: 'Los Baja Tangas', href: '/collections/baja-tangas' },
+  { label: 'Colecciones', href: '/collections/all' },
+  { label: 'Rastrea Tu Pedido', href: '/pages/track-order' },
+];
+
+const ayudaLinks = [
+  { label: 'Contacto', href: '/pages/contact' },
+  { label: 'Preguntas frecuentes', href: '/pages/faq' },
+  { label: 'Políticas de envío', href: '/pages/shipping-policy' },
+  { label: 'Política de privacidad', href: '/privacy' },
+  { label: 'Políticas de reembolso', href: '/pages/refund-policy' },
+  { label: 'Términos y condiciones', href: '/terms' },
+];
+
+const contactInfo = [
+  {
+    icon: <Envelope size={18} weight="light" className="text-[#ede8d0]" />,
+    text: 'contact@sameperfumes.com',
+    href: 'mailto:contact@sameperfumes.com',
+  },
+  {
+    icon: <Phone size={18} weight="light" className="text-[#ede8d0]" />,
+    text: '+57 300 000 0000',
+    href: 'tel:+573000000000',
+  },
+  {
+    icon: <MapPin size={18} weight="light" className="text-[#ede8d0]" />,
+    text: 'Colombia',
+  },
+];
 
 const socialLinks = [
-  { name: 'Instagram', href: 'https://www.instagram.com/same.perfumes/', icon: InstagramLogo },
+  { icon: FacebookLogo, label: 'Facebook', href: 'https://www.facebook.com/same.perfumes' },
+  { icon: InstagramLogo, label: 'Instagram', href: 'https://www.instagram.com/same.perfumes/' },
+  { icon: TiktokLogo, label: 'TikTok', href: 'https://www.tiktok.com/@same.perfumes' },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-background border-t border-border">
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Brand and social */}
-          <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              {/* Logo */}
-              <Link href="/" className="inline-block mb-6">
-                <img
-                  src="/2.png"
-                  alt="SAME."
-                  className="h-8 w-auto dark:hidden"
-                />
-                <img
-                  src="/2B.png"
-                  alt="SAME."
-                  className="h-8 w-auto hidden dark:block"
-                />
-              </Link>
-
-              {/* Description */}
-              <p className="text-muted-foreground mb-6 max-w-md leading-relaxed">
-                Luxury fragrances that feel high-end without the exclusive price.
-                Same doesn't shout who you are. It accompanies you while you show it.
-              </p>
-
-              {/* Social links */}
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <Link
-                      key={social.name}
-                      href={social.href}
-                      className="w-10 h-10 bg-muted hover:bg-muted/80 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300"
-                      aria-label={social.name}
-                    >
-                      <Icon size={16} weight="bold" />
-                    </Link>
-                  );
-                })}
-              </div>
-            </motion.div>
+    <footer className="bg-[#1a1a1a] relative h-fit rounded-3xl overflow-hidden m-4 md:m-8 text-white">
+      <div className="max-w-7xl mx-auto p-8 md:p-14 z-40 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 lg:gap-16 pb-12">
+          {/* Brand section */}
+          <div className="flex flex-col space-y-4">
+            <Link href="/" className="flex items-center">
+              <Image src="/2B.png" alt="SAME." width={120} height={32} className="h-8 w-auto" />
+            </Link>
+            <p className="text-sm leading-relaxed text-gray-400">
+              Fragancias de lujo que se sienten premium sin el precio exclusivo.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed italic">
+              Los nombres e imágenes de los perfumes se emplean únicamente como referencia. SAME. reconoce los derechos de propiedad de los titulares mencionados.
+            </p>
           </div>
 
-          {/* Shop links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-medium text-foreground mb-4" style={{ fontFamily: 'var(--font-sans)' }}>Shop</h4>
+          {/* Comprar */}
+          <div>
+            <h4 className="text-white text-lg font-semibold mb-6" style={{ fontFamily: 'var(--font-serif)' }}>
+              Comprar
+            </h4>
             <ul className="space-y-3">
-              {footerLinks.shop.map((link) => (
-                <li key={link.name}>
+              {comprarLinks.map((link) => (
+                <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-300"
+                    className="text-gray-400 hover:text-[#ede8d0] transition-colors"
                   >
-                    {link.name}
+                    {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* About links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-medium text-foreground mb-4" style={{ fontFamily: 'var(--font-sans)' }}>About</h4>
+          {/* Ayuda */}
+          <div>
+            <h4 className="text-white text-lg font-semibold mb-6" style={{ fontFamily: 'var(--font-serif)' }}>
+              Ayuda
+            </h4>
             <ul className="space-y-3">
-              {footerLinks.about.map((link) => (
-                <li key={link.name}>
+              {ayudaLinks.map((link) => (
+                <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-300"
+                    className="text-gray-400 hover:text-[#ede8d0] transition-colors"
                   >
-                    {link.name}
+                    {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Support links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-medium text-foreground mb-4" style={{ fontFamily: 'var(--font-sans)' }}>Help</h4>
-            <ul className="space-y-3">
-              {footerLinks.help.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors duration-300"
-                  >
-                    {link.name}
-                  </Link>
+          {/* Contacto */}
+          <div>
+            <h4 className="text-white text-lg font-semibold mb-6" style={{ fontFamily: 'var(--font-serif)' }}>
+              Contacto
+            </h4>
+            <ul className="space-y-4">
+              {contactInfo.map((item, i) => (
+                <li key={i} className="flex items-center space-x-3">
+                  {item.icon}
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="text-gray-400 hover:text-[#ede8d0] transition-colors"
+                    >
+                      {item.text}
+                    </a>
+                  ) : (
+                    <span className="text-gray-400">
+                      {item.text}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Bottom section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
-        >
-          {/* Copyright */}
-          <p className="text-muted-foreground text-sm">
-            © 2026 SAME. All rights reserved.
-          </p>
+        <hr className="border-t border-gray-700 my-8" />
 
-          {/* Legal links */}
-          <div className="flex space-x-6">
-            {footerLinks.legal.map((link) => (
+        {/* Footer bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm space-y-4 md:space-y-0">
+          {/* Social icons */}
+          <div className="flex space-x-6 text-gray-400">
+            {socialLinks.map(({ icon: Icon, label, href }) => (
               <Link
-                key={link.name}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground text-sm transition-colors duration-300"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="hover:text-[#ede8d0] transition-colors"
               >
-                {link.name}
+                <Icon size={20} weight="light" />
               </Link>
             ))}
           </div>
-        </motion.div>
+
+          {/* Copyright */}
+          <p className="text-gray-500 text-center md:text-left">
+            &copy; {new Date().getFullYear()} SAME. Todos los derechos reservados.
+          </p>
+        </div>
       </div>
+
+      {/* Text hover effect */}
+      <div className="lg:flex hidden h-120 -mt-52 -mb-36 relative z-50">
+        <TextHoverEffect text="SAME." />
+      </div>
+
+      <FooterBackgroundGradient />
     </footer>
   );
 }
+
+export default Footer;

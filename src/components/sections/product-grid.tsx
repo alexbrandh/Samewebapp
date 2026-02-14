@@ -2,85 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { CaretLeft, CaretRight, CircleNotch } from 'phosphor-react';
 import { useProducts, useProductsByTag } from '@/lib/hooks/useShopify';
 import { ProductCard } from '@/components/product/product-card';
 
-// Productos de ejemplo para cuando no hay conexión con Shopify
-const mockProducts = [
-  {
-    id: 'mock-1',
-    handle: 'pasha-flare',
-    title: 'Perfume Elegance Premium',
-    description: 'Una fragancia sofisticada con notas florales y cítricas',
-    featuredImage: { url: '/IDKO 1-100/3.png' },
-    images: { edges: [{ node: { url: '/IDKO 1-100/3.png' } }] },
-    variants: {
-      edges: [{
-        node: {
-          id: 'variant-1',
-          price: { amount: '89.99', currencyCode: 'EUR' },
-          availableForSale: true
-        }
-      }]
-    },
-    tags: ['new', 'premium']
-  },
-  {
-    id: 'mock-2',
-    handle: 'eau-de-parfum-classic',
-    title: 'Eau de Parfum Classic',
-    description: 'Fragancia clásica con toques de vainilla y sándalo',
-    featuredImage: { url: '/IDKO 1-100/16.png' },
-    images: { edges: [{ node: { url: '/IDKO 1-100/16.png' } }] },
-    variants: {
-      edges: [{
-        node: {
-          id: 'variant-2',
-          price: { amount: '65.00', currencyCode: 'EUR' },
-          availableForSale: true
-        }
-      }]
-    },
-    tags: ['bestseller']
-  },
-  {
-    id: 'mock-3',
-    handle: 'cologne-fresh-breeze',
-    title: 'Cologne Fresh Breeze',
-    description: 'Colonia refrescante perfecta para el día a día',
-    featuredImage: { url: '/IDKO 1-100/31.png' },
-    images: { edges: [{ node: { url: '/IDKO 1-100/31.png' } }] },
-    variants: {
-      edges: [{
-        node: {
-          id: 'variant-3',
-          price: { amount: '45.50', currencyCode: 'EUR' },
-          availableForSale: true
-        }
-      }]
-    },
-    tags: ['fresh', 'daily']
-  },
-  {
-    id: 'mock-4',
-    handle: 'luxury-oud-collection',
-    title: 'Luxury Oud Collection',
-    description: 'Exclusiva fragancia con oud y especias orientales',
-    featuredImage: { url: '/IDKO 1-100/44.png' },
-    images: { edges: [{ node: { url: '/IDKO 1-100/44.png' } }] },
-    variants: {
-      edges: [{
-        node: {
-          id: 'variant-4',
-          price: { amount: '125.00', currencyCode: 'EUR' },
-          availableForSale: false
-        }
-      }]
-    },
-    tags: ['luxury', 'oud']
-  }
-];
 
 interface ProductGridProps {
   title?: string;
@@ -99,9 +24,7 @@ export function ProductGrid({ title, tag }: ProductGridProps) {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Usar productos mock si hay error de conexión con Shopify
-  const displayProducts = error ? mockProducts : products;
-  const isUsingMockData = error && mockProducts.length > 0;
+  const displayProducts = products;
 
   // Número de productos a mostrar por slide (responsive)
   const [productsPerSlide, setProductsPerSlide] = useState(4);
@@ -165,7 +88,7 @@ export function ProductGrid({ title, tag }: ProductGridProps) {
     return (
       <section className="w-full py-20 bg-background">
         <div className="flex items-center justify-center">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
+          <CircleNotch size={48} weight="light" className="animate-spin text-primary" />
         </div>
       </section>
     );
@@ -186,17 +109,17 @@ export function ProductGrid({ title, tag }: ProductGridProps) {
               <button
                 onClick={() => { prevSlide(); handleInteraction(); }}
                 className="absolute left-2 sm:left-6 top-[35%] -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/95 backdrop-blur-sm border border-border hover:bg-muted flex items-center justify-center transition-all shadow-md hover:shadow-lg"
-                aria-label="Previous products"
+                aria-label="Productos anteriores"
               >
-                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                <CaretLeft size={20} weight="light" className="sm:w-6 sm:h-6" />
               </button>
 
               <button
                 onClick={() => { nextSlide(); handleInteraction(); }}
                 className="absolute right-2 sm:right-6 top-[35%] -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/95 backdrop-blur-sm border border-border hover:bg-muted flex items-center justify-center transition-all shadow-md hover:shadow-lg"
-                aria-label="Next products"
+                aria-label="Productos siguientes"
               >
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                <CaretRight size={20} weight="light" className="sm:w-6 sm:h-6" />
               </button>
             </>
           )}
@@ -234,7 +157,7 @@ export function ProductGrid({ title, tag }: ProductGridProps) {
                     ? 'bg-primary w-8'
                     : 'bg-muted w-2 hover:bg-primary/50'
                     }`}
-                  aria-label={`Go to slide ${index + 1}`}
+                  aria-label={`Ir a diapositiva ${index + 1}`}
                 />
               ))}
             </div>

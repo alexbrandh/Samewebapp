@@ -33,12 +33,12 @@ export function FreeShippingProgress({
               clipRule="evenodd"
             />
           </svg>
-          <p className="text-sm font-medium">You qualify for free shipping!</p>
+          <p className="text-sm font-medium">¡Calificas para envío gratis!</p>
         </div>
       ) : (
         <>
           <p className="text-sm font-medium text-primary mb-2">
-            Add {formatPrice(amountRemaining.toString())} and receive free shipping!
+            ¡Agrega {formatPrice(amountRemaining.toString())} y recibe envío gratis!
           </p>
           <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
             <div

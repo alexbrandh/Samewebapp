@@ -28,7 +28,9 @@ export default function QuizQuestion({
   currentStep,
   totalSteps,
 }: QuizQuestionProps) {
-  const [localAnswer, setLocalAnswer] = useState<QuizAnswer>(answer || (question.type === "multi-choice" ? [] : ""));
+  const [localAnswer, setLocalAnswer] = useState<QuizAnswer>(
+    answer || (question.type === "multi-choice" ? [] : "")
+  );
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -41,25 +43,23 @@ export default function QuizQuestion({
   const handleSingleChoice = (value: string) => {
     setLocalAnswer(value);
     onAnswer(question.id, value);
-    setTimeout(() => {
-      onNext();
-    }, 300);
+    setTimeout(() => onNext(), 350);
   };
 
   const handleMultiChoice = (value: string) => {
     const currentSelections = Array.isArray(localAnswer) ? localAnswer : [];
     const isSelected = currentSelections.includes(value);
-    
     let newSelections: string[];
     if (isSelected) {
       newSelections = currentSelections.filter((v) => v !== value);
     } else {
-      if (question.maxSelections && currentSelections.length >= question.maxSelections) {
+      if (
+        question.maxSelections &&
+        currentSelections.length >= question.maxSelections
+      )
         return;
-      }
       newSelections = [...currentSelections, value];
     }
-    
     setLocalAnswer(newSelections);
     onAnswer(question.id, newSelections);
   };
@@ -71,219 +71,191 @@ export default function QuizQuestion({
   };
 
   const canProceed = () => {
-    if (question.type === "multi-choice") {
+    if (question.type === "multi-choice")
       return Array.isArray(localAnswer) && localAnswer.length > 0;
-    }
-    if (question.type === "email") {
+    if (question.type === "email")
       return email.includes("@") && email.includes(".");
-    }
     return localAnswer !== "";
   };
 
+  const optionLetters = ["A", "B", "C", "D", "E", "F"];
+
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -50 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="min-h-[calc(100vh-80px)] flex flex-col pt-20"
     >
-      {/* Progress bar */}
-      <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+      {/* Progress */}
+      <div className="sticky top-0 z-50 bg-background/90 backdrop-blur-md">
+        <div className="max-w-2xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-muted-foreground">
-              Question {currentStep} of {totalSteps}
-            </span>
-            <span className="text-sm font-medium text-primary">
-              {Math.round(progress)}%
+            <span className="text-xs tracking-wide text-muted-foreground/60 uppercase">
+              {currentStep} / {totalSteps}
             </span>
           </div>
-          <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+          <div className="w-full h-[2px] bg-border rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-primary"
+              className="h-full bg-foreground"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
             />
           </div>
         </div>
       </div>
 
-      {/* Question content */}
-      <div className="flex-1 flex items-center justify-center p-4 py-12">
-        <div className="max-w-3xl w-full space-y-8">
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
+      {/* Question */}
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
+        <div className="max-w-xl w-full space-y-10">
+          <motion.h2
+            initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.05, duration: 0.4 }}
+            className="text-2xl md:text-3xl font-serif font-bold text-center leading-snug"
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">
-              {question.question}
-            </h2>
-          </motion.div>
+            {question.question}
+          </motion.h2>
 
-          {/* Single choice options */}
+          {/* Single choice */}
           {question.type === "single-choice" && (
-            <motion.div
-              className="grid gap-4"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              {question.options?.map((option, index) => (
-                <motion.button
-                  key={option.value}
-                  onClick={() => handleSingleChoice(option.value)}
-                  className={`group relative p-6 rounded-2xl border-2 transition-all text-left ${
-                    localAnswer === option.value
-                      ? "border-primary bg-primary/5"
-                      : "border-border bg-card hover:border-primary/50 hover:bg-accent/50"
-                  }`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold mb-1">
-                        {option.label}
-                      </h3>
+            <div className="space-y-3">
+              {question.options?.map((option, index) => {
+                const selected = localAnswer === option.value;
+                return (
+                  <motion.button
+                    key={option.value}
+                    onClick={() => handleSingleChoice(option.value)}
+                    className={`group w-full flex items-center gap-4 px-5 py-4 rounded-xl border text-left transition-all duration-200 ${
+                      selected
+                        ? "border-foreground bg-foreground/3"
+                        : "border-border hover:border-foreground/30"
+                    }`}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.06 * index, duration: 0.3 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span
+                      className={`flex items-center justify-center w-8 h-8 rounded-full border text-xs font-semibold shrink-0 transition-all duration-200 ${
+                        selected
+                          ? "border-foreground bg-foreground text-background"
+                          : "border-border text-muted-foreground group-hover:border-foreground/40"
+                      }`}
+                    >
+                      {selected ? (
+                        <Check size={14} weight="bold" />
+                      ) : (
+                        optionLetters[index] || index + 1
+                      )}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-medium">{option.label}</span>
                       {option.description && (
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs text-muted-foreground mt-0.5">
                           {option.description}
                         </p>
                       )}
                     </div>
-                    <div
-                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                        localAnswer === option.value
-                          ? "border-primary bg-primary"
-                          : "border-muted-foreground group-hover:border-primary"
+                  </motion.button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Multi choice */}
+          {question.type === "multi-choice" && (
+            <div className="space-y-3">
+              {question.options?.map((option, index) => {
+                const isSelected =
+                  Array.isArray(localAnswer) &&
+                  localAnswer.includes(option.value);
+                return (
+                  <motion.button
+                    key={option.value}
+                    onClick={() => handleMultiChoice(option.value)}
+                    className={`group w-full flex items-center gap-4 px-5 py-4 rounded-xl border text-left transition-all duration-200 ${
+                      isSelected
+                        ? "border-foreground bg-foreground/3"
+                        : "border-border hover:border-foreground/30"
+                    }`}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 * index, duration: 0.3 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span
+                      className={`flex items-center justify-center w-7 h-7 rounded-md border text-xs font-semibold shrink-0 transition-all duration-200 ${
+                        isSelected
+                          ? "border-foreground bg-foreground text-background"
+                          : "border-border text-muted-foreground"
                       }`}
                     >
-                      {localAnswer === option.value && (
-                        <Check size={16} weight="bold" className="text-primary-foreground" />
+                      {isSelected && <Check size={14} weight="bold" />}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-medium">{option.label}</span>
+                      {option.description && (
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {option.description}
+                        </p>
                       )}
                     </div>
-                  </div>
-                </motion.button>
-              ))}
-            </motion.div>
-          )}
-
-          {/* Multi choice options */}
-          {question.type === "multi-choice" && (
-            <>
-              <motion.div
-                className="grid grid-cols-2 md:grid-cols-3 gap-4"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                {question.options?.map((option, index) => {
-                  const isSelected = Array.isArray(localAnswer) && localAnswer.includes(option.value);
-                  return (
-                    <motion.button
-                      key={option.value}
-                      onClick={() => handleMultiChoice(option.value)}
-                      className={`group relative p-6 rounded-2xl border-2 transition-all ${
-                        isSelected
-                          ? "border-primary bg-primary/5"
-                          : "border-border bg-card hover:border-primary/50 hover:bg-accent/50"
-                      }`}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.05 * index }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <div className="space-y-2">
-                        <div className="flex items-start justify-between">
-                          <h3 className="text-lg font-semibold text-left flex-1">
-                            {option.label}
-                          </h3>
-                          <div
-                            className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 ml-2 ${
-                              isSelected
-                                ? "border-primary bg-primary"
-                                : "border-muted-foreground group-hover:border-primary"
-                            }`}
-                          >
-                            {isSelected && (
-                              <Check size={14} weight="bold" className="text-primary-foreground" />
-                            )}
-                          </div>
-                        </div>
-                        {option.description && (
-                          <p className="text-xs text-muted-foreground text-left">
-                            {option.description}
-                          </p>
-                        )}
-                      </div>
-                    </motion.button>
-                  );
-                })}
-              </motion.div>
-              <p className="text-center text-sm text-muted-foreground">
-                Selected: {Array.isArray(localAnswer) ? localAnswer.length : 0} of {question.maxSelections || "∞"}
+                  </motion.button>
+                );
+              })}
+              <p className="text-center text-xs text-muted-foreground/50 pt-2">
+                {Array.isArray(localAnswer) ? localAnswer.length : 0} /{" "}
+                {question.maxSelections || "∞"} seleccionados
               </p>
-            </>
+            </div>
           )}
 
-          {/* Email input */}
+          {/* Email */}
           {question.type === "email" && (
             <motion.div
-              initial={{ y: 20, opacity: 0 }}
+              initial={{ y: 12, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="max-w-md mx-auto"
+              transition={{ delay: 0.1 }}
+              className="max-w-sm mx-auto"
             >
               <input
                 type="email"
                 value={email}
                 onChange={(e) => handleEmailChange(e.target.value)}
                 placeholder={question.placeholder}
-                className="w-full px-6 py-4 text-lg rounded-2xl border-2 border-border bg-card focus:border-primary focus:ring-0 focus:outline-none transition-all"
+                className="w-full px-5 py-3.5 text-sm rounded-xl border border-border bg-card focus:border-foreground focus:ring-0 focus:outline-none transition-all"
               />
             </motion.div>
           )}
         </div>
       </div>
 
-      {/* Navigation buttons */}
-      <div className="sticky bottom-0 bg-background/80 backdrop-blur-md border-t border-border">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between gap-4">
+      {/* Navigation */}
+      <div className="sticky bottom-0 bg-background/90 backdrop-blur-md border-t border-border/50">
+        <div className="max-w-2xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
             <button
               onClick={onPrevious}
               disabled={!canGoBack}
-              className="flex items-center gap-2 px-6 py-3 rounded-full border border-border bg-card hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
-              <ArrowLeft size={20} weight="bold" />
-              <span className="hidden sm:inline">Previous</span>
+              <ArrowLeft size={16} weight="light" />
+              <span>Anterior</span>
             </button>
 
-            {question.type === "multi-choice" && (
+            {(question.type === "multi-choice" ||
+              question.type === "email") && (
               <button
                 onClick={onNext}
                 disabled={!canProceed()}
-                className="flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
+                className="flex items-center gap-1.5 text-sm font-medium text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
-                <span>Continue</span>
-                <ArrowRight size={20} weight="bold" />
-              </button>
-            )}
-
-            {question.type === "email" && (
-              <button
-                onClick={onNext}
-                disabled={!canProceed()}
-                className="flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
-              >
-                <span>View Results</span>
-                <ArrowRight size={20} weight="bold" />
+                <span>
+                  {question.type === "email" ? "Ver resultados" : "Continuar"}
+                </span>
+                <ArrowRight size={16} weight="light" />
               </button>
             )}
           </div>

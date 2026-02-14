@@ -39,7 +39,7 @@ export default function ProfilePage() {
       setIsLoading(true);
       await updateCustomer(accessToken, profileData);
       await refreshCustomer();
-      setMessage('Profile updated successfully!');
+      setMessage('¡Perfil actualizado exitosamente!');
       setIsEditingProfile(false);
       setTimeout(() => setMessage(''), 3000);
     } catch (error: any) {
@@ -51,12 +51,12 @@ export default function ProfilePage() {
 
   const handleDeleteAddress = async (addressId: string) => {
     if (!accessToken) return;
-    if (!confirm('Are you sure you want to delete this address?')) return;
+    if (!confirm('¿Estás seguro de que deseas eliminar esta dirección?')) return;
 
     try {
       await deleteAddress(accessToken, addressId);
       await refreshCustomer();
-      setMessage('Address deleted successfully!');
+      setMessage('¡Dirección eliminada exitosamente!');
       setTimeout(() => setMessage(''), 3000);
     } catch (error: any) {
       setMessage(`Error: ${error.message}`);
@@ -83,7 +83,7 @@ export default function ProfilePage() {
             <div className="bg-primary/10 p-3 rounded-lg">
               <User size={24} className="text-primary" weight="fill" />
             </div>
-            <h2 className="text-2xl font-bold text-foreground">Profile Information</h2>
+            <h2 className="text-2xl font-bold text-foreground">Información del Perfil</h2>
           </div>
           {!isEditingProfile && (
             <Button
@@ -92,7 +92,7 @@ export default function ProfilePage() {
               className="gap-2"
             >
               <Pencil size={16} />
-              Edit
+              Editar
             </Button>
           )}
         </div>
@@ -102,7 +102,7 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  First Name
+                  Nombre
                 </label>
                 <input
                   type="text"
@@ -114,7 +114,7 @@ export default function ProfilePage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Last Name
+                  Apellido
                 </label>
                 <input
                   type="text"
@@ -141,7 +141,7 @@ export default function ProfilePage() {
 
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
-                Phone
+                Teléfono
               </label>
               <input
                 type="tel"
@@ -157,7 +157,7 @@ export default function ProfilePage() {
                 className="bg-primary text-primary-foreground hover:bg-primary/90"
                 disabled={isLoading}
               >
-                {isLoading ? 'Saving...' : 'Save Changes'}
+                {isLoading ? 'Guardando...' : 'Guardar Cambios'}
               </Button>
               <Button
                 type="button"
@@ -174,7 +174,7 @@ export default function ProfilePage() {
                   }
                 }}
               >
-                Cancel
+                Cancelar
               </Button>
             </div>
           </form>
@@ -183,7 +183,7 @@ export default function ProfilePage() {
             <div className="flex items-center gap-3 p-4 bg-muted rounded-lg">
               <User size={20} className="text-muted-foreground" />
               <div>
-                <p className="text-sm text-muted-foreground">Name</p>
+                <p className="text-sm text-muted-foreground">Nombre</p>
                 <p className="font-medium text-foreground">
                   {customer?.firstName} {customer?.lastName}
                 </p>
@@ -202,7 +202,7 @@ export default function ProfilePage() {
               <div className="flex items-center gap-3 p-4 bg-muted rounded-lg">
                 <Phone size={20} className="text-muted-foreground" />
                 <div>
-                  <p className="text-sm text-muted-foreground">Phone</p>
+                  <p className="text-sm text-muted-foreground">Teléfono</p>
                   <p className="font-medium text-foreground">{customer.phone}</p>
                 </div>
               </div>
@@ -218,14 +218,14 @@ export default function ProfilePage() {
             <div className="bg-primary/10 p-3 rounded-lg">
               <MapPin size={24} className="text-primary" weight="fill" />
             </div>
-            <h2 className="text-2xl font-bold text-foreground">Saved Addresses</h2>
+            <h2 className="text-2xl font-bold text-foreground">Direcciones Guardadas</h2>
           </div>
           <Button
             onClick={() => alert('Add address form - To be implemented')}
             className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2"
           >
             <Plus size={16} />
-            Add Address
+            Agregar Dirección
           </Button>
         </div>
 
@@ -238,7 +238,7 @@ export default function ProfilePage() {
               >
                 {customer.defaultAddress?.id === address.id && (
                   <span className="absolute top-2 right-2 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded">
-                    Default
+                    Principal
                   </span>
                 )}
                 
@@ -263,14 +263,14 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors"
                   >
                     <Pencil size={14} />
-                    Edit
+                    Editar
                   </button>
                   <button
                     onClick={() => handleDeleteAddress(address.id)}
                     className="flex items-center gap-2 px-3 py-1.5 text-sm text-destructive hover:bg-destructive/10 rounded transition-colors"
                   >
                     <Trash size={14} />
-                    Delete
+                    Eliminar
                   </button>
                 </div>
               </div>
@@ -279,23 +279,23 @@ export default function ProfilePage() {
         ) : (
           <div className="text-center py-8">
             <MapPin size={48} className="text-muted-foreground mx-auto mb-3" />
-            <p className="text-muted-foreground">No saved addresses yet</p>
+            <p className="text-muted-foreground">Sin direcciones guardadas aún</p>
           </div>
         )}
       </div>
 
       {/* Account Info */}
       <div className="bg-card border border-border rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Account Information</h3>
+        <h3 className="text-lg font-semibold text-foreground mb-4">Información de la Cuenta</h3>
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Customer ID</span>
+            <span className="text-muted-foreground">ID de Cliente</span>
             <span className="text-foreground font-mono">{customer?.id.split('/').pop()}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Member Since</span>
+            <span className="text-muted-foreground">Miembro Desde</span>
             <span className="text-foreground">
-              {customer?.createdAt && new Date(customer.createdAt).toLocaleDateString('en-US', {
+              {customer?.createdAt && new Date(customer.createdAt).toLocaleDateString('es-CO', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
@@ -303,7 +303,7 @@ export default function ProfilePage() {
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Total Orders</span>
+            <span className="text-muted-foreground">Pedidos Totales</span>
             <span className="text-foreground font-semibold">{customer?.ordersCount || 0}</span>
           </div>
         </div>

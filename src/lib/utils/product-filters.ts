@@ -6,7 +6,7 @@ import { ShopifyProduct, ShopifyMetafield } from '../types/shopify';
 export function getMetafieldValue(product: ShopifyProduct, key: string): string | null {
   if (!product.metafields) return null;
   
-  const metafield = product.metafields.find((mf) => mf.key === key);
+  const metafield = product.metafields.find((mf) => mf != null && mf.key === key);
   return metafield?.value || null;
 }
 

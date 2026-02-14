@@ -26,7 +26,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
       <PageContainer className="overflow-x-hidden flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-muted-foreground">Cargando...</p>
         </div>
       </PageContainer>
     );
@@ -45,22 +45,22 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 
   const navigation = [
     {
-      name: 'Dashboard',
+      name: 'Panel',
       href: '/account',
       icon: House,
     },
     {
-      name: 'My Orders',
+      name: 'Mis Pedidos',
       href: '/account/orders',
       icon: ShoppingBag,
     },
     {
-      name: 'Favorites',
+      name: 'Favoritos',
       href: '/account/favorites',
       icon: Heart,
     },
     {
-      name: 'Profile',
+      name: 'Perfil',
       href: '/account/profile',
       icon: User,
     },
@@ -71,9 +71,9 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">My Account</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Mi Cuenta</h1>
           <p className="text-muted-foreground">
-            Welcome back, {customer?.firstName || 'Customer'}!
+            Bienvenido de nuevo, {customer?.firstName || 'Cliente'}!
           </p>
         </div>
 
@@ -111,7 +111,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
               >
                 <SignOut size={20} />
-                <span>Logout</span>
+                <span>Cerrar Sesión</span>
               </button>
             </nav>
           </aside>

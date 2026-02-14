@@ -3,9 +3,10 @@
  * Para crear, editar y eliminar productos y colecciones
  */
 
+import { getAdminAccessToken } from './shopify-token';
+
 const SHOPIFY_STORE_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
-const ADMIN_ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN!;
-const API_VERSION = '2025-01';
+const API_VERSION = '2026-01';
 
 // Tipos
 export interface CreateProductInput {
@@ -38,12 +39,13 @@ export interface CreateCollectionInput {
  * Hacer peticiones al Admin API
  */
 async function adminRequest(endpoint: string, options: RequestInit = {}) {
+  const token = await getAdminAccessToken();
   const url = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/${API_VERSION}/${endpoint}`;
   
   const response = await fetch(url, {
     ...options,
     headers: {
-      'X-Shopify-Access-Token': ADMIN_ACCESS_TOKEN,
+      'X-Shopify-Access-Token': token,
       'Content-Type': 'application/json',
       ...options.headers,
     },

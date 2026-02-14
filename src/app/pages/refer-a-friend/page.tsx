@@ -67,7 +67,7 @@ export default function ReferAFriendPage() {
   const copyToClipboard = (text: string) => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
-        alert("Copied to clipboard!");
+        alert("¡Copiado al portapapeles!");
       }).catch((err) => {
         console.error("Failed to copy:", err);
         prompt("Copy this code:", text);
@@ -79,7 +79,7 @@ export default function ReferAFriendPage() {
       textArea.select();
       try {
         document.execCommand('copy');
-        alert("Copied to clipboard!");
+        alert("¡Copiado al portapapeles!");
       } catch (err) {
         prompt("Copy this code:", text);
       }
@@ -96,17 +96,17 @@ export default function ReferAFriendPage() {
             <Users size={48} className="text-primary" />
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground">
-            Join our Referral Program
+  Únete a Nuestro Programa de Referidos
           </h2>
           <p className="text-sm text-muted-foreground">
-            Please sign in to get your unique referral code. You'll earn rewards for every friend you invite!
+            Inicia sesión para obtener tu código de referido único. ¡Ganarás recompensas por cada amigo que invites!
           </p>
           <div className="gap-4 flex flex-col pt-4">
             <Link href="/account/login?return_url=/pages/refer-a-friend" className="w-full">
-              <Button className="w-full" size="lg">Log In</Button>
+              <Button className="w-full" size="lg">Iniciar Sesión</Button>
             </Link>
             <Link href="/account/register?return_url=/pages/refer-a-friend" className="w-full">
-              <Button variant="outline" className="w-full" size="lg">Create Account</Button>
+              <Button variant="outline" className="w-full" size="lg">Crear Cuenta</Button>
             </Link>
           </div>
         </div>
@@ -129,19 +129,19 @@ export default function ReferAFriendPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-medium mb-6">
               <Gift size={16} weight="fill" />
-              <span>Give 10%, Get Rewards</span>
+              <span>Da 10%, Recibe Recompensas</span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 font-serif text-foreground">
-              Refer a Friend & <br />
+              Refiere a un Amigo y <br />
               <span className="text-primary">
-                Earn Rewards
+                Gana Recompensas
               </span>
             </h1>
 
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Give your friends 10% off their first order.
-              When they buy, you help grow our community!
+              Dale a tus amigos un 10% de descuento en su primer pedido.
+              Cuando compren, ¡ayudas a crecer nuestra comunidad!
             </p>
           </motion.div>
         </div>
@@ -156,8 +156,8 @@ export default function ReferAFriendPage() {
           className="bg-card border border-border rounded-xl shadow-lg p-6 md:p-10"
         >
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-2 text-primary font-serif">Your Unique Referral Code</h3>
-            <p className="text-muted-foreground">It never expires. Share it as much as you like!</p>
+            <h3 className="text-2xl font-bold mb-2 text-primary font-serif">Tu Código de Referido Único</h3>
+            <p className="text-muted-foreground">¡Nunca expira. Compártelo tanto como quieras!</p>
           </div>
 
           {loading ? (
@@ -167,7 +167,7 @@ export default function ReferAFriendPage() {
           ) : error ? (
             <div className="bg-destructive/10 text-destructive p-4 rounded-md text-center border border-destructive/20">
               <p className="mb-2">{error}</p>
-              <Button variant="outline" size="sm" onClick={fetchReferralCode}>Try Again</Button>
+              <Button variant="outline" size="sm" onClick={fetchReferralCode}>Intentar de Nuevo</Button>
             </div>
           ) : (
             <div className="space-y-8">
@@ -176,7 +176,7 @@ export default function ReferAFriendPage() {
                 <div className="absolute -inset-0.5 bg-linear-to-r from-primary/50 to-secondary/50 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
                 <div className="relative flex items-center gap-4 bg-background p-6 rounded-lg border border-border">
                   <code className="flex-1 text-3xl md:text-4xl font-mono font-bold text-center tracking-wider text-primary break-all">
-                    {referralCode || 'LOADING...'}
+                    {referralCode || 'CARGANDO...'}
                   </code>
                   <Button size="icon" variant="ghost" onClick={() => copyToClipboard(referralCode)} title="Copy Code" disabled={!referralCode}>
                     <Copy size={24} />
@@ -192,12 +192,12 @@ export default function ReferAFriendPage() {
                       <ChartLine size={24} className="text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">People who used your code</p>
+                      <p className="text-sm text-muted-foreground">Personas que usaron tu código</p>
                       <p className="text-3xl font-bold text-foreground">{usageCount}</p>
                     </div>
                   </div>
                   <Button variant="outline" size="sm" onClick={fetchUsageStats}>
-                    Refresh
+                    Actualizar
                   </Button>
                 </div>
               </div>
@@ -205,19 +205,19 @@ export default function ReferAFriendPage() {
               {/* Social Sharing */}
               <div className="space-y-3">
                 <label className="text-sm font-medium flex items-center gap-2 text-muted-foreground">
-                  <Users /> Share on Social Media
+                  <Users /> Compartir en Redes Sociales
                 </label>
                 <div className="flex gap-2">
                   <Button
                     className="flex-1 bg-[#25D366] hover:bg-[#128C7E] text-white border-none"
-                    onClick={() => window.open(`https://wa.me/?text=Get 10% off at SAME.! Use my code: ${referralCode} at checkout. Visit: https://www.sameperfumes.com`, '_blank')}
+                    onClick={() => window.open(`https://wa.me/?text=¡Obtén 10% de descuento en SAME.! Usa mi código: ${referralCode} al pagar. Visita: https://www.sameperfumes.com`, '_blank')}
                     disabled={!referralCode}
                   >
                     WhatsApp
                   </Button>
                   <Button
                     className="flex-1 bg-[#1877F2] hover:bg-[#166FE5] text-white border-none"
-                    onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?quote=Get 10% off at SAME. with my code ${referralCode}!&u=https://www.sameperfumes.com`, '_blank')}
+                    onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?quote=¡Obtén 10% de descuento en SAME. con mi código ${referralCode}!&u=https://www.sameperfumes.com`, '_blank')}
                     disabled={!referralCode}
                   >
                     Facebook
@@ -230,20 +230,20 @@ export default function ReferAFriendPage() {
           <div className="mt-12 pt-8 border-t border-border">
             <h4 className="font-semibold mb-6 flex items-center gap-2 text-lg text-foreground">
               <ShieldCheck size={24} className="text-primary" />
-              How It Works
+              Cómo Funciona
             </h4>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li className="flex gap-4 items-start">
                 <span className="shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold mt-0.5">1</span>
-                <span><strong>Share your code:</strong> Send your unique code to friends, family, or followers.</span>
+                <span><strong>Comparte tu código:</strong> Envía tu código único a amigos, familiares o seguidores.</span>
               </li>
               <li className="flex gap-4 items-start">
                 <span className="shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold mt-0.5">2</span>
-                <span><strong>They get 10% OFF:</strong> When they use your code at checkout on their first order.</span>
+                <span><strong>Ellos obtienen 10% OFF:</strong> Cuando usen tu código al pagar en su primer pedido.</span>
               </li>
               <li className="flex gap-4 items-start">
                 <span className="shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold mt-0.5">3</span>
-                <span><strong>You help us grow:</strong> We're building a rewards system for top referrers. Stay tuned!</span>
+                <span><strong>Ayudas a crecer:</strong> Estamos construyendo un sistema de recompensas para los mejores referidores. ¡Mantente atento!</span>
               </li>
             </ul>
           </div>

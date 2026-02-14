@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { getProducts } from '@/lib/shopify';
 import { useCurrency } from '@/contexts/currency-context';
@@ -52,7 +53,7 @@ export function CartRecommendations({ excludeIds = [], maxItems = 3 }: CartRecom
             <div className="mt-4 pt-4 border-t border-border">
                 <div className="flex items-center gap-2">
                     <CircleNotch size={14} className="animate-spin text-primary" />
-                    <span className="text-xs text-muted-foreground">Loading suggestions...</span>
+                    <span className="text-xs text-muted-foreground">Cargando sugerencias...</span>
                 </div>
             </div>
         );
@@ -61,9 +62,9 @@ export function CartRecommendations({ excludeIds = [], maxItems = 3 }: CartRecom
     if (products.length === 0) {
         return (
             <div className="mt-4 pt-4 border-t border-border">
-                <h3 className="text-xs font-semibold mb-2 uppercase tracking-wide text-muted-foreground">Complete Your Collection</h3>
+                <h3 className="text-xs font-semibold mb-2 uppercase tracking-wide text-muted-foreground">Completa Tu Colección</h3>
                 <Link href="/collections/all" className="text-xs text-primary hover:underline">
-                    Browse more perfumes →
+                    Ver más perfumes →
                 </Link>
             </div>
         );
@@ -99,7 +100,7 @@ export function CartRecommendations({ excludeIds = [], maxItems = 3 }: CartRecom
 
     return (
         <div className="mt-4 pt-4 border-t border-border">
-            <h3 className="text-xs font-semibold mb-3 uppercase tracking-wide text-muted-foreground">You Might Also Like</h3>
+            <h3 className="text-xs font-semibold mb-3 uppercase tracking-wide text-muted-foreground">También Te Puede Gustar</h3>
             <div className="space-y-2">
                 {products.map((product) => {
                     const image = product.featuredImage?.url || product.images?.edges?.[0]?.node?.url;
@@ -118,11 +119,12 @@ export function CartRecommendations({ excludeIds = [], maxItems = 3 }: CartRecom
                                 className="w-12 h-12 bg-muted rounded-md overflow-hidden shrink-0 border border-border"
                             >
                                 {image ? (
-                                    <img
+                                    <Image
                                         src={image}
                                         alt={product.title}
+                                        width={48}
+                                        height={48}
                                         className="w-full h-full object-cover"
-                                        loading="lazy"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-muted">

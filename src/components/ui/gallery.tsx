@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 export const PhotoGallery = ({
   animationDelay = 0.5,
   title = "SAME.",
-  subtitle = "Exclusive fragrances crafted for the discerning individual",
-  buttonText = "View All Products",
+  subtitle = "Fragancias exclusivas creadas para el individuo exigente",
+  buttonText = "Ver Todos los Productos",
   onButtonClick,
   photos,
 }: {
@@ -91,7 +91,7 @@ export const PhotoGallery = ({
       y: "15px",
       zIndex: 15,
       direction: "left" as const,
-      src: "/IDKO 1-100/8.png",
+      src: "/pictures/hero-banner.png",
     },
     {
       id: 2,
@@ -100,7 +100,7 @@ export const PhotoGallery = ({
       y: "32px",
       zIndex: 14,
       direction: "left" as const,
-      src: "/IDKO 1-100/18.png",
+      src: "/pictures/hero-banner.png",
     },
     {
       id: 3,
@@ -109,7 +109,7 @@ export const PhotoGallery = ({
       y: "8px",
       zIndex: 13,
       direction: "right" as const,
-      src: "/IDKO 1-100/29.png",
+      src: "/pictures/hero-banner.png",
     },
     {
       id: 4,
@@ -118,7 +118,7 @@ export const PhotoGallery = ({
       y: "22px",
       zIndex: 12,
       direction: "right" as const,
-      src: "/IDKO 1-100/41.png",
+      src: "/pictures/hero-banner.png",
     },
     {
       id: 5,
@@ -127,7 +127,7 @@ export const PhotoGallery = ({
       y: "44px",
       zIndex: 11,
       direction: "left" as const,
-      src: "/IDKO 1-100/52.png",
+      src: "/pictures/hero-banner.png",
     },
   ];
 

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/lib/hooks/useShopify';
-import { Loader2 } from 'lucide-react';
+import { CircleNotch } from 'phosphor-react';
 
 export default function ProductActions({ variantId, availableForSale }: { variantId: string; availableForSale: boolean }) {
   const { addToCart, loading } = useCart();
@@ -37,14 +37,14 @@ export default function ProductActions({ variantId, availableForSale }: { varian
           onClick={() => setMode('once')}
           aria-pressed={mode === 'once'}
         >
-          Buy once
+          Compra única
         </button>
         <button
           className={`px-3 py-1 rounded-sm border ${mode === 'auto' ? 'border-foreground text-foreground' : 'border-border text-muted-foreground'}`}
           onClick={() => setMode('auto')}
           aria-pressed={mode === 'auto'}
         >
-          Auto-replenish (save 15%)
+          Auto-reposición (ahorra 15%)
         </button>
       </div>
 
@@ -62,14 +62,14 @@ export default function ProductActions({ variantId, availableForSale }: { varian
         onClick={handleAdd}
       >
         {loading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <CircleNotch size={16} weight="light" className="animate-spin" />
         ) : (
-          <>Add To Bag</>
+          <>Agregar al Carrito</>
         )}
       </Button>
 
       {!availableForSale && (
-        <p className="text-sm text-destructive">Currently unavailable</p>
+        <p className="text-sm text-destructive">No disponible actualmente</p>
       )}
     </div>
   );

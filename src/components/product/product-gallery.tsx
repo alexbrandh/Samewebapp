@@ -13,7 +13,7 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
 
   if (!images || images.length === 0) {
     return (
-      <div className="w-full aspect-[4/5] rounded-lg bg-gray-100 flex items-center justify-center">
+      <div className="w-full aspect-4/5 rounded-lg bg-gray-100 flex items-center justify-center">
         <p className="text-gray-400">No image available</p>
       </div>
     );
@@ -22,11 +22,14 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
   return (
     <div className="sticky top-20">
       {/* Main Image */}
-      <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-gray-50 mb-4">
-        <img
+      <div className="relative w-full aspect-4/5 rounded-lg overflow-hidden bg-gray-50 mb-4">
+        <Image
           src={images[selectedImage]?.url}
           alt={images[selectedImage]?.altText || title}
-          className="w-full h-full object-cover"
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
+          priority
         />
       </div>
 
@@ -43,10 +46,12 @@ export default function ProductGallery({ images, title }: ProductGalleryProps) {
                   : 'border-transparent hover:border-gray-300'
               }`}
             >
-              <img
+              <Image
                 src={image.url}
                 alt={image.altText || `${title} ${index + 1}`}
-                className="w-full h-full object-cover"
+                fill
+                sizes="120px"
+                className="object-cover"
               />
             </button>
           ))}

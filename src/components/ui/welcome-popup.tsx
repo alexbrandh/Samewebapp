@@ -55,11 +55,11 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
         setSuccess(true);
         // Don't close immediately to show the success message
       } else {
-        setError(result.message || "Something went wrong. Please try again.");
+        setError(result.message || "Algo salió mal. Inténtalo de nuevo.");
       }
     } catch (error) {
       console.error("Subscription error:", error);
-      setError("Failed to subscribe. Please try again.");
+      setError("Error al suscribirse. Inténtalo de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -72,7 +72,7 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
       {/* Backdrop */}
       <div
         className={cn(
-          "fixed inset-0 bg-background/80 z-[9999] backdrop-blur-sm",
+          "fixed inset-0 bg-background/80 z-9999 backdrop-blur-sm",
           visible
             ? "animate-in fade-in duration-300"
             : "animate-out fade-out duration-300"
@@ -88,7 +88,7 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
         aria-label="Welcome popup"
         className={cn(
           "fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-          "z-[10000] w-[90vw] max-w-[500px]",
+          "z-10000 w-[90vw] max-w-[500px]",
           visible
             ? "animate-in fade-in zoom-in-95 slide-in-from-bottom-4 duration-300"
             : "animate-out fade-out zoom-out-95 slide-out-to-bottom-4 duration-300"
@@ -105,7 +105,7 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
             type="button"
             onClick={handleClose}
             className="absolute top-4 right-4 z-10 inline-flex size-10 items-center justify-center rounded-full bg-background/80 hover:bg-background shadow-lg cursor-pointer transition-colors"
-            aria-label="Close welcome popup"
+            aria-label="Cerrar popup de bienvenida"
           >
             <X className="size-5 text-foreground" weight="bold" />
           </button>
@@ -114,12 +114,12 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
             {success ? (
               <div className="flex flex-col items-center justify-center space-y-4 py-4 animate-in fade-in zoom-in">
                 <div className="text-4xl">🎉</div>
-                <h2 className="text-2xl md:text-3xl font-bold text-center text-card-foreground">Thank You!</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-center text-card-foreground">¡Gracias!</h2>
                 <p className="text-center text-muted-foreground text-sm md:text-base">
-                  You have successfully subscribed to our newsletter.
+                  Te has suscrito exitosamente a nuestro boletín.
                 </p>
                 <div className="bg-secondary/20 p-4 rounded-lg border border-border mt-4 w-full text-center">
-                  <p className="text-xs text-muted-foreground mb-1">Your discount code:</p>
+                  <p className="text-xs text-muted-foreground mb-1">Tu código de descuento:</p>
                   <p className="text-xl font-bold tracking-wider text-primary">WELCOME10</p>
                 </div>
                 <button
@@ -129,20 +129,20 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
                     "hover:bg-primary/90 transition-colors text-sm hover:scale-[1.02] active:scale-[0.98]"
                   )}
                 >
-                  Start Shopping
+                  Empezar a Comprar
                 </button>
               </div>
             ) : (
               <>
                 {/* Title */}
                 <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 text-card-foreground">
-                  A Welcome Gift For You
+                  Un Regalo de Bienvenida Para Ti
                 </h2>
 
                 {/* Description */}
                 <p className="text-center text-muted-foreground mb-6 text-sm md:text-base leading-relaxed">
-                  Subscribe and instantly receive a discount code for your first purchase.
-                  Be the first to know about our news and exclusive offers.
+                  Suscríbete y recibe instantáneamente un código de descuento para tu primera compra.
+                  Sé el primero en conocer nuestras novedades y ofertas exclusivas.
                 </p>
 
                 {/* Form converted to div to strictly prevent default submission issues during debug */}
@@ -152,7 +152,7 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your Email (*)"
+                      placeholder="Ingresa tu Email (*)"
                       className="flex-1 px-4 py-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                     />
                     <button
@@ -165,7 +165,7 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
                         "disabled:opacity-50 disabled:cursor-not-allowed"
                       )}
                     >
-                      {loading ? "..." : "GET MY DISCOUNT"}
+                      {loading ? "..." : "OBTENER MI DESCUENTO"}
                     </button>
                   </div>
 
@@ -179,13 +179,13 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
                       className="mt-1 size-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
                     />
                     <label htmlFor="agree-terms" className="text-xs text-muted-foreground cursor-pointer">
-                      I agree to the{" "}
+                      Acepto los{" "}
                       <a
                         href="/pages/privacy-policy"
                         className="underline hover:text-card-foreground"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        terms and conditions
+                        términos y condiciones
                       </a>
                     </label>
                   </div>
@@ -197,7 +197,7 @@ const WelcomePopup = ({ className }: WelcomePopupProps) => {
 
                   {/* Spam notice */}
                   <p className="text-[11px] text-muted-foreground italic text-center">
-                    We will never send you spam. You can unsubscribe at any time.
+                    Nunca te enviaremos spam. Puedes cancelar tu suscripción en cualquier momento.
                   </p>
                 </div>
               </>

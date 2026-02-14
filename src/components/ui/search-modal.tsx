@@ -15,7 +15,8 @@ import {
 	CommandList,
 } from '@/components/ui/command';
 
-import { LucideIcon, SearchIcon } from 'lucide-react';
+import { MagnifyingGlass } from 'phosphor-react';
+import type { IconProps } from 'phosphor-react';
 import { cn } from '@/lib/utils';
 
 export type CommandItemType = {
@@ -23,7 +24,7 @@ export type CommandItemType = {
 	title: string;
 	description: string;
 	category: string;
-	icon?: LucideIcon;
+	icon?: React.ComponentType<IconProps>;
 	shortcut?: string;
 	onClick?: () => void;
 };
@@ -64,7 +65,7 @@ export function SearchModal({ children, data }: SearchModalProps) {
 					/>
 					<CommandList className="max-h-[380px] min-h-[380px] px-2 md:px-0">
 						<CommandEmpty className="flex min-h-[280px] flex-col items-center justify-center">
-							<SearchIcon className="text-muted-foreground mb-2 size-6" />
+							<MagnifyingGlass size={24} weight="light" className="text-muted-foreground mb-2" />
 							<p className="text-muted-foreground mb-1 text-xs">
 								No products found for "{query}"
 							</p>
@@ -86,7 +87,7 @@ export function SearchModal({ children, data }: SearchModalProps) {
 											setOpen(false);
 										}}
 									>
-										{item.icon && <item.icon className="size-5" />}
+										{item.icon && <item.icon size={20} weight="light" />}
 										<div className="flex flex-col flex-1 min-w-0">
 											<p className="truncate text-sm font-medium">
 												{item.title}
